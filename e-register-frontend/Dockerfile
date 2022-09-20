@@ -1,0 +1,20 @@
+# create development
+FROM node:14 
+# define work director
+WORKDIR /e-register-frontend
+# copy package json
+COPY package.json ./
+# copy all file
+COPY . .
+# run yarn
+RUN npm install
+# expose port
+EXPOSE 3000
+
+ENV NUXT_HOST=0.0.0.0
+ENV NUXT_PORT=3000
+
+
+
+
+
