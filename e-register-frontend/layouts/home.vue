@@ -2,7 +2,9 @@
   <div>
     <Menu />
 
-    <Nuxt />
+    <div class="tw-pt-32">
+      <Nuxt />
+    </div>
   </div>
 </template>
 <script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="tw-p-48">
+  <div class="">
     <Banner title='Accreditation' :showButton="false" buttonTxt="Apply"/>
 
     <div class="

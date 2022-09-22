@@ -1,9 +1,10 @@
 <template>
   <nav
     class="
+      tw-h-32
       tw-fixed
       tw-w-full
-      
+
       tw-shadow-lg
       tw-py-7
       tw-px-36
