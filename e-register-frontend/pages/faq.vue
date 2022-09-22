@@ -87,7 +87,7 @@
 
 <script>
 export default {
-  name: 'index',
+  name: 'faq',
   layout: 'home',
   data() {
     return {

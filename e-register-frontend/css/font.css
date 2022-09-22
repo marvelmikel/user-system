@@ -19,7 +19,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Capoon';
+  font-family: 'Hellix';
+   font-weight: 800;
 }
 
 
@@ -30,7 +31,8 @@ h6 {
   font-display: swap;
 }
 @font-face {
-  font-family: 'Capoon';
-  src: url('~assets/fonts/capoon/black.ttf');
+  font-family: 'Hellix';
+  src: url('~assets/fonts/hellix/OTF/Hellix-ExtraBold.otf');
   font-display: swap;
+  font-weight: 800;
 }

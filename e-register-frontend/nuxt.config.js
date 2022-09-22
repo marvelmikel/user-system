@@ -11,14 +11,26 @@ export default {
       { hid: "description", name: "description", content: "" },
       { name: "format-detection", content: "telephone=no" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        href: "https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css",
+      },
+    ],
+    script: [
+      {
+        hid: "stripe",
+        href: "https://unpkg.com/boxicons@2.1.2/dist/boxicons.js",
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["~/css/font.css"],
+  css: ["~/css/font.css", "~/css/layout.css", "~/css/color.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/axios", "~/plugins/helpers"],
+  plugins: ["~/plugins/axios", "~/plugins/helpers", "~/plugins/data"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

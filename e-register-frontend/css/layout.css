@@ -1,0 +1,9 @@
+.stable-alignment {
+  @apply tw-w-11/12 tw-m-auto;
+}
+
+@screen md {
+  .stable-alignment {
+    @apply tw-w-10/12 tw-m-auto;
+  }
+}

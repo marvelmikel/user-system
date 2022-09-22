@@ -9,7 +9,11 @@ module.exports = {
   prefix: "tw-",
   theme: {
     extend: {
-      colors: {},
+      colors: {
+        "dark-yellow": "#D7A300",
+        "dark-green": "#076476",
+        "light-green": "#50C18D",
+      },
     },
   },
   variants: {
