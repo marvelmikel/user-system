@@ -72,7 +72,7 @@
           tw-text-4xl
           tw-font-extrabold
           tw-mb-8
-          
+
           tw-text-yellow-400
         ">
         <span class="tw-text-black">Frequently Asked Questions.</span>
@@ -91,7 +91,7 @@ export default {
   layout: 'home',
   data() {
     return {
-     
+
     }
   },
 }
@@ -101,7 +101,7 @@ export default {
 <style scoped>
 .custom__gradient {
   background: linear-gradient(279.92deg, #097388 78.36%, #50C18D 112.5%);
-  height: calc(100vh - 300px);
+  height: calc(100vh - 200px);
   display: flex;
   align-items: flex-end;
 }
