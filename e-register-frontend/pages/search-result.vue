@@ -1,6 +1,6 @@
 <template>
-  <div class="tw-w-9/12 tw-mx-auto">
-    <div class="tw-my-10 tw-flex tw-gap-5">
+  <div class="tw-w-9/12 tw-mx-auto tw-pt-48 tw-space-y-10">
+    <div class="tw-flex tw-gap-5">
       <input type="text"
         placeholder="Search Company Name"
         class="

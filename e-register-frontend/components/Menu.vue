@@ -9,7 +9,6 @@
       tw-px-36
       tw-flex
       tw-justify-between
-      tw-border-b
     "
     :class="[isTransparent?'tw-bg-white':'']"
   >
