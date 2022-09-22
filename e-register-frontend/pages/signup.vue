@@ -2,21 +2,24 @@
   <div>
     <div class="
       login__left
-      tw-block
+      tw-flex
       tw-absolute
       tw-inset-y-0
       tw-left-0
       tw-right-1/3
       tw-px-32
+      tw-items-center
     ">
       <div class="
       tw-w-full
+      tw-space-y-8
       ">
-        <img class="tw-mt-24" src="~assets/img/coat_of_arms_of_nigeria_white.svg" alt="coat_of_arms_of_nigeria"/>
+        <img class="tw-mt-4" src="~assets/img/coat_of_arms_of_nigeria_white.svg" alt="coat_of_arms_of_nigeria"/>
         <div class="
-          tw-my-8
+          
           tw-text-6xl
           tw-text-white
+          tw-font-bold
         ">
           <span>Environmental</span><br/>
           <span>Consultants</span><br/>
@@ -38,12 +41,13 @@
 
     <div class="
     login__right
-    tw-block
     tw-absolute
     tw-inset-y-0
     tw-right-0
     tw-left-2/3
     tw-px-20
+    tw-flex
+    tw-items-center
     ">
       <div>
         <h3 class="

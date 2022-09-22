@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Menu :isTransparent="false" />
+    <Menu  />
     <div class="color tw-h-screen tw-flex tw-items-center">
       <div class="tw-w-1/3 tw-mx-auto">
         <h3

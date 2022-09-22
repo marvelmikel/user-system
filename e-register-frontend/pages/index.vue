@@ -101,8 +101,8 @@ export default {
 <style scoped>
 .custom__gradient {
   background: linear-gradient(279.92deg, #097388 78.36%, #50C18D 112.5%);
-  height: calc(100vh - 200px);
+  height: calc(100vh - 250px);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 </style>
