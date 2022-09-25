@@ -10,7 +10,7 @@
       ">
 
       <img class="
-      tw-w-96
+      tw-w-100
       tw-absolute
       tw-left-0
       tw-right-0

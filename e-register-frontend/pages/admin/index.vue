@@ -1,16 +1,18 @@
 <template>
-  <div class="tw-w-9/12 tw-mx-auto tw-pt-10 tw-space-y-10">
-    <div class="tw-flex tw-gap-5">
+  <div class="">
+    <div class="tw-flex tw-gap-5 tw-text-sm">
       <input type="text"
         placeholder="Search Company Name"
         class="
         tw-px-7
         tw-py-3
         tw-rounded-lg
+        tw-text-sm
         tw-w-1/2
         tw-bg-gray-200
         tw-border-none
-        focus:tw-outline-none"/>
+        focus:tw-outline-none"
+        />
 
       <div class="
         tw-px-7
@@ -21,6 +23,7 @@
       ">
         <select class="
         tw-w-full
+        tw-text-sm
         tw-bg-gray-200
         tw-border-none
         focus:tw-outline-none
@@ -32,15 +35,16 @@
       <button class="
         tw-p-3
         tw-rounded-lg
-        tw-bg-light-green
+        tw-bg-dark-green
         tw-text-white
         tw-w-1/4
+        tw-text-sm
       ">
         Search
       </button>
     </div>
 
-    <div v-if="results.length > 0">
+    <div class="tw-mt-12" v-if="results.length > 0">
       <div v-for="i in 6" :key="i"
         class="
         tw-mb-5
@@ -75,9 +79,9 @@
           </button>
         </div>
         <div class="tw-flex tw-items-end tw-gap-1 tw-mt-4">
-          <span class="tw-text-dark-yellow tw-text-sm">Category</span>
+          <span class="tw-text-gray-400 tw-text-sm">Category</span>
           <i class='bx bxs-star tw-text-xs tw-text-light-green'></i>
-          <span class="tw-text-dark-yellow tw-text-sm">Subcategory</span>
+          <span class="tw-text-gray-400 tw-text-sm">Subcategory</span>
         </div>
       </div>
     </div>
@@ -97,8 +101,8 @@
 
 <script>
 export default {
-  name: 'search-result',
-  layout: 'home',
+  name: 'admin-index',
+  layout: 'admin-default',
   data() {
     return {
       results: [
@@ -110,9 +114,8 @@ export default {
 </script>
 
 <style scoped>
-  .custom__button {
-    /* @apply tw-opacity-30; */
+.custom__button {
+  box-shadow: -4px 4px 0rem rgba(176, 176, 176, 0.88);
+}
 
-    box-shadow: -4px 4px 0rem rgb(215 163 0 / 88%);
-  }
 </style>
