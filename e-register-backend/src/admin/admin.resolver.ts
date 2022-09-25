@@ -1,16 +1,41 @@
-import { Query, Resolver } from '@nestjs/graphql';
-import { AdminType } from './admin.type';
+import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { AdminService } from './admin.service';
+import { Admin } from './entities/admin.entity';
+import { CreateAdminInput } from './dto/create-admin.input';
+import { UpdateAdminInput } from './dto/update-admin.input';
+import { LoginAdminInput } from './dto/login-admin.input';
 
-@Resolver((of) => AdminType)
+@Resolver(() => Admin)
 export class AdminResolver {
-  @Query(() => AdminType)
-  sayHello() {
-    return {
-      id: '7383474hur84',
-      firstname: 'henry',
-      middlename: 'emeka',
-      lastname: 'obadoni',
-      email: 'jediiry@gmail.com',
-    };
+  constructor(private readonly adminService: AdminService) {}
+
+  @Mutation(() => String)
+  loginAdmin(@Args('loginAdminInput') loginAdminInput: LoginAdminInput) {
+    return this.adminService.createLoginToken(loginAdminInput);
+  }
+
+  @Mutation(() => Admin)
+  createAdmin(@Args('createAdminInput') createAdminInput: CreateAdminInput) {
+    return this.adminService.create(createAdminInput);
+  }
+
+  @Query(() => [Admin], { name: 'admin' })
+  findAll() {
+    return this.adminService.findAll();
+  }
+
+  @Query(() => Admin, { name: 'admin' })
+  findOne(@Args('id', { type: () => Int }) id: number) {
+    return this.adminService.findOne(id);
+  }
+
+  @Mutation(() => Admin)
+  updateAdmin(@Args('updateAdminInput') updateAdminInput: UpdateAdminInput) {
+    return this.adminService.update(updateAdminInput.id, updateAdminInput);
+  }
+
+  @Mutation(() => Admin)
+  removeAdmin(@Args('id', { type: () => Int }) id: number) {
+    return this.adminService.remove(id);
   }
 }

@@ -2,6 +2,89 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Admin {
+  id: ID!
+  firstName: String!
+  middleName: String!
+  lastName: String!
+  email: String!
+  phoneNumber: String!
+  isRoot: Boolean!
+}
+
+type User {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Accreditation {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Query {
-  sayHello: String!
+  admin(id: Int!): Admin!
+  user(id: Int!): User!
+  accreditation(id: Int!): Accreditation!
+}
+
+type Mutation {
+  loginAdmin(loginAdminInput: LoginAdminInput!): String!
+  createAdmin(createAdminInput: CreateAdminInput!): Admin!
+  updateAdmin(updateAdminInput: UpdateAdminInput!): Admin!
+  removeAdmin(id: Int!): Admin!
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  createAccreditation(createAccreditationInput: CreateAccreditationInput!): Accreditation!
+  updateAccreditation(updateAccreditationInput: UpdateAccreditationInput!): Accreditation!
+  removeAccreditation(id: Int!): Accreditation!
+}
+
+input LoginAdminInput {
+  email: String!
+  credential: String!
+}
+
+input CreateAdminInput {
+  token: String!
+  firstName: String!
+  middleName: String!
+  lastName: String!
+  phoneNumber: String!
+  credential: String!
+}
+
+input UpdateAdminInput {
+  firstName: String
+  middleName: String
+  lastName: String
+  phoneNumber: String
+  profilePic: Upload!
+  id: Float!
+}
+
+"""File upload scalar type"""
+scalar Upload
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateAccreditationInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateAccreditationInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
