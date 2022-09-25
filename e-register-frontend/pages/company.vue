@@ -18,7 +18,7 @@
         </h1>
         <button class="
         tw-rounded-lg
-        tw-bg-green-500
+        tw-bg-light-green
         tw-text-white
         tw-w-32
         ">
