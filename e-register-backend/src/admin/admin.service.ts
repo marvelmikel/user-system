@@ -55,11 +55,11 @@ export class AdminService implements OnModuleInit {
 
     // send Email
     this.mailService.sendMail({
-      email: this.config.get('ADMIN_EMAIL'),
+      email: `${this.config.get('ADMIN_EMAIL')}`,
       subject: 'Root Login Credentials',
       template: 'credentials',
       context: {
-        username: this.config.get('ADMIN_EMAIL'),
+        username: `${this.config.get('ADMIN_EMAIL')}`,
         password: generatePassword,
       },
     });

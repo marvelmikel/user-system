@@ -1,12 +1,5 @@
-import {
-  createParamDecorator,
-  ExecutionContext,
-  Inject,
-  Injectable,
-  Request,
-} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { GqlExecutionContext } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
@@ -15,7 +8,7 @@ export class HelperService {
   @Inject(ConfigService)
   public config: ConfigService;
   async hashPassword(payload: string) {
-    return bcrypt.hashSync(payload, parseInt(this.config.get('SALT')));
+    return bcrypt.hashSync(payload, parseInt(`${this.config.get('SALT')}`));
   }
   async comparePassword(password: string, hashPassword: string) {
     return bcrypt.compare(password, hashPassword);
@@ -27,12 +20,12 @@ export class HelperService {
     payload: any;
     time?: string;
   }) {
-    return jwt.sign({ ...payload }, this.config.get('SECRET'), {
+    return jwt.sign({ ...payload }, `${this.config.get('SECRET')}`, {
       expiresIn: time,
     });
   }
   async verifyToken(payload: string) {
-    return jwt.verify(payload, this.config.get('SECRET'));
+    return jwt.verify(payload, `${this.config.get('SECRET')}`);
   }
   async getRequestBaseUrl(req: Request) {
     return req;

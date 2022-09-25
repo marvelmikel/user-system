@@ -22,7 +22,7 @@ export class AuthGuard implements CanActivate {
       auth = auth.replace('Bearer ', '');
       if (!auth)
         throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
-      return await jwt.verify(auth, process.env.SECRET);
+      return await jwt.verify(auth, `${process.env.SECRET}`);
     } catch (error) {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
     }

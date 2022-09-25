@@ -1,12 +1,4 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  Int,
-  GqlExecutionContext,
-  Context,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
 import { AdminService } from './admin.service';
 import { Admin } from './entities/admin.entity';
 import { CreateAdminInput } from './dto/create-admin.input';
