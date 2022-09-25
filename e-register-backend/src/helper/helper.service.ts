@@ -1,5 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  createParamDecorator,
+  ExecutionContext,
+  Inject,
+  Injectable,
+  Request,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
@@ -26,5 +33,8 @@ export class HelperService {
   }
   async verifyToken(payload: string) {
     return jwt.verify(payload, this.config.get('SECRET'));
+  }
+  async getRequestBaseUrl(req: Request) {
+    return req;
   }
 }

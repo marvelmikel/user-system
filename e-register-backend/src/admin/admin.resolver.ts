@@ -1,9 +1,18 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  GqlExecutionContext,
+  Context,
+} from '@nestjs/graphql';
 import { AdminService } from './admin.service';
 import { Admin } from './entities/admin.entity';
 import { CreateAdminInput } from './dto/create-admin.input';
 import { UpdateAdminInput } from './dto/update-admin.input';
 import { LoginAdminInput } from './dto/login-admin.input';
+import { Request } from '@nestjs/common';
 
 @Resolver(() => Admin)
 export class AdminResolver {
@@ -12,6 +21,17 @@ export class AdminResolver {
   @Mutation(() => String)
   loginAdmin(@Args('loginAdminInput') loginAdminInput: LoginAdminInput) {
     return this.adminService.createLoginToken(loginAdminInput);
+  }
+
+  @Mutation(() => String)
+  inviteAdmin(
+    @Context('req')
+    req: Request,
+    @Args('email')
+    email: string,
+  ) {
+    console.log(req);
+    return this.adminService.inviteAdmin(req.headers['referer'], email);
   }
 
   @Mutation(() => Admin)

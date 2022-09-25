@@ -1,3 +1,4 @@
+'use strict';
 import {
   HttpException,
   HttpStatus,
@@ -50,7 +51,25 @@ export class AdminService implements OnModuleInit {
     });
 
     // Save Root Admin
-    this.adminRepository.save(newAdmin);
+    const createdAdmin = await this.adminRepository.save(newAdmin);
+
+    // send Email
+    this.mailService.sendMail({
+      email: this.config.get('ADMIN_EMAIL'),
+      subject: 'Root Login Credentials',
+      template: 'credentials',
+      context: {
+        username: this.config.get('ADMIN_EMAIL'),
+        password: generatePassword,
+      },
+    });
+
+    // create log
+    this.logService.create({
+      info: 'Created a Root Admin',
+      by: createdAdmin.id,
+      isAdmin: true,
+    });
   }
 
   async createLoginToken(loginAdminInput: LoginAdminInput) {
@@ -80,9 +99,20 @@ export class AdminService implements OnModuleInit {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
+  async inviteAdmin(baseUrl: string, email: string) {
+    try {
+      console.log(baseUrl);
+      const checkAdminExist = await this.adminRepository.findOneByOrFail({
+        email,
+      });
+      if (checkAdminExist) throw new Error('Email Already Exist');
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
+    }
+  }
 
   create(createAdminInput: CreateAdminInput) {
-    return 'This action adds a new admin';
+    return createAdminInput;
   }
 
   findAll() {
@@ -94,7 +124,7 @@ export class AdminService implements OnModuleInit {
   }
 
   update(id: number, updateAdminInput: UpdateAdminInput) {
-    return `This action updates a #${id} admin`;
+    return updateAdminInput;
   }
 
   remove(id: number) {

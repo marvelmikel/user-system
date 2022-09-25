@@ -10,6 +10,7 @@ export class LogService {
     @InjectRepository(Log)
     private logRepository: Repository<Log>,
   ) {}
+
   create(createLogInput: CreateLogInput) {
     const newLog = this.logRepository.create({ ...createLogInput });
     this.logRepository.save(newLog);
