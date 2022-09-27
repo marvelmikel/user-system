@@ -10,7 +10,7 @@ import { HelperModule } from './helper/helper.module';
 import { LogModule } from './log/log.module';
 import { UserModule } from './user/user.module';
 import { AccreditationModule } from './accreditation/accreditation.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getEnvPath } from './utils/config/env.config';
 
 const envFilePath: string = getEnvPath(`${__dirname}/utils/env`);
@@ -18,12 +18,16 @@ const envFilePath: string = getEnvPath(`${__dirname}/utils/env`);
 @Module({
   imports: [
     ConfigModule.forRoot({ envFilePath, isGlobal: true }),
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      url: process.env.DATABASE_URL,
-      synchronize: true,
-      useUnifiedTopology: true,
-      entities: ['dist/**/*.entity.js'],
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => ({
+        type: 'mongodb',
+        url: config.get('DATABASE_URL'),
+        synchronize: true,
+        useUnifiedTopology: true,
+        entities: ['dist/**/*.entity.js'],
+      }),
+      inject: [ConfigService],
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
