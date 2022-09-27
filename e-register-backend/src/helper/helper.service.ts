@@ -27,7 +27,23 @@ export class HelperService {
   async verifyToken(payload: string) {
     return jwt.verify(payload, `${this.config.get('SECRET')}`);
   }
-  async getRequestBaseUrl(req: Request) {
-    return req;
+  async isARootAdmin(data: any) {
+    return data.hasOwnProperty('isRoot') && data['isRoot'];
+  }
+  async isAnAdmin(data: any) {
+    return data.hasOwnProperty('isAdmin') && data['isAdmin'];
+  }
+  async isAUser(data: any) {
+    return data.hasOwnProperty('isUser') && data['isUser'];
+  }
+  async isAnAdminOrAUser(data: any) {
+    return this.isAUser(data) || this.isAnAdmin(data);
+  }
+  filter(fields: any, search?: string) {
+    return {
+      $or: fields.map(function (item: string) {
+        return { [item]: { $regex: search, $options: 'i' } };
+      }),
+    };
   }
 }

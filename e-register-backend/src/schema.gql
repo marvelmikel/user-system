@@ -23,9 +23,16 @@ type Accreditation {
 }
 
 type Query {
+  admins(args: CustomQuery!): [Admin!]!
   admin(id: Int!): Admin!
   user(id: Int!): User!
   accreditation(id: Int!): Accreditation!
+}
+
+input CustomQuery {
+  search: String = null
+  skip: Int = 0
+  size: Int = 25
 }
 
 type Mutation {

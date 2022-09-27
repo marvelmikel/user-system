@@ -18,6 +18,7 @@ import { Admin } from './entities/admin.entity';
 import * as generator from 'generate-password';
 import { LogService } from 'src/log/log.service';
 import { ConfigService } from '@nestjs/config';
+import { CustomQuery } from './dto/query.input';
 @Injectable()
 export class AdminService implements OnModuleInit {
   @Inject(ConfigService)
@@ -30,6 +31,7 @@ export class AdminService implements OnModuleInit {
     private logService: LogService,
   ) {}
 
+  // done
   async onModuleInit() {
     // generate password
     const generatePassword = generator.generate({
@@ -71,11 +73,11 @@ export class AdminService implements OnModuleInit {
       isAdmin: true,
     });
   }
-
+  // done
   async createLoginToken(loginAdminInput: LoginAdminInput) {
     try {
       const { email, credential } = loginAdminInput;
-      const checkAdminExist = await this.adminRepository.findOneByOrFail({
+      const checkAdminExist = await this.adminRepository.findOneBy({
         email,
       });
       if (!checkAdminExist) throw new Error('Invalid Credentials');
@@ -99,23 +101,115 @@ export class AdminService implements OnModuleInit {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
-  async inviteAdmin(baseUrl: string, email: string) {
+  // done
+  async inviteAdmin(admin: any, baseUrl: string, email: string) {
     try {
-      console.log(baseUrl);
-      const checkAdminExist = await this.adminRepository.findOneByOrFail({
+      // check if email exist
+      const checkAdminExist = await this.adminRepository.findOneBy({
         email,
       });
+
+      console.log(checkAdminExist);
+
       if (checkAdminExist) throw new Error('Email Already Exist');
+
+      // generate registration token
+      const tokenPayload: any = {
+        email: email,
+        isAdmin: true,
+      };
+      const token = await this.helperService.generateToken({
+        payload: tokenPayload,
+      });
+
+      // create registration link
+      const url = `${baseUrl}/register-admin?token=${token}`;
+
+      // send Email
+      this.mailService.sendMail({
+        email: email,
+        subject: 'Admin Invitations',
+        template: 'invite',
+        context: {
+          url: `${url}`,
+        },
+      });
+
+      // create log
+      this.logService.create({
+        info: 'Invited an Admin',
+        by: admin.id,
+        isAdmin: true,
+      });
+
+      return 'Invite Successfully Sent';
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
+    }
+  }
+  // done
+  async create(createAdminInput: CreateAdminInput) {
+    try {
+      // verify token
+      const data: any = await this.helperService.verifyToken(
+        createAdminInput.token,
+      );
+
+      const checkAdminExist = await this.adminRepository.findOneBy({
+        email: data['email'],
+      });
+      if (checkAdminExist) throw new Error('Email has already been taken');
+
+      // create admin instance
+      const newAdmin = this.adminRepository.create({
+        ...createAdminInput,
+        ...data,
+        credential: await this.helperService.hashPassword(
+          createAdminInput['credential'],
+        ),
+      });
+
+      // save admin
+      const savedData = await this.adminRepository.save(newAdmin);
+
+      // send Email
+      this.mailService.sendMail({
+        email: data.email,
+        subject: 'Account Creation',
+        template: 'creation',
+        context: {
+          message: `Account Successfully Created`,
+        },
+      });
+
+      return savedData;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
 
-  create(createAdminInput: CreateAdminInput) {
-    return createAdminInput;
-  }
+  async findAll(customQuery: CustomQuery, data: any) {
+    console.log(customQuery, data);
+    const { skip, size, search } = customQuery;
+    let query = {};
+    if (search) {
+      query = this.helperService.filter(
+        ['firstName', 'middleName', 'lastName', 'email'],
+        search,
+      );
+    }
+    const [result, total] = await this.adminRepository.findAndCount({
+      where: query,
+      order: { firstName: 'DESC' },
+      take: size,
+      skip: skip,
+    });
 
-  findAll() {
+    return {
+      data: result,
+      count: total,
+    };
+
     return `This action returns all admin`;
   }
 

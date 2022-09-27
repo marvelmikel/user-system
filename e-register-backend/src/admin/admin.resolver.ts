@@ -4,26 +4,36 @@ import { Admin } from './entities/admin.entity';
 import { CreateAdminInput } from './dto/create-admin.input';
 import { UpdateAdminInput } from './dto/update-admin.input';
 import { LoginAdminInput } from './dto/login-admin.input';
-import { Request } from '@nestjs/common';
+import { Request, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { HelperService } from 'src/helper/helper.service';
+import { CustomQuery } from 'src/admin/dto/query.input';
 
 @Resolver(() => Admin)
 export class AdminResolver {
-  constructor(private readonly adminService: AdminService) {}
-
+  constructor(
+    private readonly adminService: AdminService,
+    private helperService: HelperService,
+  ) {}
+  // login admin
   @Mutation(() => String)
   loginAdmin(@Args('loginAdminInput') loginAdminInput: LoginAdminInput) {
     return this.adminService.createLoginToken(loginAdminInput);
   }
 
+  // invite admin
+  @UseGuards(AuthGuard)
   @Mutation(() => String)
   inviteAdmin(
-    @Context('req')
+    @Context('data')
+    data: any,
+    @Context()
     req: Request,
     @Args('email')
     email: string,
   ) {
-    console.log(req);
-    return this.adminService.inviteAdmin(req.headers['referer'], email);
+    this.helperService.isARootAdmin(data);
+    return this.adminService.inviteAdmin(data, req.headers['origin'], email);
   }
 
   @Mutation(() => Admin)
@@ -31,9 +41,16 @@ export class AdminResolver {
     return this.adminService.create(createAdminInput);
   }
 
-  @Query(() => [Admin], { name: 'admin' })
-  findAll() {
-    return this.adminService.findAll();
+  @UseGuards(AuthGuard)
+  @Query(() => [Admin], { name: 'admins' })
+  findAll(
+    @Args('args')
+    args: CustomQuery,
+    @Context('data')
+    data: any,
+  ) {
+    this.helperService.isAnAdmin(data);
+    return this.adminService.findAll(args, data);
   }
 
   @Query(() => Admin, { name: 'admin' })
