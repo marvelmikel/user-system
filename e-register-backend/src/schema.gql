@@ -10,6 +10,7 @@ type Admin {
   email: String!
   phoneNumber: String!
   isRoot: Boolean!
+  isActive: Boolean!
 }
 
 type User {
@@ -24,7 +25,8 @@ type Accreditation {
 
 type Query {
   admins(args: CustomQuery!): [Admin!]!
-  admin(id: Int!): Admin!
+  profile: Admin!
+  admin(id: String!): Admin!
   user(id: Int!): User!
   accreditation(id: Int!): Accreditation!
 }
@@ -40,7 +42,9 @@ type Mutation {
   inviteAdmin(email: String!): String!
   createAdmin(createAdminInput: CreateAdminInput!): Admin!
   updateAdmin(updateAdminInput: UpdateAdminInput!): Admin!
-  removeAdmin(id: Int!): Admin!
+  updateAdminByRootAdmin(id: String!, updateAdminInput: UpdateAdminInput!): Admin!
+  activateAndDeactivateAdminByRootAdmin(id: String!, adminStatusInput: AdminStatusInput!): Admin!
+  removeAdmin(id: String!): String!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
@@ -68,12 +72,15 @@ input UpdateAdminInput {
   middleName: String
   lastName: String
   phoneNumber: String
-  profilePic: Upload!
-  id: Float!
+  profilePic: Upload = null
 }
 
 """File upload scalar type"""
 scalar Upload
+
+input AdminStatusInput {
+  isActive: Boolean!
+}
 
 input CreateUserInput {
   """Example field (placeholder)"""

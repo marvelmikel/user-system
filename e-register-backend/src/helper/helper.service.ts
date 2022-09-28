@@ -28,13 +28,28 @@ export class HelperService {
     return jwt.verify(payload, `${this.config.get('SECRET')}`);
   }
   async isARootAdmin(data: any) {
-    return data.hasOwnProperty('isRoot') && data['isRoot'];
+    return (
+      data.hasOwnProperty('isRoot') &&
+      data['isRoot'] &&
+      data.hasOwnProperty('isActive') &&
+      data['isActive']
+    );
   }
   async isAnAdmin(data: any) {
-    return data.hasOwnProperty('isAdmin') && data['isAdmin'];
+    return (
+      data.hasOwnProperty('isAdmin') &&
+      data['isAdmin'] &&
+      data.hasOwnProperty('isActive') &&
+      data['isActive']
+    );
   }
   async isAUser(data: any) {
-    return data.hasOwnProperty('isUser') && data['isUser'];
+    return (
+      data.hasOwnProperty('isUser') &&
+      data['isUser'] &&
+      data.hasOwnProperty('isActive') &&
+      data['isActive']
+    );
   }
   async isAnAdminOrAUser(data: any) {
     return this.isAUser(data) || this.isAnAdmin(data);
