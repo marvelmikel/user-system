@@ -19,6 +19,7 @@ import * as generator from 'generate-password';
 import { LogService } from 'src/log/log.service';
 import { ConfigService } from '@nestjs/config';
 import { CustomQuery } from './dto/query.input';
+import { PaginatedResponse } from 'src/global/response';
 @Injectable()
 export class AdminService implements OnModuleInit {
   @Inject(ConfigService)
@@ -188,29 +189,43 @@ export class AdminService implements OnModuleInit {
     }
   }
 
-  async findAll(customQuery: CustomQuery, data: any) {
-    console.log(customQuery, data);
+  async findAll(
+    customQuery: CustomQuery,
+    data: any,
+  ): Promise<PaginatedResponse> {
     const { skip, size, search } = customQuery;
-    let query = {};
-    if (search) {
-      query = this.helperService.filter(
-        ['firstName', 'middleName', 'lastName', 'email'],
-        search,
-      );
-    }
+
+    const query: any = {
+      $and: [
+        { isRoot: false },
+        { _id: { $ne: data.id } },
+        {
+          $or: [
+            {
+              firstName: { $regex: search, $options: 'i' },
+            },
+            {
+              middlename: { $regex: search, $options: 'i' },
+            },
+            {
+              email: { $regex: search, $options: 'i' },
+            },
+          ],
+        },
+      ],
+    };
     const [result, total] = await this.adminRepository.findAndCount({
       where: query,
-      order: { firstName: 'DESC' },
       take: size,
       skip: skip,
+      order: { firstName: 'DESC' },
     });
 
     return {
+      currentPage: skip,
       data: result,
-      count: total,
+      totalItems: total,
     };
-
-    return `This action returns all admin`;
   }
 
   findOne(id: number) {
