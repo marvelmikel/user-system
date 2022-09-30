@@ -1,12 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { createWriteStream } from 'fs';
 import * as jwt from 'jsonwebtoken';
+import { join, parse } from 'path';
+import { DocumentInput } from 'src/user/dto/documents-user.input';
 
 @Injectable()
 export class HelperService {
   @Inject(ConfigService)
   public config: ConfigService;
+
+  // done
+  async onModuleInit() {
+    // const test = this.httpServer;
+    // console.log(test);
+  }
+
   async hashPassword(payload: string) {
     return bcrypt.hashSync(payload, parseInt(`${this.config.get('SALT')}`));
   }
@@ -60,5 +70,17 @@ export class HelperService {
         return { [item]: { $regex: search, $options: 'i' } };
       }),
     };
+  }
+  async uploadFile(baseUrl: string, file: any): Promise<string> {
+    const { createReadStream, filename } = await file;
+    const stream = createReadStream();
+    let { name } = parse(filename);
+    const { ext } = parse(filename);
+    name = `file${Math.floor(Math.random() * 1000) + 1}`;
+    let url = join(process.cwd(), `./src/upload/${name}${Date.now()}${ext}`);
+    const imageStream = createWriteStream(url);
+    await stream.pipe(imageStream);
+    url = `${baseUrl}${url.split('upload')[1]}`;
+    return url;
   }
 }

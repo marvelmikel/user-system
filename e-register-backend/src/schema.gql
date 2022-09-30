@@ -14,8 +14,29 @@ type Admin {
 }
 
 type User {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  nameOfCompany: String!
+  location: String!
+  address: String!
+  rcNumber: String!
+  dateOfIncorporation: String!
+  tin: String!
+  email: String!
+  phoneNumber: String!
+  isEmailActive: Boolean!
+  isActive: Boolean!
+  certificateOfIncorporation: String!
+  certificateOfTaxClearance: String!
+  applicationLetter: String!
+  evidenceOfPayment: String!
+  letterOfCredibilityFromBanks: String!
+  collaborationCertificateWithForeignPartners: String!
+  document: [Document!]!
+}
+
+type Document {
+  photo: String!
+  title: String!
 }
 
 type Accreditation {
@@ -27,7 +48,7 @@ type Query {
   admins(args: CustomQuery!): [Admin!]!
   profile: Admin!
   admin(id: String!): Admin!
-  user(id: Int!): User!
+  user(id: String!): User!
   accreditation(id: Int!): Accreditation!
 }
 
@@ -46,7 +67,8 @@ type Mutation {
   activateAndDeactivateAdminByRootAdmin(id: String!, adminStatusInput: AdminStatusInput!): Admin!
   removeAdmin(id: String!): String!
   createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  resendEmailVerification: String!
+  updateUser(id: Float!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
   createAccreditation(createAccreditationInput: CreateAccreditationInput!): Accreditation!
   updateAccreditation(updateAccreditationInput: UpdateAccreditationInput!): Accreditation!
@@ -83,14 +105,43 @@ input AdminStatusInput {
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  nameOfCompany: String!
+  location: String!
+  address: String!
+  rcNumber: String!
+  dateOfIncorporation: String!
+  email: String!
+  phoneNumber: String = null
+  credential: String!
+  certificateOfIncorporation: Upload = null
+  certificateOfTaxClearance: Upload = null
+  applicationLetter: Upload = null
+  evidenceOfPayment: Upload = null
+  letterOfCredibilityFromBanks: Upload = null
+  collaborationCertificateWithForeignPartners: Upload = null
+  uploadedDocument: [DocumentInput!] = []
+}
+
+input DocumentInput {
+  photo: Upload!
+  title: String!
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  nameOfCompany: String
+  location: String
+  address: String
+  rcNumber: String
+  dateOfIncorporation: String
+  phoneNumber: String = null
+  certificateOfIncorporation: Upload = null
+  certificateOfTaxClearance: Upload = null
+  applicationLetter: Upload = null
+  evidenceOfPayment: Upload = null
+  letterOfCredibilityFromBanks: Upload = null
+  collaborationCertificateWithForeignPartners: Upload = null
+  uploadedDocument: [DocumentInput!] = []
+  profilePic: Upload = null
 }
 
 input CreateAccreditationInput {

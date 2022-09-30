@@ -1,8 +1,13 @@
 import { CreateUserInput } from './create-user.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, PartialType, OmitType } from '@nestjs/graphql';
+import { IsOptional } from 'class-validator';
+import { Upload } from 'src/scalar/upload.scalar';
 
 @InputType()
-export class UpdateUserInput extends PartialType(CreateUserInput) {
-  @Field(() => Int)
-  id: number;
+export class UpdateUserInput extends PartialType(
+  OmitType(CreateUserInput, ['email', 'credential'] as const),
+) {
+  @IsOptional()
+  @Field({ defaultValue: null })
+  profilePic?: Upload;
 }

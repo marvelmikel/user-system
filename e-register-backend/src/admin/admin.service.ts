@@ -107,8 +107,6 @@ export class AdminService implements OnModuleInit {
         email,
       });
 
-      console.log(checkAdminExist);
-
       if (checkAdminExist) throw new Error('Email Already Exist');
 
       // generate registration token
