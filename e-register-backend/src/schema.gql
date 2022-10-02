@@ -186,12 +186,12 @@ input UpdateAccreditationInput {
 
 input CreateCategoryInput {
   """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
 }
 
 input UpdateCategoryInput {
   """Example field (placeholder)"""
-  exampleField: Int
+  name: String
   id: Int!
 }
 

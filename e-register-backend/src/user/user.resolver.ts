@@ -124,15 +124,18 @@ export class UserResolver {
   @Mutation(() => User)
   updateUser(
     @Args('id')
-    id: number,
+    id: string,
     @Args('updateUserInput')
     updateUserInput: UpdateUserInput,
   ) {
+    console.log(id, updateUserInput);
     // return this.userService.update(id, updateUserInput);
   }
 
   @Mutation(() => User)
   removeUser(@Args('id', { type: () => Int }) id: number) {
+    console.log(id);
+
     // return this.userService.remove(id);
   }
 }
