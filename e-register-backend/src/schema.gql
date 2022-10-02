@@ -11,35 +11,57 @@ type Admin {
   phoneNumber: String!
   isRoot: Boolean!
   isActive: Boolean!
+  isDeleted: Boolean!
 }
 
 type User {
   id: ID!
-  nameOfCompany: String!
-  location: String!
-  address: String!
-  rcNumber: String!
-  dateOfIncorporation: String!
-  tin: String!
-  email: String!
-  phoneNumber: String!
+  nameOfCompany: String
+  location: String
+  address: String
+  rcNumber: String
+  dateOfIncorporation: String
+  tin: String
+  email: String
   isEmailActive: Boolean!
+  phoneNumber: String
   isActive: Boolean!
-  certificateOfIncorporation: String!
-  certificateOfTaxClearance: String!
-  applicationLetter: String!
-  evidenceOfPayment: String!
-  letterOfCredibilityFromBanks: String!
-  collaborationCertificateWithForeignPartners: String!
-  document: [Document!]!
+  certificateOfIncorporation: String
+  isCertificateOfIncorporation: Boolean!
+  certificateOfTaxClearance: String
+  isCertificateOfTaxClearance: Boolean!
+  applicationLetter: String
+  isApplicationLetter: Boolean!
+  evidenceOfPayment: String
+  isEvidenceOfPayment: Boolean!
+  letterOfCredibilityFromBanks: String
+  isLetterOfCredibilityFromBanks: Boolean!
+  collaborationCertificateWithForeignPartners: String
+  isCollaborationCertificateWithForeignPartners: Boolean!
+  curriculumVitae: [Document!]
+  isCurriculumVitae: Boolean
+  boardOfDirectors: [Document!]
+  isBoardOfDirectorsInput: Boolean!
+  isDeleted: Boolean!
+  profilePic: String
 }
 
 type Document {
-  photo: String!
-  title: String!
+  file: String
+  title: String
 }
 
 type Accreditation {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Category {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Subcategory {
   """Example field (placeholder)"""
   exampleField: Int!
 }
@@ -50,6 +72,8 @@ type Query {
   admin(id: String!): Admin!
   user(id: String!): User!
   accreditation(id: Int!): Accreditation!
+  category(id: Int!): Category!
+  subcategory(id: Int!): Subcategory!
 }
 
 input CustomQuery {
@@ -67,12 +91,23 @@ type Mutation {
   activateAndDeactivateAdminByRootAdmin(id: String!, adminStatusInput: AdminStatusInput!): Admin!
   removeAdmin(id: String!): String!
   createUser(createUserInput: CreateUserInput!): User!
+  createUserByAdmin(createUserInput: CreateUserInput!): User!
+  loginUser(loginUserInput: LoginUserInput!): String!
   resendEmailVerification: String!
+  validateEmailVerification(token: String!): String!
+  forgottenPassword(email: String!): String!
+  resetPassword(token: String!, credential: String!): String!
   updateUser(id: Float!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
   createAccreditation(createAccreditationInput: CreateAccreditationInput!): Accreditation!
   updateAccreditation(updateAccreditationInput: UpdateAccreditationInput!): Accreditation!
   removeAccreditation(id: Int!): Accreditation!
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): Category!
+  createSubcategory(createSubcategoryInput: CreateSubcategoryInput!): Subcategory!
+  updateSubcategory(updateSubcategoryInput: UpdateSubcategoryInput!): Subcategory!
+  removeSubcategory(id: Int!): Subcategory!
 }
 
 input LoginAdminInput {
@@ -105,34 +140,22 @@ input AdminStatusInput {
 }
 
 input CreateUserInput {
-  nameOfCompany: String!
-  location: String!
-  address: String!
-  rcNumber: String!
-  dateOfIncorporation: String!
   email: String!
-  phoneNumber: String = null
   credential: String!
-  certificateOfIncorporation: Upload = null
-  certificateOfTaxClearance: Upload = null
-  applicationLetter: Upload = null
-  evidenceOfPayment: Upload = null
-  letterOfCredibilityFromBanks: Upload = null
-  collaborationCertificateWithForeignPartners: Upload = null
-  uploadedDocument: [DocumentInput!] = []
 }
 
-input DocumentInput {
-  photo: Upload!
-  title: String!
+input LoginUserInput {
+  email: String!
+  credential: String!
 }
 
 input UpdateUserInput {
-  nameOfCompany: String
-  location: String
-  address: String
-  rcNumber: String
-  dateOfIncorporation: String
+  nameOfCompany: String = null
+  location: String = null
+  address: String = null
+  rcNumber: String = null
+  tin: String = null
+  dateOfIncorporation: String = null
   phoneNumber: String = null
   certificateOfIncorporation: Upload = null
   certificateOfTaxClearance: Upload = null
@@ -140,8 +163,14 @@ input UpdateUserInput {
   evidenceOfPayment: Upload = null
   letterOfCredibilityFromBanks: Upload = null
   collaborationCertificateWithForeignPartners: Upload = null
-  uploadedDocument: [DocumentInput!] = []
-  profilePic: Upload = null
+  curriculumVitaeInput: [DocumentInput!] = []
+  boardOfDirectorsInput: [DocumentInput!] = []
+  uploadProfilePic: Upload = null
+}
+
+input DocumentInput {
+  file: Upload!
+  title: String!
 }
 
 input CreateAccreditationInput {
@@ -150,6 +179,28 @@ input CreateAccreditationInput {
 }
 
 input UpdateAccreditationInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateSubcategoryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateSubcategoryInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

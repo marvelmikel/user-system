@@ -1,12 +1,11 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { MinLength, IsNotEmptyObject, IsString } from 'class-validator';
+import { MinLength, IsString } from 'class-validator';
 import { Upload } from 'src/scalar/upload.scalar';
 
 @InputType()
 export class DocumentInput {
   @Field(() => Upload)
-  @IsNotEmptyObject()
-  photo: Upload;
+  file: Upload;
 
   @Field()
   @IsString()

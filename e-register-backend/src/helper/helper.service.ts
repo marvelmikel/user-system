@@ -1,10 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
-import { createWriteStream } from 'fs';
+import * as fs from 'fs';
 import * as jwt from 'jsonwebtoken';
 import { join, parse } from 'path';
-import { DocumentInput } from 'src/user/dto/documents-user.input';
 
 @Injectable()
 export class HelperService {
@@ -13,8 +12,13 @@ export class HelperService {
 
   // done
   async onModuleInit() {
-    // const test = this.httpServer;
-    // console.log(test);
+    const dir = './public';
+    const fme = './public/fme';
+
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+      fs.mkdirSync(fme);
+    }
   }
 
   async hashPassword(payload: string) {
@@ -77,10 +81,15 @@ export class HelperService {
     let { name } = parse(filename);
     const { ext } = parse(filename);
     name = `file${Math.floor(Math.random() * 1000) + 1}`;
-    let url = join(process.cwd(), `./src/upload/${name}${Date.now()}${ext}`);
-    const imageStream = createWriteStream(url);
+    let url = join(process.cwd(), `./public/fme/${name}-${Date.now()}${ext}`);
+    const imageStream = fs.createWriteStream(url);
     await stream.pipe(imageStream);
-    url = `${baseUrl}${url.split('upload')[1]}`;
+    url = `${baseUrl}${url.split('public')[1]}`;
     return url;
+  }
+  async deleteFile(url: string) {
+    const deleteUrl = url.split('fme')[1];
+    console.log(deleteUrl);
+    fs.unlinkSync(join(process.cwd(), `./public/fme${deleteUrl}`));
   }
 }

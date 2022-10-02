@@ -38,4 +38,8 @@ export class Admin {
 
   @Column()
   credential: string;
+
+  @Column()
+  @Field({ defaultValue: false })
+  isDeleted: boolean;
 }

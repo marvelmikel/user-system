@@ -1,7 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { ValidateNested } from 'class-validator';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
-import { DocumentInput } from '../dto/documents-user.input';
 
 @Entity()
 @ObjectType()
@@ -11,85 +10,129 @@ export class User {
   id: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   nameOfCompany: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   location: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   address: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   rcNumber: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   dateOfIncorporation: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   tin: string;
 
   @Column()
-  @Field()
+  @Field({ nullable: true })
   email: string;
 
   @Column()
-  @Field()
-  phoneNumber: string;
-
-  @Column({ type: 'boolean', default: false })
   @Field({ defaultValue: false })
   isEmailActive: boolean;
 
-  @Column({ type: 'boolean', default: true })
+  @Column()
+  @Field({ nullable: true })
+  phoneNumber: string;
+
+  @Column()
   @Field({ defaultValue: true })
   isActive: boolean;
 
   @Column()
   credential: string;
 
-  // documents
-  // to
-  // upload
+  // documents to upload
   @Column()
-  @Field()
+  @Field({ nullable: true })
   certificateOfIncorporation: string;
 
   @Column()
-  @Field()
+  @Field({ defaultValue: false })
+  isCertificateOfIncorporation: boolean;
+
+  @Column()
+  @Field({ nullable: true })
   certificateOfTaxClearance: string;
 
   @Column()
-  @Field()
+  @Field({ defaultValue: false })
+  isCertificateOfTaxClearance: boolean;
+
+  @Column()
+  @Field({ nullable: true })
   applicationLetter: string;
 
   @Column()
-  @Field()
+  @Field({ defaultValue: false })
+  isApplicationLetter: boolean;
+
+  @Column()
+  @Field({ nullable: true })
   evidenceOfPayment: string;
 
   @Column()
-  @Field()
+  @Field({ defaultValue: false })
+  isEvidenceOfPayment: boolean;
+
+  @Column()
+  @Field({ nullable: true })
   letterOfCredibilityFromBanks: string;
 
   @Column()
-  @Field()
+  @Field({ defaultValue: false })
+  isLetterOfCredibilityFromBanks: boolean;
+
+  @Column()
+  @Field({ nullable: true })
   collaborationCertificateWithForeignPartners: string;
 
-  @Field(() => [Document], { defaultValue: [] })
+  @Column()
+  @Field({ defaultValue: false })
+  isCollaborationCertificateWithForeignPartners: boolean;
+
+  @Column()
+  @Field(() => [Document], { defaultValue: [], nullable: true })
   @ValidateNested({ each: true })
-  document: Document[];
+  curriculumVitae: Document[];
+
+  @Column()
+  @Field({ defaultValue: false, nullable: true })
+  isCurriculumVitae: boolean;
+
+  @Column()
+  @Field(() => [Document], { defaultValue: [], nullable: true })
+  @ValidateNested({ each: true })
+  boardOfDirectors: Document[];
+
+  @Column()
+  @Field({ defaultValue: false })
+  isBoardOfDirectorsInput: boolean;
+
+  @Column()
+  @Field({ defaultValue: false })
+  isDeleted: boolean;
+
+  @Column()
+  @Field({ nullable: true })
+  profilePic: string;
 }
 
 @ObjectType()
 export class Document {
-  @Field(() => String)
-  photo: string;
+  @Field(() => String, { nullable: true })
+  file: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   title: string;
 }

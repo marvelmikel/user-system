@@ -23,75 +23,9 @@ export class UserService {
     private logService: LogService,
   ) {}
 
+  // done
   async create(createUserInput: CreateUserInput, baseUrl: string) {
     try {
-      const documentArray: any = [];
-      // other documents
-      if (createUserInput.uploadedDocument) {
-        for (const iterator of createUserInput.uploadedDocument) {
-          const fileUploaded = await this.helperService.uploadFile(
-            baseUrl,
-            iterator['photo'],
-          );
-          documentArray.push({
-            title: iterator.title,
-            photo: fileUploaded,
-          });
-        }
-      }
-      let evidenceOfPayment: any,
-        applicationLetter: any,
-        certificateOfIncorporation: any,
-        certificateOfTaxClearance: any,
-        collaborationCertificateWithForeignPartners: any,
-        letterOfCredibilityFromBanks: any;
-
-      // application letter
-      if (createUserInput.applicationLetter) {
-        applicationLetter = await this.helperService.uploadFile(
-          baseUrl,
-          createUserInput.applicationLetter['photo'],
-        );
-      }
-      // Certificate of Incorporation
-      if (createUserInput.certificateOfIncorporation) {
-        certificateOfIncorporation = await this.helperService.uploadFile(
-          baseUrl,
-          createUserInput.certificateOfIncorporation,
-        )['photo'];
-      }
-      // Certificate of Incorporation
-      if (createUserInput.certificateOfTaxClearance) {
-        certificateOfTaxClearance = await this.helperService.uploadFile(
-          baseUrl,
-          createUserInput.certificateOfTaxClearance,
-        )['photo'];
-      }
-      // Certificate of Incorporation
-      if (createUserInput.collaborationCertificateWithForeignPartners) {
-        collaborationCertificateWithForeignPartners =
-          await this.helperService.uploadFile(
-            baseUrl,
-            createUserInput.collaborationCertificateWithForeignPartners,
-          )['photo'];
-      }
-      // Certificate of Incorporation
-      if (createUserInput.evidenceOfPayment) {
-        evidenceOfPayment = await this.helperService.uploadFile(
-          baseUrl,
-          createUserInput.evidenceOfPayment,
-        )['photo'];
-      }
-      // Certificate of Incorporation
-      if (createUserInput.letterOfCredibilityFromBanks) {
-        letterOfCredibilityFromBanks = await this.helperService.uploadFile(
-          baseUrl,
-          createUserInput.letterOfCredibilityFromBanks,
-        )['photo'];
-      }
-
-      createUserInput['document'] = documentArray;
-
       // create a query params
       const queryParam: any = { email: createUserInput.email };
       // check if email already existe
@@ -103,18 +37,10 @@ export class UserService {
 
       // create admin instance
       const newUser = this.userRepository.create({
-        evidenceOfPayment: evidenceOfPayment,
-        applicationLetter: applicationLetter,
-        certificateOfIncorporation: certificateOfIncorporation,
-        letterOfCredibilityFromBanks: letterOfCredibilityFromBanks,
-        collaborationCertificateWithForeignPartners:
-          collaborationCertificateWithForeignPartners,
-        certificateOfTaxClearance: certificateOfTaxClearance,
+        ...createUserInput,
         credential: await this.helperService.hashPassword(
           createUserInput['credential'],
         ),
-        isEmailActive: false,
-        isActive: false,
       });
 
       // save admin
@@ -152,7 +78,7 @@ export class UserService {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
-
+  // done
   async resendEmailVerificationToken(email: string, baseUrl: string) {
     try {
       // create a query params
@@ -190,11 +116,13 @@ export class UserService {
         by: checkEmail.id,
         isAdmin: false,
       });
+
+      return 'Email Sent Successfully';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
-
+  // done
   async verifyEmail(token: string) {
     try {
       // destructure token
@@ -204,7 +132,7 @@ export class UserService {
       // create a query params
       const queryParam: any = { email: data.email };
       // check if email already existe
-      let checkEmail = await this.userRepository.findOne({
+      const checkEmail = await this.userRepository.findOne({
         where: queryParam,
       });
       // check if user exist
@@ -215,15 +143,16 @@ export class UserService {
       });
       if (!updatedData) throw new Error('Unable to Updated');
       // get updated data
-      checkEmail = await this.userRepository.findOne({
-        where: queryParam,
-      });
-      return checkEmail;
+      // checkEmail = await this.userRepository.findOne({
+      //   where: queryParam,
+      // });
+      return 'Email Verification successful';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
 
+  // done
   async forgottenPassword(email: string, baseUrl: string) {
     try {
       // create a query params
@@ -261,11 +190,14 @@ export class UserService {
         by: checkEmail.id,
         isAdmin: false,
       });
+
+      return 'Password reset link has been sent to your email';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
 
+  // done
   async resetPassword(token: string, credential: string) {
     try {
       // destructure token
@@ -275,7 +207,7 @@ export class UserService {
       // create a query params
       const queryParam: any = { email: data.email };
       // check if email already existe
-      let checkEmail = await this.userRepository.findOne({
+      const checkEmail = await this.userRepository.findOne({
         where: queryParam,
       });
       // check if user exist
@@ -286,15 +218,15 @@ export class UserService {
       });
       if (!updatedData) throw new Error('Unable to Updated');
       // get updated data
-      checkEmail = await this.userRepository.findOne({
-        where: queryParam,
-      });
-      return checkEmail;
+      // checkEmail = await this.userRepository.findOne({
+      //   where: queryParam,
+      // });
+      return 'Password Successfully Changed';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
-
+  // done
   async loginUser(loginUserInput: LoginUserInput) {
     try {
       const { email, credential } = loginUserInput;
@@ -403,11 +335,11 @@ export class UserService {
         for (const iterator of updateUserInput['uploadedDocument']) {
           const fileUploaded = await this.helperService.uploadFile(
             baseUrl,
-            iterator['photo'],
+            iterator['file'],
           );
           documentArray.push({
             title: iterator.title,
-            photo: fileUploaded,
+            file: fileUploaded,
           });
         }
       }
@@ -428,7 +360,7 @@ export class UserService {
         const certificateOfIncorporation = await this.helperService.uploadFile(
           baseUrl,
           updateUserInput['certificateOfIncorporation'],
-        )['photo'];
+        )['file'];
         updatedPayload = {
           ...updatedPayload,
           certificateOfIncorporation: certificateOfIncorporation,
@@ -439,7 +371,7 @@ export class UserService {
         const certificateOfTaxClearance = await this.helperService.uploadFile(
           baseUrl,
           updateUserInput['certificateOfTaxClearance'],
-        )['photo'];
+        )['file'];
 
         updatedPayload = {
           ...updatedPayload,
@@ -452,7 +384,7 @@ export class UserService {
           await this.helperService.uploadFile(
             baseUrl,
             updateUserInput['collaborationCertificateWithForeignPartners'],
-          )['photo'];
+          )['file'];
         updatedPayload = {
           ...updatedPayload,
           collaborationCertificateWithForeignPartners:
@@ -464,7 +396,7 @@ export class UserService {
         const evidenceOfPayment = await this.helperService.uploadFile(
           baseUrl,
           updateUserInput['evidenceOfPayment'],
-        )['photo'];
+        )['file'];
         updatedPayload = {
           ...updatedPayload,
           evidenceOfPayment: evidenceOfPayment,
@@ -476,7 +408,7 @@ export class UserService {
           await this.helperService.uploadFile(
             baseUrl,
             updateUserInput['letterOfCredibilityFromBanks'],
-          )['photo'];
+          )['file'];
         updatedPayload = {
           ...updatedPayload,
           letterOfCredibilityFromBanks: letterOfCredibilityFromBanks,
