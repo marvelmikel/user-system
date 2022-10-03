@@ -163,7 +163,9 @@ export class SubcategoryService {
         isAdmin: true,
       });
       return deletedData;
-    } catch (error) {}
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
   }
 
   // done
