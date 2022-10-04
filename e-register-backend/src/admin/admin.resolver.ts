@@ -7,7 +7,7 @@ import { LoginAdminInput } from './dto/login-admin.input';
 import { HttpException, HttpStatus, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { HelperService } from 'src/helper/helper.service';
-import { CustomQuery } from 'src/admin/dto/query.input';
+import { CustomQuery } from 'src/admin/dto/query-admin.input';
 import { AdminStatusInput } from './dto/status-admin.input';
 
 @Resolver(() => Admin)

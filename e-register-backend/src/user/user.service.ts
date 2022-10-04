@@ -1,7 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectId } from 'mongodb';
-import { CustomQuery } from 'src/admin/dto/query.input';
+import { AccreditationService } from 'src/accreditation/accreditation.service';
+import { CustomQuery } from 'src/admin/dto/query-admin.input';
 import { AdminStatusInput } from 'src/admin/dto/status-admin.input';
 import { AuthPayload } from 'src/auth/entities/auth.entity';
 import { HelperService } from 'src/helper/helper.service';
@@ -21,6 +22,7 @@ export class UserService {
     private mailService: MailService,
     private helperService: HelperService,
     private logService: LogService,
+    private accreditationService: AccreditationService,
   ) {}
 
   // done
@@ -260,33 +262,7 @@ export class UserService {
   async findAll(customQuery: CustomQuery) {
     try {
       // get query params
-      const { skip, size, search } = customQuery;
-      // generate main query
-      let query: any = {};
-      // check if search exist
-      if (search) {
-        query = {
-          $or: [
-            {
-              nameOfCompany: { $regex: search, $options: 'i' },
-            },
-            {
-              rcNumber: { $regex: search, $options: 'i' },
-            },
-            {
-              email: { $regex: search, $options: 'i' },
-            },
-          ],
-        };
-      }
-
-      // find all
-      const result = await this.userRepository.find({
-        where: query,
-        take: size,
-        skip: skip,
-        order: { nameOfCompany: 'DESC' },
-      });
+      const result = await this.accreditationService.findAllUsers(customQuery);
 
       return result;
     } catch (error) {

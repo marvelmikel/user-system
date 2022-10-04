@@ -92,4 +92,19 @@ export class HelperService {
     console.log(deleteUrl);
     fs.unlinkSync(join(process.cwd(), `./public/fme${deleteUrl}`));
   }
+  mongoQuery(prop: string, queryProp: string, value: any) {
+    return value === null ? null : { [prop]: { [queryProp]: value } };
+  }
+  mongoObjectFilter(data: any) {
+    const item: any = { ...data };
+    Object.keys(item).forEach((key) => {
+      if (item[key] === '' || item[key] === null || item[key].length === 0) {
+        delete item[key];
+      }
+    });
+    return item;
+  }
+  mongoArrayFilter(data: any) {
+    return data.filter((q: any) => q !== null);
+  }
 }

@@ -4,19 +4,20 @@ import { ObjectId } from 'mongodb';
 import { HelperService } from 'src/helper/helper.service';
 import { LogService } from 'src/log/log.service';
 import { MailService } from 'src/mail/mail.service';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { AccreditationQuery } from './dto/query-accreditation.input';
 import { CreateAccreditationInput } from './dto/create-accreditation.input';
 import { UpdateAccreditationInput } from './dto/update-accreditation.input';
 import { Accreditation } from './entities/accreditation.entity';
 import { AdminUpdateAccreditationInput } from './dto/admin-accreditation.input';
 import moment from 'moment';
+import { CustomQuery } from 'src/admin/dto/query-admin.input';
 
 @Injectable()
 export class AccreditationService {
   constructor(
     @InjectRepository(Accreditation)
-    private accreditationRepository: Repository<Accreditation>,
+    private accreditationRepository: MongoRepository<Accreditation>,
     private mailService: MailService,
     private helperService: HelperService,
     private logService: LogService,
@@ -361,5 +362,46 @@ export class AccreditationService {
       by: data.id,
       isAdmin: true,
     });
+  }
+
+  async findAllUsers(customQuery: CustomQuery) {
+    try {
+      const { categoryId, subcategoryId } = customQuery;
+
+      // filter
+      const accreditationFilter: any = this.helperService.mongoObjectFilter({
+        $and: this.helperService.mongoArrayFilter([
+          this.helperService.mongoQuery(
+            'categoryId',
+            '$eq',
+            categoryId ? new ObjectId(categoryId) : null,
+          ),
+          this.helperService.mongoQuery(
+            'subcategoryId',
+            '$eq',
+            subcategoryId ? new ObjectId(subcategoryId) : null,
+          ),
+        ]),
+      });
+
+      // create a pipeline
+      const result = this.accreditationRepository.aggregate([
+        accreditationFilter,
+        this.helperService.mongoObjectFilter({
+          $group: { _id: '$userId' },
+        }),
+        this.helperService.mongoObjectFilter({
+          $lookup: {
+            from: 'user',
+            localField: '_id',
+            foreignField: 'userId',
+            as: 'user',
+          },
+        }),
+      ]);
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
   }
 }

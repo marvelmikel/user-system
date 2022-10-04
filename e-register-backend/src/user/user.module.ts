@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailModule } from 'src/mail/mail.module';
 import { HelperModule } from 'src/helper/helper.module';
 import { LogModule } from 'src/log/log.module';
+import { AccreditationModule } from 'src/accreditation/accreditation.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { LogModule } from 'src/log/log.module';
     MailModule,
     HelperModule,
     LogModule,
+    AccreditationModule,
   ],
   providers: [UserResolver, UserService],
 })

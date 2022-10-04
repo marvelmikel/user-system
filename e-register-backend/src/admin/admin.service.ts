@@ -18,7 +18,7 @@ import { Admin } from './entities/admin.entity';
 // import * as generator from 'generate-password';
 import { LogService } from 'src/log/log.service';
 import { ConfigService } from '@nestjs/config';
-import { CustomQuery } from './dto/query.input';
+import { CustomQuery } from './dto/query-admin.input';
 import { ObjectId } from 'mongodb';
 import { AdminStatusInput } from './dto/status-admin.input';
 @Injectable()
