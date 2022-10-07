@@ -62,9 +62,9 @@
           Create Account
         </button>
 
-        <a href="" class="tw-text-sm tw-text-white tw-text-center tw-block">
+        <nuxt-link to="/signup" class="tw-text-sm tw-text-white tw-text-center tw-block">
           Have an account? Sign Up
-        </a>
+        </nuxt-link>
       </div>
     </div>
   </div>
