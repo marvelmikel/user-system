@@ -12,6 +12,8 @@ import { UserModule } from './user/user.module';
 import { AccreditationModule } from './accreditation/accreditation.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getEnvPath } from './utils/config/env.config';
+import { CategoryModule } from './category/category.module';
+import { SubcategoryModule } from './subcategory/subcategory.module';
 
 const envFilePath: string = getEnvPath(`${__dirname}/utils/env`);
 
@@ -36,12 +38,15 @@ const envFilePath: string = getEnvPath(`${__dirname}/utils/env`);
       playground: true,
       context: ({ req }) => ({ headers: req.headers }),
     }),
+
     AdminModule,
     MailModule,
     HelperModule,
     LogModule,
     UserModule,
     AccreditationModule,
+    CategoryModule,
+    SubcategoryModule,
   ],
   providers: [Upload],
 })

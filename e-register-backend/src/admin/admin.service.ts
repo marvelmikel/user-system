@@ -15,10 +15,12 @@ import { CreateAdminInput } from './dto/create-admin.input';
 import { LoginAdminInput } from './dto/login-admin.input';
 import { UpdateAdminInput } from './dto/update-admin.input';
 import { Admin } from './entities/admin.entity';
-import * as generator from 'generate-password';
+// import * as generator from 'generate-password';
 import { LogService } from 'src/log/log.service';
 import { ConfigService } from '@nestjs/config';
-import { CustomQuery } from './dto/query.input';
+import { CustomQuery } from './dto/query-admin.input';
+import { ObjectId } from 'mongodb';
+import { AdminStatusInput } from './dto/status-admin.input';
 @Injectable()
 export class AdminService implements OnModuleInit {
   @Inject(ConfigService)
@@ -34,44 +36,40 @@ export class AdminService implements OnModuleInit {
   // done
   async onModuleInit() {
     // generate password
-    const generatePassword = generator.generate({
-      length: 11,
-      numbers: true,
-    });
+    // const generatePassword = generator.generate({
+    //   length: 11,
+    //   numbers: true,
+    // });
     // create admin collection
-    await this.adminRepository.delete({});
-
+    // await this.adminRepository.delete({});
     // create admin instance
-    const newAdmin = this.adminRepository.create({
-      firstName: this.config.get('FIRST_NAME'),
-      middleName: this.config.get('MIDDLE_NAME'),
-      lastName: this.config.get('LAST_NAME'),
-      email: this.config.get('ADMIN_EMAIL'),
-      phoneNumber: this.config.get('PHONE_NUMBER'),
-      isRoot: true,
-      credential: await this.helperService.hashPassword(generatePassword),
-    });
-
+    // const newAdmin = this.adminRepository.create({
+    //   firstName: this.config.get('FIRST_NAME'),
+    //   middleName: this.config.get('MIDDLE_NAME'),
+    //   lastName: this.config.get('LAST_NAME'),
+    //   email: this.config.get('ADMIN_EMAIL'),
+    //   phoneNumber: this.config.get('PHONE_NUMBER'),
+    //   isRoot: true,
+    //   credential: await this.helperService.hashPassword(generatePassword),
+    // });
     // Save Root Admin
-    const createdAdmin = await this.adminRepository.save(newAdmin);
-
+    // const createdAdmin = await this.adminRepository.save(newAdmin);
     // send Email
-    this.mailService.sendMail({
-      email: `${this.config.get('ADMIN_EMAIL')}`,
-      subject: 'Root Login Credentials',
-      template: 'credentials',
-      context: {
-        username: `${this.config.get('ADMIN_EMAIL')}`,
-        password: generatePassword,
-      },
-    });
-
+    // this.mailService.sendMail({
+    //   email: `${this.config.get('ADMIN_EMAIL')}`,
+    //   subject: 'Root Login Credentials',
+    //   template: 'credentials',
+    //   context: {
+    //     username: `${this.config.get('ADMIN_EMAIL')}`,
+    //     password: generatePassword,
+    //   },
+    // });
     // create log
-    this.logService.create({
-      info: 'Created a Root Admin',
-      by: createdAdmin.id,
-      isAdmin: true,
-    });
+    // this.logService.create({
+    //   info: 'Created a Root Admin',
+    //   by: createdAdmin.id,
+    //   isAdmin: true,
+    // });
   }
   // done
   async createLoginToken(loginAdminInput: LoginAdminInput) {
@@ -108,8 +106,6 @@ export class AdminService implements OnModuleInit {
       const checkAdminExist = await this.adminRepository.findOneBy({
         email,
       });
-
-      console.log(checkAdminExist);
 
       if (checkAdminExist) throw new Error('Email Already Exist');
 
@@ -164,6 +160,7 @@ export class AdminService implements OnModuleInit {
       const newAdmin = this.adminRepository.create({
         ...createAdminInput,
         ...data,
+        isRoot: false,
         credential: await this.helperService.hashPassword(
           createAdminInput['credential'],
         ),
@@ -189,39 +186,128 @@ export class AdminService implements OnModuleInit {
   }
 
   async findAll(customQuery: CustomQuery, data: any) {
-    console.log(customQuery, data);
-    const { skip, size, search } = customQuery;
-    let query = {};
-    if (search) {
-      query = this.helperService.filter(
-        ['firstName', 'middleName', 'lastName', 'email'],
-        search,
-      );
+    try {
+      // get query params
+      const { skip, size, search } = customQuery;
+      // create root filter
+      const primaryFilter: any = [{ isRoot: true }, { _id: { $ne: data.id } }];
+      // check if search exist
+      if (search) {
+        primaryFilter.push({
+          $or: [
+            {
+              firstName: { $regex: search, $options: 'i' },
+            },
+            {
+              middlename: { $regex: search, $options: 'i' },
+            },
+            {
+              email: { $regex: search, $options: 'i' },
+            },
+          ],
+        });
+      }
+      // generate main query
+      const query: any = {
+        $and: primaryFilter,
+      };
+      // find all
+      const result = await this.adminRepository.find({
+        where: query,
+        take: size,
+        skip: skip,
+        order: { firstName: 'DESC' },
+      });
+
+      // create log
+      this.logService.create({
+        info: 'Viewed all Admins',
+        by: data.id,
+        isAdmin: true,
+      });
+
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
-    const [result, total] = await this.adminRepository.findAndCount({
-      where: query,
-      order: { firstName: 'DESC' },
-      take: size,
-      skip: skip,
-    });
-
-    return {
-      data: result,
-      count: total,
-    };
-
-    return `This action returns all admin`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} admin`;
+  // done
+  async findOne(id: string, data: any) {
+    try {
+      const query: any = { _id: new ObjectId(id) };
+      const result = await this.adminRepository.findOne({
+        where: query,
+      });
+
+      if (!result) throw new Error('Item not found');
+
+      // create log
+      this.logService.create({
+        info: 'Viewed an Admin',
+        by: data.id,
+        isAdmin: true,
+      });
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
   }
 
-  update(id: number, updateAdminInput: UpdateAdminInput) {
-    return updateAdminInput;
+  async update(
+    id: string,
+    updateAdminInput: UpdateAdminInput | AdminStatusInput,
+    data: any,
+  ) {
+    try {
+      const query: any = { _id: new ObjectId(id) };
+      let result = await this.adminRepository.findOne({
+        where: query,
+      });
+
+      if (!result) throw new Error('Item not found');
+      const updatedData = await this.adminRepository.update(
+        id,
+        updateAdminInput,
+      );
+
+      if (!updatedData) throw new Error('Unable to Updated');
+      // get updated data
+      result = await this.adminRepository.findOne({
+        where: query,
+      });
+      // create log
+      this.logService.create({
+        info: 'Updated an Admin',
+        by: data.id,
+        isAdmin: true,
+      });
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} admin`;
+  async remove(id: string, data: any) {
+    try {
+      const query: any = { _id: new ObjectId(id), isRoot: false };
+      const result = await this.adminRepository.findOne({
+        where: query,
+      });
+      if (!result) throw new Error('Item not found');
+      const deletedData = await this.adminRepository.remove(result);
+
+      if (!deletedData) throw new Error('Unable to perform action');
+
+      // create log
+      this.logService.create({
+        info: 'Deleted an Admin',
+        by: data.id,
+        isAdmin: true,
+      });
+      return deletedData;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
   }
 }

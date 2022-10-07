@@ -29,9 +29,17 @@ export class Admin {
   phoneNumber: string;
 
   @Column({ type: 'boolean', default: false })
-  @Field()
+  @Field({ defaultValue: false })
   isRoot: boolean;
+
+  @Column({ type: 'boolean', default: true })
+  @Field({ defaultValue: true })
+  isActive: boolean;
 
   @Column()
   credential: string;
+
+  @Column()
+  @Field({ defaultValue: false })
+  isDeleted: boolean;
 }
