@@ -30,7 +30,7 @@ export default {
   css: ["~/css/font.css", "~/css/layout.css", "~/css/color.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/axios", "~/plugins/helpers", "~/plugins/data"],
+  plugins: ["~/plugins/axios", "~/plugins/helpers", "~/plugins/data", "~/plugins/apollo"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -42,12 +42,16 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/axios", "cookie-universal-nuxt", "@nuxtjs/toast"],
-  axios: {
-    baseURL:
-      process.env.NODE_ENV === "production"
-        ? process.env.PRODUCTION_BASE_URL
-        : process.env.DEVELOPMENT_BASE_URL, // Used as fallback if no runtime config is provided
+  modules: [ "cookie-universal-nuxt", "@nuxtjs/toast", "@nuxtjs/apollo"],
+
+  apollo: {
+    // tokenName: "nuxt-apollo", // specify token name
+    // cookieAttributes: {
+    //   expires: 7 // optional, default: 7 (days)
+    // },
+    clientConfigs: {
+      default: '~/plugins/apollo.js'
+    }
   },
   toast: {
     position: "bottom-right",
