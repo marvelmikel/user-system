@@ -3,7 +3,7 @@ import { AccreditationService } from './accreditation.service';
 import { Accreditation } from './entities/accreditation.entity';
 import { CreateAccreditationInput } from './dto/create-accreditation.input';
 import { UpdateAccreditationInput } from './dto/update-accreditation.input';
-import { UseGuards } from '@nestjs/common';
+import { UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { HelperService } from 'src/helper/helper.service';
 import { AccreditationQuery } from './dto/query-accreditation.input';
@@ -117,7 +117,7 @@ export class AccreditationResolver {
     @Context('data')
     data: any,
     @Args('id', { type: () => String }) id: string,
-    @Args('status')
+    @Args('status', { type: () => Boolean })
     status: boolean,
   ) {
     this.helperService.isAnAdmin(data);

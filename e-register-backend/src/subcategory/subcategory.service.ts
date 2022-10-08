@@ -174,23 +174,27 @@ export class SubcategoryService {
     id: string,
     status: boolean,
   ) {
-    const query: any = { categoryId: new ObjectId(id) };
-    const result = await this.subcategoryRepository.find({
-      where: query,
-    });
-    if (result.length) {
-      for (const iterator of result) {
-        await this.subcategoryRepository.update(iterator.id, {
-          isDeleted: status,
-        });
+    try {
+      const query: any = { categoryId: new ObjectId(id) };
+      const result = await this.subcategoryRepository.find({
+        where: query,
+      });
+      if (result.length) {
+        for (const iterator of result) {
+          await this.subcategoryRepository.update(iterator.id, {
+            isDeleted: status,
+          });
+        }
       }
-    }
 
-    // create log
-    this.logService.create({
-      info: `${status ? 'Deleted' : 'Restored'} SubCategory`,
-      by: data.id,
-      isAdmin: true,
-    });
+      // create log
+      this.logService.create({
+        info: `${status ? 'Deleted' : 'Restored'} SubCategory`,
+        by: data.id,
+        isAdmin: true,
+      });
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
   }
 }

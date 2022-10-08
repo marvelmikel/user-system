@@ -16,5 +16,6 @@ import { LogModule } from 'src/log/log.module';
     LogModule,
   ],
   providers: [AdminResolver, AdminService],
+  exports: [AdminService],
 })
 export class AdminModule {}

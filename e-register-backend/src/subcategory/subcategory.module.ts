@@ -15,6 +15,6 @@ import { HelperModule } from 'src/helper/helper.module';
     HelperModule,
   ],
   providers: [SubcategoryResolver, SubcategoryService],
-  exports: ['SubcategoryService'],
+  exports: [SubcategoryService],
 })
 export class SubcategoryModule {}

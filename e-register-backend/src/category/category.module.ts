@@ -17,5 +17,6 @@ import { SubcategoryModule } from 'src/subcategory/subcategory.module';
     SubcategoryModule,
   ],
   providers: [CategoryResolver, CategoryService],
+  exports: [CategoryService],
 })
 export class CategoryModule {}

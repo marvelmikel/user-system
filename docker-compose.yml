@@ -17,6 +17,21 @@ services:
       - mongodb
     ports:
       - "8000:3000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+      - HOST=${HOST}
+      - PORT=${PORT}
+      - SECURE=${SECURE}
+      - EMAIL=${EMAIL}
+      - PASSWORD=${PASSWORD}
+      - NO_REPLY=${NO_REPLY}
+      - SECRET=${SECRET}
+      - SALT=${SALT}
+      - FIRST_NAME=${FIRST_NAME}
+      - MIDDLE_NAME=${MIDDLE_NAME}
+      - LAST_NAME=${LAST_NAME}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - PHONE_NUMBER=${PHONE_NUMBER}
     volumes:
       - ./e-register-backend:/e-register-backend
       - /e-register-backend/node_modules

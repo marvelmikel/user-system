@@ -35,7 +35,7 @@ export class Accreditation {
   isDeleted: boolean;
 
   @Column()
-  @Field(() => StatusEnum, {
+  @Field(() => String, {
     defaultValue: StatusEnum.PENDING,
     nullable: false,
   })

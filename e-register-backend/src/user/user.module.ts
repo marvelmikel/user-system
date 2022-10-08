@@ -17,5 +17,6 @@ import { AccreditationModule } from 'src/accreditation/accreditation.module';
     AccreditationModule,
   ],
   providers: [UserResolver, UserService],
+  exports: [UserService],
 })
 export class UserModule {}

@@ -36,13 +36,13 @@ export class SubcategoryResolver {
     })
     search: string,
     @Args({
-      name: 'status',
+      name: 'categoryId',
       type: () => String,
       nullable: true,
     })
-    status: string,
+    categoryId: string,
   ) {
-    return this.subcategoryService.findAll(search, status);
+    return this.subcategoryService.findAll(search, categoryId);
   }
 
   // done
@@ -73,7 +73,7 @@ export class SubcategoryResolver {
     data: any,
     @Args('id')
     id: string,
-    @Args('status') status: boolean,
+    @Args('status', { type: () => Boolean }) status: boolean,
   ) {
     this.helperService.isAnAdmin(data);
     return this.subcategoryService.softDeleteAndRetoreByCategoryId(

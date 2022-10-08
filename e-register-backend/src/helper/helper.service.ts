@@ -87,9 +87,8 @@ export class HelperService {
     url = `${baseUrl}${url.split('public')[1]}`;
     return url;
   }
-  async deleteFile(url: string) {
+  deleteFile(url: string) {
     const deleteUrl = url.split('fme')[1];
-    console.log(deleteUrl);
     fs.unlinkSync(join(process.cwd(), `./public/fme${deleteUrl}`));
   }
   mongoQuery(prop: string, queryProp: string, value: any) {

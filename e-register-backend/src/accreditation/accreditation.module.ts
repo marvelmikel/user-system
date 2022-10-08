@@ -15,5 +15,6 @@ import { LogModule } from 'src/log/log.module';
     LogModule,
   ],
   providers: [AccreditationResolver, AccreditationService],
+  exports: [AccreditationService],
 })
 export class AccreditationModule {}

@@ -14,6 +14,20 @@ type Admin {
   isDeleted: Boolean!
 }
 
+type Accreditation {
+  id: ID!
+  categoryId: String!
+  subCategoryId: String!
+  userId: String!
+  accredited: Boolean!
+  isDeleted: Boolean!
+  status: String!
+  dateAccredited: String!
+  expiryDate: String!
+  proofOfPayment: String!
+  supportingDocument: String!
+}
+
 type User {
   id: ID!
   nameOfCompany: String
@@ -51,19 +65,17 @@ type Document {
   title: String
 }
 
-type Accreditation {
-  """Example field (placeholder)"""
-  exampleField: Int!
+type Subcategory {
+  id: ID!
+  categoryId: String!
+  name: String!
+  isDeleted: Boolean!
 }
 
 type Category {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-type Subcategory {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: ID!
+  name: String!
+  isDeleted: Boolean!
 }
 
 type Query {
@@ -71,15 +83,29 @@ type Query {
   profile: Admin!
   admin(id: String!): Admin!
   user(id: String!): User!
-  accreditation(id: Int!): Accreditation!
-  category(id: Int!): Category!
-  subcategory(id: Int!): Subcategory!
+  accreditation(accreditationQuery: AccreditationQuery!): [Accreditation!]!
+  findOne(id: String!): Category!
+  findAll(search: String): [Category!]!
+  subcategory(id: String!): Subcategory!
 }
 
 input CustomQuery {
   search: String = null
   skip: Int = 0
   size: Int = 25
+  categoryId: String = null
+  subcategoryId: String = null
+  isDeleted: Boolean = false
+}
+
+input AccreditationQuery {
+  search: String = null
+  skip: Int = 0
+  size: Int = 25
+  categoryId: String = null
+  subcategoryId: String = null
+  isDeleted: Boolean = false
+  userId: String = null
 }
 
 type Mutation {
@@ -97,17 +123,21 @@ type Mutation {
   validateEmailVerification(token: String!): String!
   forgottenPassword(email: String!): String!
   resetPassword(token: String!, credential: String!): String!
-  updateUser(id: Float!, updateUserInput: UpdateUserInput!): User!
+  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
   createAccreditation(createAccreditationInput: CreateAccreditationInput!): Accreditation!
-  updateAccreditation(updateAccreditationInput: UpdateAccreditationInput!): Accreditation!
-  removeAccreditation(id: Int!): Accreditation!
+  updateAccreditation(id: String!, updateAccreditationInput: UpdateAccreditationInput!): Accreditation!
+  updateAccreditationByAdmin(id: String!, adminUpdateAccreditationInput: AdminUpdateAccreditationInput!): Accreditation!
+  removeAccreditation(id: String!): Accreditation!
+  softRemoveAccreditation(id: String!, status: Boolean!): Accreditation!
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
-  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
-  removeCategory(id: Int!): Category!
+  softDeleteAndRestoreCategory(id: String!, softCategoryInput: SoftCategoryInput!): Category!
+  updateCategory(id: String!, updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: String!): Category!
   createSubcategory(createSubcategoryInput: CreateSubcategoryInput!): Subcategory!
-  updateSubcategory(updateSubcategoryInput: UpdateSubcategoryInput!): Subcategory!
-  removeSubcategory(id: Int!): Subcategory!
+  updateSubcategory(id: String!, updateSubcategoryInput: UpdateSubcategoryInput!): Subcategory!
+  softDeleteAndRestoreSubcategory(id: String!, status: Boolean!): Subcategory!
+  removeSubcategory(id: String!): Subcategory!
 }
 
 input LoginAdminInput {
@@ -174,34 +204,47 @@ input DocumentInput {
 }
 
 input CreateAccreditationInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  categoryId: String!
+  subcategoryId: String!
+  userId: String!
+  uploadProofOfDocument: String!
+  uploadSupportingDocument: String!
 }
 
 input UpdateAccreditationInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  categoryId: String
+  subcategoryId: String
+  uploadProofOfDocument: String
+  uploadSupportingDocument: String
+}
+
+input AdminUpdateAccreditationInput {
+  categoryId: String
+  subcategoryId: String
+  userId: String
+  uploadProofOfDocument: String
+  uploadSupportingDocument: String
+  accredited: Boolean!
 }
 
 input CreateCategoryInput {
-  """Example field (placeholder)"""
   name: String!
 }
 
-input UpdateCategoryInput {
-  """Example field (placeholder)"""
+input SoftCategoryInput {
   name: String
-  id: Int!
+  isDeleted: Boolean!
+}
+
+input UpdateCategoryInput {
+  name: String
 }
 
 input CreateSubcategoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  categoryId: String!
 }
 
 input UpdateSubcategoryInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  name: String
 }
