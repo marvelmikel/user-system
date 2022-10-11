@@ -1,5 +1,5 @@
 # create development
-FROM node:14 
+FROM node:14.18.1
 # define work director
 WORKDIR /e-register-frontend
 # copy package json
