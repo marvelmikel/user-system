@@ -1,4 +1,4 @@
 build:
   docker:
-    web: /e-register-backend/Dockerfile
-    worker: /e-register-frontend/Dockerfile
+    # web: /e-register-backend/Dockerfile
+    web: /e-register-frontend/Dockerfile
