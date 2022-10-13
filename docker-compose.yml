@@ -11,7 +11,7 @@ services:
       - backend
       - mongodb
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/*.conf:/etc/nginx/conf.d/*.conf:ro
   frontend:
     container_name: e-register-frontend
     build: ./e-register-frontend
