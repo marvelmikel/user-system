@@ -39,7 +39,7 @@ services:
     depends_on:
       - frontend
       - backend
-    volumes:
+    # volumes:
       # - ./nginx/backend.conf:/etc/nginx/conf.d/backend.conf:ro
       # - ./nginx/frontend.conf:/etc/nginx/sites-available/frontend.conf:ro
 
