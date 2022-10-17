@@ -33,13 +33,14 @@ services:
     image: nginx:stable-alpine
     container_name: nginx
     ports:
-      - "80:80"
+      - "8080:8080"
+      - "8081:8081"
       - "443:443"
     depends_on:
       - frontend
       - backend
     volumes:
-      - ./nginx/backend.conf:/etc/nginx/conf.d/backend.conf:ro
+      # - ./nginx/backend.conf:/etc/nginx/conf.d/backend.conf:ro
       # - ./nginx/frontend.conf:/etc/nginx/sites-available/frontend.conf:ro
 
 
