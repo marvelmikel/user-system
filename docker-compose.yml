@@ -5,7 +5,7 @@ services:
     build: ./e-register-frontend
     command: npm run dev
     ports:
-      - "8081:3000"
+      - "8080:3000"
     volumes:
       - ./e-register-frontend:/e-register-frontend
       - /e-register-frontend/node_modules
