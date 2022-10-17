@@ -33,7 +33,7 @@ services:
     image: nginx:stable-alpine
     container_name: nginx
     ports:
-      - "8080:80"
+      - "80:8080"
       - "81:81"
       - "443:443"
     depends_on:
