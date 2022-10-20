@@ -63,7 +63,6 @@ services:
       - "net"
   networks:
     net:
-      external: true
 
 
    
