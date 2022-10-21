@@ -49,7 +49,8 @@ services:
     image: nginx:stable-alpine
     container_name: nginx
     ports:
-      - "80:80"
+      - "8000-8081:8000-8081"
+      - "8082-9000:8082-9000"
       - "443:443"
     depends_on:
       - frontend
