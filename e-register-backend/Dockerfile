@@ -9,4 +9,4 @@ RUN npm install
 # copy all file
 COPY . .
 # expose port
-EXPOSE 6000
+EXPOSE 5000
