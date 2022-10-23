@@ -52,8 +52,8 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - frontend
-      - backend
+      - e-register-frontend
+      - e-register-backend
       - mongodb
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
