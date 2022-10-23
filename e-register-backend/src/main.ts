@@ -13,7 +13,7 @@ async function bootstrap() {
     // const app = await NestFactory.create(AppModule);
     app.useGlobalPipes(new ValidationPipe());
     app.use(graphqlUploadExpress({ maxFileSize: 100000000, maxFiles: 10 }));
-    await app.listen(3001);
+    await app.listen(6000);
   } catch (error) {
     console.log(error);
   }
