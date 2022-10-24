@@ -1,5 +1,3 @@
-mutation loginUser($email: String, $credential: String) {
-  loginUserInput(email: $email, credential: $credential) {
-    token
-  }
+mutation LoginAdmin($email: String!, $credential: String!) {
+  loginAdmin(loginAdminInput: { email: $email, credential: $credential })
 }

@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { gql } from "graphql-tag";
+import LoginAdmin  from "~/apollo/mutations/signinUser";
 
 export default {
   name: "signin",
@@ -101,32 +101,18 @@ export default {
 
   methods: {
     async authenticate() {
-      try {
-        const apollo = this.$apolloProvider.defaultClient;
-        this.authenticating = true;
-        const { data, errors } = await apollo.mutate({
-          mutation: LOGIN_MUTATION,
-          credential: { email: this.email, password: this.credential },
-        });
-      } catch (errors) {
-        console.log(errors);
-        this.authenticating = false;
-        // Handle errors
-      }
-
-      // console.log(this.$auth);
-      // await this.$auth.loginWith('graphql', credentials)
-
-      // const credentials = this.form
-      // this.formBusy = true
       // try {
-      //   // Using our custom strategy
-      //   await this.$auth.loginWith('graphql', credentials)
-      //   this.formBusy = false
+      //   this.authenticating = true;
+      //   const { data, errors } = await this.$apollo.mutate({
+      //     mutation: LoginAdmin,
+      //     variables: { email: this.email, credential: this.credential },
+      //   });
       // } catch (errors) {
-      //   this.formBusy = false
-      //   // Handle errors
+      //   console.log(errors);
+      // }finally{
+      //    this.authenticating = false;
       // }
+
     },
   },
 };
