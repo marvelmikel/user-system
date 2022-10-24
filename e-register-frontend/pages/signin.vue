@@ -11,6 +11,7 @@
           <div>
             <input
               type="text"
+              required
               placeholder="Email Address"
               v-model="email"
               class="
@@ -28,7 +29,8 @@
             />
 
             <input
-              type="text"
+              type="password"
+              required
               placeholder="Password"
               v-model="credential"
               class="
@@ -61,11 +63,14 @@
               tw-w-full
             "
           >
-          <i class='bx bx-loader-circle bx-spin' v-if="authenticating" ></i>
+            <i class="bx bx-loader-circle bx-spin" v-if="authenticating"></i>
             Login
           </button>
 
-          <nuxt-link to="/signup" class="tw-text-sm tw-text-white tw-text-center tw-block">
+          <nuxt-link
+            to="/signup"
+            class="tw-text-sm tw-text-white tw-text-center tw-block"
+          >
             Have an account? Sign Up
           </nuxt-link>
         </form>
@@ -75,81 +80,41 @@
 </template>
 
 <script>
-import { gql } from 'graphql-tag'
+import { gql } from "graphql-tag";
 
 export default {
   name: "signin",
-  data(){
+  data() {
     return {
       email: null,
       credential: null,
-      authenticating: false
-    }
+      authenticating: false,
+    };
   },
 
   computed: {
-    incompleForm(){
+    incompleForm() {
       return !this.email || !this.credential ? true : false;
-    }
+    },
   },
 
-
   methods: {
-    async authenticate(){
-      const credentials = { email: this.email, password: this.credential }
-      console.log(credentials);
-      console.log(this);
-
-
-      const LOGIN_MUTATION = gql`
-        mutation loginUser($email: String, $credential: String) {
-          loginUserInput(email: $email, credential: $credential) {
-            token
-            expiresIn
-          }
-        }
-      `
-      const apollo = this.$apolloProvider.defaultClient;
+    async authenticate() {
       try {
-        this.authenticating = true
-
-        // const { data, errors } = await apollo.mutate({
-        //   mutation: LOGIN_MUTATION,
-        //   credentials
-        // })
-        const res = await apollo.mutate({
-          mutation: gql `
-            mutation loginUser(
-              $email: String
-              $credential: String
-            ){
-              loginUserInput(
-                email: $email,
-                credential: $credential,
-              ){
-                token
-              }
-            }
-          `,
-
-          variables: {
-            email: this.email,
-            credential: this.credential
-          }
-
-        }).then(e =>console.log(e) )
-        console.log(res);
-
+        const apollo = this.$apolloProvider.defaultClient;
+        this.authenticating = true;
+        const { data, errors } = await apollo.mutate({
+          mutation: LOGIN_MUTATION,
+          credential: { email: this.email, password: this.credential },
+        });
       } catch (errors) {
         console.log(errors);
-        this.authenticating = false
+        this.authenticating = false;
         // Handle errors
       }
 
-
       // console.log(this.$auth);
       // await this.$auth.loginWith('graphql', credentials)
-
 
       // const credentials = this.form
       // this.formBusy = true
@@ -161,8 +126,8 @@ export default {
       //   this.formBusy = false
       //   // Handle errors
       // }
-    }
-  }
+    },
+  },
 };
 </script>
 
