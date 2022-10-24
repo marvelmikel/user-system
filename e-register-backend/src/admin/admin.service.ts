@@ -15,7 +15,7 @@ import { CreateAdminInput } from './dto/create-admin.input';
 import { LoginAdminInput } from './dto/login-admin.input';
 import { UpdateAdminInput } from './dto/update-admin.input';
 import { Admin } from './entities/admin.entity';
-// import * as generator from 'generate-password';
+import * as generator from 'generate-password';
 import { LogService } from 'src/log/log.service';
 import { ConfigService } from '@nestjs/config';
 import { CustomQuery } from './dto/query-admin.input';
@@ -36,40 +36,40 @@ export class AdminService implements OnModuleInit {
   // done
   async onModuleInit() {
     // generate password
-    // const generatePassword = generator.generate({
-    //   length: 11,
-    //   numbers: true,
-    // });
+    const generatePassword = generator.generate({
+      length: 11,
+      numbers: true,
+    });
     // create admin collection
-    // await this.adminRepository.delete({});
+    await this.adminRepository.delete({});
     // create admin instance
-    // const newAdmin = this.adminRepository.create({
-    //   firstName: this.config.get('FIRST_NAME'),
-    //   middleName: this.config.get('MIDDLE_NAME'),
-    //   lastName: this.config.get('LAST_NAME'),
-    //   email: this.config.get('ADMIN_EMAIL'),
-    //   phoneNumber: this.config.get('PHONE_NUMBER'),
-    //   isRoot: true,
-    //   credential: await this.helperService.hashPassword(generatePassword),
-    // });
+    const newAdmin = this.adminRepository.create({
+      firstName: this.config.get('FIRST_NAME'),
+      middleName: this.config.get('MIDDLE_NAME'),
+      lastName: this.config.get('LAST_NAME'),
+      email: this.config.get('ADMIN_EMAIL'),
+      phoneNumber: this.config.get('PHONE_NUMBER'),
+      isRoot: true,
+      credential: await this.helperService.hashPassword(generatePassword),
+    });
     // Save Root Admin
-    // const createdAdmin = await this.adminRepository.save(newAdmin);
+    const createdAdmin = await this.adminRepository.save(newAdmin);
     // send Email
-    // this.mailService.sendMail({
-    //   email: `${this.config.get('ADMIN_EMAIL')}`,
-    //   subject: 'Root Login Credentials',
-    //   template: 'credentials',
-    //   context: {
-    //     username: `${this.config.get('ADMIN_EMAIL')}`,
-    //     password: generatePassword,
-    //   },
-    // });
+    this.mailService.sendMail({
+      email: `${this.config.get('ADMIN_EMAIL')}`,
+      subject: 'Root Login Credentials',
+      template: 'credentials',
+      context: {
+        username: `${this.config.get('ADMIN_EMAIL')}`,
+        password: generatePassword,
+      },
+    });
     // create log
-    // this.logService.create({
-    //   info: 'Created a Root Admin',
-    //   by: createdAdmin.id,
-    //   isAdmin: true,
-    // });
+    this.logService.create({
+      info: 'Created a Root Admin',
+      by: createdAdmin.id,
+      isAdmin: true,
+    });
   }
   // done
   async createLoginToken(loginAdminInput: LoginAdminInput) {
