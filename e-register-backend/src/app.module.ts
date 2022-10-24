@@ -14,6 +14,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { getEnvPath } from './utils/config/env.config';
 import { CategoryModule } from './category/category.module';
 import { SubcategoryModule } from './subcategory/subcategory.module';
+import { GlobalController } from './global/global.controller';
 
 const envFilePath: string = getEnvPath(`${__dirname}/utils/env`);
 
@@ -39,6 +40,7 @@ const envFilePath: string = getEnvPath(`${__dirname}/utils/env`);
       context: ({ req }) => ({ headers: req.headers }),
     }),
 
+    // test
     AdminModule,
     MailModule,
     HelperModule,
@@ -49,5 +51,6 @@ const envFilePath: string = getEnvPath(`${__dirname}/utils/env`);
     SubcategoryModule,
   ],
   providers: [Upload],
+  controllers: [GlobalController],
 })
 export class AppModule {}

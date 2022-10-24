@@ -5,10 +5,11 @@ services:
     build: ./e-register-frontend
     command: npm run dev
     ports:
-      - "4000:3000"
+      - 8080:3000
     volumes:
       - ./e-register-frontend:/e-register-frontend
       - /e-register-frontend/node_modules
+    
   backend:
     container_name: e-register-backend
     build: ./e-register-backend
@@ -16,12 +17,26 @@ services:
     depends_on:
       - mongodb
     ports:
-      - "8000:3000"
+      - 8082:5000
     environment:
       - DATABASE_URL=mongodb://mongodb:27017/FME
+      - HOST=smtp.gmail.com
+      - PORT=465    
+      - SECURE=true
+      - EMAIL=hippyloan@gmail.com
+      - PASSWORD=jpts xxqg egnb gzwq
+      - NO_REPLY=noreply@gmail.com
+      - SECRET=topsecret
+      - SALT=10
+      - FIRST_NAME=Henry
+      - MIDDLE_NAME=Emeka
+      - LAST_NAME=Obadoni
+      - ADMIN_EMAIL=jediiry@gmail.com
+      - PHONE_NUMBER=08132644455
     volumes:
       - ./e-register-backend:/e-register-backend
       - /e-register-backend/node_modules
+   
   mongodb:
     image : mongo:latest
     container_name: mongodb
@@ -29,4 +44,22 @@ services:
       - ./database:/data/db
     ports:
       - 27017:27017
+   
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - frontend
+      - backend
+      - mongodb
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+ 
+   
+  
+
+
    
