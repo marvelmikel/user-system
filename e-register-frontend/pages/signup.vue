@@ -16,7 +16,7 @@
       ">
         <img class="tw-mt-4" src="~assets/img/coat_of_arms_of_nigeria_white.svg" alt="coat_of_arms_of_nigeria"/>
         <div class="
-          
+
           tw-text-6xl
           tw-text-white
           tw-font-bold
@@ -103,7 +103,8 @@
         </button>
 
         <div class="tw-mt-10 tw-text-sm">
-          <p class="tw-text-center">Have an account? <span class="tw-text-dark-yellow">Sign In</span></p>
+          <p class="tw-text-center">Have an account? <nuxt-link to="/signin" class="tw-text-dark-yellow">Sign In</nuxt-link>
+          </p>
         </div>
 
       </div>
