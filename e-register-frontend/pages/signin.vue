@@ -52,7 +52,9 @@
             Forgetten Password?
           </p>
 
-          <button
+          <input
+          type="submit"
+          value="Login"
             :disabled="incompleForm"
             class="
               tw-p-3
@@ -63,9 +65,8 @@
               tw-w-full
             "
           >
-            <i class="bx bx-loader-circle bx-spin" v-if="authenticating"></i>
-            Login
-          </button>
+            <!-- <i class="bx bx-loader-circle bx-spin" v-if="authenticating"></i> -->
+       
 
           <nuxt-link
             to="/signup"
