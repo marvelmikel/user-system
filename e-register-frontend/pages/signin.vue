@@ -3,7 +3,7 @@
     <Menu :isTransparent="false" />
     <div class="color tw-h-screen tw-flex tw-items-center">
       <div class="tw-w-1/3 tw-mx-auto">
-        <form>
+        <form @submit.prevent="authenticate">
           <h3 class="tw-text-white tw-mb-5 tw-text-3xl tw-font-bold">
             Sign In
           </h3>
@@ -95,7 +95,73 @@ export default {
 
 
   methods: {
+    async authenticate(){
+      const credentials = { email: this.email, password: this.credential }
+      console.log(credentials);
+      console.log(this);
 
+
+      const LOGIN_MUTATION = gql`
+        mutation loginUser($email: String, $credential: String) {
+          loginUserInput(email: $email, credential: $credential) {
+            token
+            expiresIn
+          }
+        }
+      `
+      const apollo = this.$apolloProvider.defaultClient;
+      try {
+        this.authenticating = true
+
+        // const { data, errors } = await apollo.mutate({
+        //   mutation: LOGIN_MUTATION,
+        //   credentials
+        // })
+        const res = await apollo.mutate({
+          mutation: gql `
+            mutation loginUser(
+              $email: String
+              $credential: String
+            ){
+              loginUserInput(
+                email: $email,
+                credential: $credential,
+              ){
+                token
+              }
+            }
+          `,
+
+          variables: {
+            email: this.email,
+            credential: this.credential
+          }
+
+        }).then(e =>console.log(e) )
+        console.log(res);
+
+      } catch (errors) {
+        console.log(errors);
+        this.authenticating = false
+        // Handle errors
+      }
+
+
+      // console.log(this.$auth);
+      // await this.$auth.loginWith('graphql', credentials)
+
+
+      // const credentials = this.form
+      // this.formBusy = true
+      // try {
+      //   // Using our custom strategy
+      //   await this.$auth.loginWith('graphql', credentials)
+      //   this.formBusy = false
+      // } catch (errors) {
+      //   this.formBusy = false
+      //   // Handle errors
+      // }
+    }
   }
 };
 </script>
