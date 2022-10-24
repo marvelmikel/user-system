@@ -101,17 +101,18 @@ export default {
 
   methods: {
     async authenticate() {
-      // try {
-      //   this.authenticating = true;
-      //   const { data, errors } = await this.$apollo.mutate({
-      //     mutation: LoginAdmin,
-      //     variables: { email: this.email, credential: this.credential },
-      //   });
-      // } catch (errors) {
-      //   console.log(errors);
-      // }finally{
-      //    this.authenticating = false;
-      // }
+      try {
+        this.authenticating = true;
+        const data = await this.$apollo.mutate({
+          mutation: LoginAdmin,
+          variables: { email: this.email, credential: this.credential },
+        });
+        console.log(data);
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+         this.authenticating = false;
+      }
 
     },
   },
