@@ -50,7 +50,7 @@ services:
     command: [--auth]
     environment:
       - MONGO_INITDB_ROOT_USERNAME=sampleTest
-      - MONGO_INITDB_ROOT_PASSWORD=jediiry12345@mongodb
+      - MONGO_INITDB_ROOT_PASSWORD=jediiry12345mongodb
    
  
  
