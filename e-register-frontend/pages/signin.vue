@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Menu :isTransparent="true" :signinUrl="'/signin'"/>
+    <Menu :isTransparent="true" :signinUrl="'/signin'" />
     <div class="color tw-h-screen tw-flex tw-items-center">
       <div class="tw-w-1/3 tw-mx-auto">
         <form @submit.prevent="authenticate">

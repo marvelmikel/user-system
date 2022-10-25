@@ -17,12 +17,10 @@ services:
     container_name: e-register-backend
     build: ./e-register-backend
     command: npm run start:dev
-    depends_on:
-      - mongodb
     ports:
       - 8082:5000
     environment:
-      - DATABASE_URL=mongodb://mongodb:27017/FME
+      - DATABASE_URL=mongodb+srv://tvapp:szszukeme54321@cluster0.rwoun.mongodb.net/FME?retryWrites=true&w=majority&ssl=true
       - HOST=smtp.gmail.com
       - PORT=465    
       - SECURE=true
@@ -40,26 +38,19 @@ services:
       - ./e-register-backend:/e-register-backend
       - /e-register-backend/node_modules
    
-  mongodb:
-    image : mongo:latest
-    container_name: mongodb
-    volumes:
-      - ./database:/data/db
-    ports:
-      - 27017:27017
+  # mongodb:
+  #   image : mongo:latest
+  #   container_name: mongodb
+  #   volumes:
+  #     - ./database:/data/db
+  #   ports:
+  #     - 27017:27017
+  #   command: [--auth]
+  #   environment:
+  #     - MONGO_INITDB_ROOT_USERNAME=sampleTest
+  #     - MONGO_INITDB_ROOT_PASSWORD=jediiry12345mongodb
    
-  nginx:
-    image: nginx:stable-alpine
-    container_name: nginx
-    ports:
-      - 80:80
-      - 443:443
-    depends_on:
-      - frontend
-      - backend
-      - mongodb
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+ 
  
    
   
