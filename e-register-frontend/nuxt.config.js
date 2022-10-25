@@ -42,11 +42,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: [
-    "cookie-universal-nuxt",
-    "@nuxtjs/toast",
-    "@nuxtjs/apollo"
-  ],
+  modules: ["cookie-universal-nuxt", "@nuxtjs/toast", "@nuxtjs/apollo"],
 
   apollo: {
     // tokenName: "nuxt-apollo", // specify token name

@@ -6,6 +6,9 @@ services:
     command: npm run dev
     ports:
       - 8080:3000
+    environment:
+      - DEVELOPMENT_BASE_URL=http://165.22.124.31:8082/graphql
+      - PRODUCTION_BASE_URL=http://165.22.124.31:8082/graphql
     volumes:
       - ./e-register-frontend:/e-register-frontend
       - /e-register-frontend/node_modules

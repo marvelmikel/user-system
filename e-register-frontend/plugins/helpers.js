@@ -1,12 +1,12 @@
-import gql from 'graphql-tag';
-
 export default (context, inject) => {
   const throwError = (err) => {
-    err?.message
-      ? context.$toast.error(err.message)
-      : context.$toast.error(err?.data?.message ?? "An error occurred");
+    let errors = [...err.graphQLErrors];
+    //   const { networkError, message, gqlError, graphqlErrors } = graphqlError;
+    errors.length
+      ? context.$toast.error(errors[0].message)
+      : context.$toast.error("An error occurred");
   };
-
-  inject('gql', gql);
+  const apollo = context.app.apolloProvider.defaultClient;
   inject("throwError", throwError);
+  inject("apollo", apollo);
 };
