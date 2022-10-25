@@ -1,3 +1,27 @@
-mutation CreateCategory($name: String!) {
-  createCategory(CreateCategoryInput: { name: $name })
+mutation CreateAdmin(
+  $token: String!,
+  $firstName: String!,
+  $lastName: String!,
+  $middleName: String!,
+  $phoneNumber: String!,
+  $credential: String!,
+  ) {
+  createAdmin(createAdminInput: {
+    token: $token,
+    firstName: $firstName,
+    lastName: $lastName,
+    middleName: $middleName,
+    phoneNumber: $phoneNumber,
+    credential: $credential,
+  }) {
+    id,
+    firstName,
+    middleName,
+    lastName,
+    email,
+    phoneNumber,
+    isRoot,
+    isActive,
+    isDeleted
+  }
 }

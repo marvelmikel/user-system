@@ -58,7 +58,7 @@
 
           <input type="text"
             placeholder="First Name"
-            v-model="firstname"
+            v-model="firstName"
             class="
             tw-px-7
             tw-py-3
@@ -74,7 +74,7 @@
           />
           <input type="text"
             placeholder="Middle Name"
-            v-model="middlename"
+            v-model="middleName"
             class="
             tw-px-7
             tw-py-3
@@ -90,7 +90,7 @@
           />
           <input type="text"
             placeholder="Last Name"
-            v-model="lastname"
+            v-model="lastName"
             class="
             tw-px-7
             tw-py-3
@@ -106,7 +106,7 @@
           />
           <input type="text"
             placeholder="Phone Number"
-            v-model="phone"
+            v-model="phoneNumber"
             class="
             tw-px-7
             tw-py-3
@@ -152,23 +152,23 @@
             tw-text-sm
             "
           />
+          <button
+          :class=" loading ? 'tw-opacity-40' : '' "
+          class="
+            tw-p-3
+            tw-w-full
+            tw-rounded-lg
+            tw-bg-light-green
+            tw-text-white
+            tw-text-sm
+            tw-mt-4
+          "
+          type="submit"
+          >
+            Create Account
+          </button>
         </form>
 
-        <button
-        :disabled="disableBtn"
-        class="
-          tw-p-3
-          tw-w-full
-          tw-rounded-lg
-          tw-bg-light-green
-          tw-text-white
-          tw-text-sm
-          tw-mt-4
-        "
-        type="submit"
-        >
-          Create Account
-        </button>
 
         <div class="tw-mt-10 tw-text-sm">
           <p class="tw-text-center">Have an account? <nuxt-link to="/admin/signin" class="tw-text-dark-yellow">Sign In</nuxt-link></p>
@@ -187,24 +187,25 @@ export default {
   name: "admin-signup",
   data() {
     return {
-      firstname: null,
-      middlename: null,
-      lastname: null,
-      phone: null,
+      firstName: null,
+      middleName: null,
+      lastName: null,
+      phoneNumber: null,
       password: null,
       confirm_password: null,
       loading: false,
+      token: null,
     }
   },
   computed: {
     disableBtn() {
       let match_password = this.confirm_password === this.password ? true : false;
-      return !this.fullname || !this.phone || !match_password ? true : false;
+      return !this.firstName || !this.middleName || !this.lastName || !this.phoneNumber || !this.password || !match_password ? true : false;
     },
   },
 
   mounted(){
-    console.log(this.$route.query.token);
+    this.token = this.$route.query.token || null;
   },
 
   apollo: {
@@ -216,16 +217,24 @@ export default {
     async signup(){
       try {
         this.loading = true;
-        // const res = await this.$apollo.mutate({
-        //   client: 'admin',
-        //   mutation: LoginAdmin,
-        //   variables: { email: this.email, credential: this.credential },
-        // });
+        const res = await this.$apollo.mutate({
+          client: 'admin',
+          mutation: CreateAdmin,
+          variables: {
+            token: this.token,
+            firstName: this.firstName,
+            middleName: this.middleName,
+            lastName: this.lastName,
+            phoneNumber: this.phoneNumber,
+            credential: this.password
+          },
+        });
+        console.log(res);
         // if (res.data) {
         //   const admin_token = res.data.loginAdmin || null;
         //   if (admin_token) {
         //     this.$store.dispatch('adminLogin', admin_token)
-        //     this.$router.push({path: '/admin'})
+            // this.$router.push({path: '/admin'})
         //     this.$toast.success('Welcome Admin')
         //   }else{
         //     this.$toast.success('Something went wrong')
