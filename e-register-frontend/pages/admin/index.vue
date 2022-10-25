@@ -102,7 +102,8 @@
 <script>
 export default {
   name: 'admin-index',
-  layout: 'admin-default',
+  layout: 'adminDefault',
+  middleware:['unauthenticated_admin'],
   data() {
     return {
       results: [

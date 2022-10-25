@@ -1,0 +1,4 @@
+
+mutation InviteAdmin($email: String!) {
+  inviteAdmin(email: $email)
+}

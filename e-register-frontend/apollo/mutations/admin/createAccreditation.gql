@@ -1,0 +1,16 @@
+mutation CreateAccreditation(
+  $categoryId: String!,
+  $subcategoryId: String!,
+  $userId: String!,
+  $uploadProofOfDocument: String!,
+  $uploadSupportingDocument: String!,
+
+  ) {
+  createAccreditation(CreateAccreditationInput: {
+      categoryId: $categoryId,
+      subcategoryId: $subcategoryId,
+      userId: $userId,
+      uploadProofOfDocument: $uploadProofOfDocument,
+      uploadSupportingDocument: $uploadSupportingDocument,
+    })
+}

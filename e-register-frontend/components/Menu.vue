@@ -16,7 +16,7 @@
     <Logo :isBlack="isTransparent" />
 
     <div class="tw-flex tw-items-center tw-space-x-5" :class="[!isTransparent?'tw-text-white':'tw-text-black']">
-      <nuxt-link to="/signin">Sign In</nuxt-link>
+      <nuxt-link :to="signinUrl">Sign In</nuxt-link>
       <nuxt-link to="/environmental-consultants-accreditation">About Us</nuxt-link>
       <nuxt-link to="/contact-us">Contact Us</nuxt-link>
     </div>
@@ -29,7 +29,11 @@ export default {
   props:{
     isTransparent:{
         type:Boolean,
-        default:true
+        default:true,
+    },
+    signinUrl:{
+        type:String,
+        default: '/admin/signin',
     }
   }
 };

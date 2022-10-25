@@ -30,7 +30,7 @@ export default {
   css: ["~/css/font.css", "~/css/layout.css", "~/css/color.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/helpers", "~/plugins/data", "~/plugins/apollo"],
+  plugins: ["~/plugins/helpers", "~/plugins/data", "~/plugins/apollo", "~/plugins/admin-apollo"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -49,9 +49,12 @@ export default {
     // cookieAttributes: {
     //   expires: 7 // optional, default: 7 (days)
     // },
+    authenticationType: 'Bearer',
     clientConfigs: {
       default: "~/plugins/apollo.js",
+      admin: "~/plugins/admin-apollo.js",
     },
+    // errorHandler: '~/plugins/error.js'
   },
   toast: {
     position: "bottom-right",

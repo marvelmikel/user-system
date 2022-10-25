@@ -51,13 +51,46 @@
       <div>
         <h3 class="
         tw-font-bold
-        tw-mt-32
+        tw-mt-10
         tw-text-4xl
         ">Sign Up</h3>
-        <form >
+        <form @submit.prevent="signup">
 
           <input type="text"
-            placeholder="Full Name"
+            placeholder="First Name"
+            v-model="firstname"
+            class="
+            tw-px-7
+            tw-py-3
+            tw-mt-4
+            tw-rounded-lg
+            tw-w-full
+            tw-bg-gray-200
+            tw-text-sm
+            tw-border-none
+            focus:tw-outline-none
+            tw-placeholder-gray-400
+            "
+          />
+          <input type="text"
+            placeholder="Middle Name"
+            v-model="middlename"
+            class="
+            tw-px-7
+            tw-py-3
+            tw-mt-4
+            tw-rounded-lg
+            tw-w-full
+            tw-bg-gray-200
+            tw-text-sm
+            tw-border-none
+            focus:tw-outline-none
+            tw-placeholder-gray-400
+            "
+          />
+          <input type="text"
+            placeholder="Last Name"
+            v-model="lastname"
             class="
             tw-px-7
             tw-py-3
@@ -73,6 +106,7 @@
           />
           <input type="text"
             placeholder="Phone Number"
+            v-model="phone"
             class="
             tw-px-7
             tw-py-3
@@ -88,6 +122,7 @@
           />
           <input type="password"
             placeholder="Password"
+            v-model="password"
             class="
             tw-px-7
             tw-py-3
@@ -103,6 +138,7 @@
           />
           <input type="password"
             placeholder="Confirm Password"
+            v-model="confirm_password"
             class="
             tw-px-7
             tw-py-3
@@ -118,7 +154,9 @@
           />
         </form>
 
-        <button class="
+        <button
+        :disabled="disableBtn"
+        class="
           tw-p-3
           tw-w-full
           tw-rounded-lg
@@ -126,12 +164,14 @@
           tw-text-white
           tw-text-sm
           tw-mt-4
-        ">
+        "
+        type="submit"
+        >
           Create Account
         </button>
 
         <div class="tw-mt-10 tw-text-sm">
-          <p class="tw-text-center">Have an account? <nuxt-link to="/signin" class="tw-text-dark-yellow">Sign In</nuxt-link></p>
+          <p class="tw-text-center">Have an account? <nuxt-link to="/admin/signin" class="tw-text-dark-yellow">Sign In</nuxt-link></p>
         </div>
 
       </div>
@@ -141,16 +181,64 @@
 </template>
 
 <script>
+import CreateAdmin  from "~/apollo/mutations/admin/createAdmin";
+
 export default {
   name: "admin-signup",
-
-  mounted() {
-    console.log(this.$gql)
+  data() {
+    return {
+      firstname: null,
+      middlename: null,
+      lastname: null,
+      phone: null,
+      password: null,
+      confirm_password: null,
+      loading: false,
+    }
   },
+  computed: {
+    disableBtn() {
+      let match_password = this.confirm_password === this.password ? true : false;
+      return !this.fullname || !this.phone || !match_password ? true : false;
+    },
+  },
+
+  mounted(){
+    console.log(this.$route.query.token);
+  },
+
   apollo: {
 
+  },
+
+  // layout: 'home',
+  methods: {
+    async signup(){
+      try {
+        this.loading = true;
+        // const res = await this.$apollo.mutate({
+        //   client: 'admin',
+        //   mutation: LoginAdmin,
+        //   variables: { email: this.email, credential: this.credential },
+        // });
+        // if (res.data) {
+        //   const admin_token = res.data.loginAdmin || null;
+        //   if (admin_token) {
+        //     this.$store.dispatch('adminLogin', admin_token)
+        //     this.$router.push({path: '/admin'})
+        //     this.$toast.success('Welcome Admin')
+        //   }else{
+        //     this.$toast.success('Something went wrong')
+        //   }
+        // }
+
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+         this.loading = false;
+      }
+    }
   }
-  // layout: 'home'
 }
 </script>
 

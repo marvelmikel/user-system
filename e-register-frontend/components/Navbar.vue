@@ -7,7 +7,7 @@
       "
     >
       <Logo></Logo>
-      <Menu></Menu>
+      <Menu :signinUrl="'/signin'"></Menu>
     </div>
   </div>
 </template>

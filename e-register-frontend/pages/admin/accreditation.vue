@@ -147,7 +147,7 @@
 <script>
 export default {
   name: 'admin-accreditation',
-  layout: 'admin-default',
+  layout: 'adminDefault',
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Menu :isTransparent="false" />
+    <Menu :isTransparent="true" :signinUrl="'/signin'"/>
     <div class="color tw-h-screen tw-flex tw-items-center">
       <div class="tw-w-1/3 tw-mx-auto">
         <form @submit.prevent="authenticate">
@@ -66,7 +66,7 @@
             "
           >
             <!-- <i class="bx bx-loader-circle bx-spin" v-if="authenticating"></i> -->
-       
+
 
           <nuxt-link
             to="/signup"
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import LoginAdmin  from "~/apollo/mutations/signinUser";
+import LoginAdmin  from "~/apollo/mutations/admin/signinAdmin";
 
 export default {
   name: "signin",
@@ -92,6 +92,14 @@ export default {
       authenticating: false,
     };
   },
+
+  // apollo: {
+  //   $client: 'otherClient',
+  //   allcars: {
+  //     prefetch: true,
+  //     query: allcars
+  //   }
+  // },
 
   computed: {
     incompleForm() {

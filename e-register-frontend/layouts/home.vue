@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Menu />
+    <Menu :signinUrl="'/signin'"/>
 
     <div class="tw-pt-32">
       <Nuxt />
