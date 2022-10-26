@@ -1,0 +1,8 @@
+query GetCategories {
+  findAll {
+    id
+    name
+    isDeleted
+  }
+}
+

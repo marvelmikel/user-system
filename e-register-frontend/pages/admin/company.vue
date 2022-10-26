@@ -95,7 +95,7 @@
 <script>
 export default {
   name: 'admin-company',
-  layout: 'admin-default',
+  layout: 'adminDefault',
 }
 </script>
 

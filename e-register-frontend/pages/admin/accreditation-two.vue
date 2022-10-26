@@ -11,7 +11,7 @@
         placeholder="Search Company Name"
         class="
         tw-px-7
-        tw-py-3
+        tw-py-2
         tw-rounded-lg
         tw-text-sm
         tw-col-span-4
@@ -25,7 +25,7 @@
         tw-flex
         tw-items-center
         tw-px-7
-        tw-py-3
+        tw-py-2
         tw-rounded-lg
         tw-bg-gray-200
       ">
@@ -45,7 +45,7 @@
         tw-flex
         tw-items-center
         tw-px-7
-        tw-py-3
+        tw-py-2
         tw-rounded-lg
         tw-bg-gray-200
       ">
@@ -143,7 +143,7 @@
 <script>
 export default {
   name: 'admin-accreditation-two',
-  layout: 'admin-default',
+  layout: 'adminDefault',
   data() {
     return {
       results: [

@@ -108,7 +108,7 @@
 <script>
 export default {
   name: 'change-password',
-  layout: 'admin-default',
+  layout: 'adminDefault',
 }
 </script>
 

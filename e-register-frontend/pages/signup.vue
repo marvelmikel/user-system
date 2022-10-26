@@ -116,7 +116,10 @@
 <script>
 export default {
   name: "signup",
-  // layout: 'home'
+  // layout: 'home',
+  mounted(){
+    console.log(this.$route.params);
+  }
 }
 </script>
 

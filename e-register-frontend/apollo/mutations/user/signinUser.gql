@@ -1,0 +1,3 @@
+mutation LoginAdmin($email: String!, $credential: String!) {
+  loginAdmin(loginAdminInput: { email: $email, credential: $credential })
+}

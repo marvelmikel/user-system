@@ -33,7 +33,7 @@
 <script>
 export default {
   name: 'add-accreditation',
-  layout: 'admin-default',
+  layout: 'adminDefault',
 }
 </script>
 

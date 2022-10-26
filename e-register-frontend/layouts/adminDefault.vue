@@ -33,7 +33,19 @@
         tw-py-4
         tw-px-12
         "
-        to="/admin/accreditations" >Accreditations</nuxt-link>
+        to="/admin/accreditation" >Accreditations</nuxt-link>
+        <nuxt-link class="
+        tw-block
+        tw-py-4
+        tw-px-12
+        "
+        to="/admin/admins" >Admins</nuxt-link>
+        <nuxt-link class="
+        tw-block
+        tw-py-4
+        tw-px-12
+        "
+        to="/admin/categories" >Category</nuxt-link>
         <nuxt-link class="
         tw-block
         tw-py-4
@@ -57,7 +69,7 @@
 <script>
 import AdminMenu from '../components/AdminMenu.vue';
 export default {
-    components: { AdminMenu }
+  components: { AdminMenu }
 }
 </script>
 

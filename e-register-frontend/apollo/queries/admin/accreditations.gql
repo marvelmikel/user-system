@@ -1,0 +1,13 @@
+ query Accreditation {
+    accreditation {
+      results {
+        id
+        name
+        gender
+        location {
+          name
+        }
+      }
+    }
+  }
+

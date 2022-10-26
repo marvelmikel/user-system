@@ -1,0 +1,3 @@
+mutation CreateSubcategory($name: String!, $categoryId: String!) {
+  createSubcategory(createSubcategoryInput: { name: $name, categoryId: $categoryId })
+}
