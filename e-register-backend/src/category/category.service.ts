@@ -35,7 +35,7 @@ export class CategoryService {
         where: queryParam,
       });
       // check if user exist
-      if (checkCategory) throw new Error('Category Already Exist');
+      if (checkCategory) throw new Error('Category Already Exist.');
 
       // create admin instance
       const newCategory = this.categoryRepository.create({
