@@ -181,7 +181,7 @@ export class SubcategoryService {
       });
       if (result.length) {
         for (const iterator of result) {
-          await this.subcategoryRepository.update(iterator.id, {
+          await this.subcategoryRepository.update(iterator._id, {
             isDeleted: status,
           });
         }
