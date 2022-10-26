@@ -103,7 +103,7 @@ export class CategoryResolver {
   }
 
   @ResolveField(() => [Subcategory])
-  getSubcatergory(@Parent() category: Category) {
+  subcategories(@Parent() category: Category) {
     this.subcategoryService.findAll(null, category._id);
   }
 }

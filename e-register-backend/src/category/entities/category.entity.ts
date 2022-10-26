@@ -18,5 +18,5 @@ export class Category {
   isDeleted: boolean;
 
   @Field(() => [Subcategory], { nullable: true })
-  subcategorys: Subcategory[];
+  subcategories: Subcategory[];
 }
