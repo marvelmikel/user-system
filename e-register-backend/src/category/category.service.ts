@@ -57,7 +57,7 @@ export class CategoryService {
       // create log
       this.logService.create({
         info: 'New Category Created',
-        by: savedData.id,
+        by: savedData._id,
         isAdmin: true,
       });
 
