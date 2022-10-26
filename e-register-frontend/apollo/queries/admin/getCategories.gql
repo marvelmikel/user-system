@@ -1,0 +1,10 @@
+ query Categories {
+    findAll {
+
+        id
+        name
+        isDeleted
+
+    }
+  }
+

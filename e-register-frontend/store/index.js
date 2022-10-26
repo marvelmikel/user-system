@@ -21,6 +21,9 @@ export const actions = {
     this.$cookies.set('ADMIN-TOKEN', payload)
     commit('ADMIN_AUTHENTICATE', payload)
   },
+  saveAdmin({ commit }, payload) {
+    commit('SAVE_ADMIN', payload)
+  },
 }
 // contains your mutations
 export const mutations = {
@@ -45,6 +48,9 @@ export const mutations = {
     state.admin = null
     state.adminToken = null;
     state.isAdminLoggedIn = false
+  },
+  SAVE_ADMIN(state, payload) {
+    state.admin = payload
   }
 }
 // your root getters

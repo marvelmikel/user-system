@@ -45,6 +45,12 @@
         tw-py-4
         tw-px-12
         "
+        to="/admin/categories" >Category</nuxt-link>
+        <nuxt-link class="
+        tw-block
+        tw-py-4
+        tw-px-12
+        "
         to="/admin/settings">Settings</nuxt-link>
       </div>
     </div>

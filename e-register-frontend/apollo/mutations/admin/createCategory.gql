@@ -1,3 +1,7 @@
 mutation CreateCategory($name: String!) {
-  createCategory(CreateCategoryInput: { name: $name })
+  createCategory(createCategoryInput: { name: $name }){
+    id,
+    name,
+    isDeleted
+  }
 }

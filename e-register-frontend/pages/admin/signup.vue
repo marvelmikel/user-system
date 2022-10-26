@@ -138,7 +138,7 @@
           />
           <input type="password"
             placeholder="Confirm Password"
-            v-model="confirm_password"
+            v-model="confirmPassword"
             class="
             tw-px-7
             tw-py-3
@@ -192,14 +192,14 @@ export default {
       lastName: null,
       phoneNumber: null,
       password: null,
-      confirm_password: null,
+      confirmPassword: null,
       loading: false,
       token: null,
     }
   },
   computed: {
     disableBtn() {
-      let match_password = this.confirm_password === this.password ? true : false;
+      let match_password = this.confirmPassword === this.password ? true : false;
       return !this.firstName || !this.middleName || !this.lastName || !this.phoneNumber || !this.password || !match_password ? true : false;
     },
   },
@@ -230,16 +230,16 @@ export default {
           },
         });
         console.log(res);
-        // if (res.data) {
-        //   const admin_token = res.data.loginAdmin || null;
-        //   if (admin_token) {
-        //     this.$store.dispatch('adminLogin', admin_token)
-            // this.$router.push({path: '/admin'})
-        //     this.$toast.success('Welcome Admin')
-        //   }else{
-        //     this.$toast.success('Something went wrong')
-        //   }
-        // }
+        if (res.data) {
+          const admin = res.data.createAdmin || null;
+          if (admin) {
+            this.$store.dispatch('saveAdmin', admin)
+            this.$router.push({path: '/admin/signin'})
+            this.$toast.success('You can login now')
+          }else{
+            this.$toast.success('Something went wrong')
+          }
+        }
 
       } catch (errors) {
         this.$throwError(errors)

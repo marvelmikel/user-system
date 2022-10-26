@@ -8,7 +8,7 @@
     tw-mb-14
     ">
       <input type="text"
-        placeholder="Search Admin Name"
+        placeholder="Search Category"
         class="
         tw-col-start-1 tw-col-end-4
         tw-px-7
@@ -20,25 +20,7 @@
         focus:tw-outline-none"
         />
 
-      <div class="
-        tw-col-start-4 tw-col-end-7
-        tw-flex
-        tw-items-center
-        tw-px-7
-        tw-py-2
-        tw-rounded-lg
-        tw-bg-gray-200
-      ">
-        <select class="
-        tw-w-full
-        tw-text-sm
-        tw-bg-gray-200
-        tw-border-none
-        focus:tw-outline-none
-        ">
-          <option value="">Status</option>
-        </select>
-      </div>
+
 
       <!-- <button class="
         tw-col-span-3
@@ -65,7 +47,7 @@
       @click="isOpen = true"
       >
       <i class='bx bx-plus tw-text-2xl'></i>
-      New Invites
+      New Category
       </button>
     </div>
 
@@ -83,7 +65,7 @@
       <p class="tw-flex tw-items-center">{{ data.name }}</p>
 
       <div class="tw-flex tw-items-center">
-        <ToggleBtn :state="data.activated" :id="data.id" @checkedevent="deactivateAdmin"/>
+        <!-- <ToggleBtn :state="data.activated" :id="data.id" @checkedevent="deactivateAdmin"/> -->
       </div>
 
       <div class="
@@ -91,7 +73,7 @@
         tw-items-center
         tw-gap-5">
 
-        <button class="
+        <!-- <button class="
           custom__button
           tw-w-28
           tw-h-8
@@ -105,7 +87,7 @@
           tw-cursor-pointer
         ">
           <i class='bx bx-right-arrow-alt tw-text-2xl tw-text-white'></i>
-        </button>
+        </button> -->
 
         <i class='
         bx bxs-x-circle
@@ -128,12 +110,12 @@
     >
       <div class="tw-my-5 tw-space-y-5 tw-px-4 tw-pb-3">
         <h1 class="tw-text-lg tw-text-black">
-          Invite New Admin
+          Create Category
         </h1>
 
-        <input type="email"
-        v-model="email"
-        placeholder="Email Address"
+        <input type="text"
+        v-model="category"
+        placeholder="Category"
         class="
         tw-px-7
         tw-py-3
@@ -148,15 +130,16 @@
 
         <div class="tw-flex tw-gap-3">
           <button
-            @click="sendInvitation"
             :disabled="disabledBtn"
+            @click="createCategory"
+            :class=" disabledBtn ? 'tw-opacity-30' : '' "
             class="tw-bg-green-500 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
           >
             Proceed
           </button>
           <button
             :disabled="loading"
-            @click="isOpen = false"
+            @click.prevent="isOpen = false"
             class="tw-bg-red-600 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
           >
             Cancel
@@ -169,27 +152,27 @@
 </template>
 
 <script>
-import InviteAdmin  from "~/apollo/mutations/admin/inviteAdmin";
+import CreateCategory  from "~/apollo/mutations/admin/CreateCategory";
 
 export default {
-  name: 'admin-admins',
+  name: 'admin-categories',
   layout: 'adminDefault',
   data() {
     return {
       results: [
-        { id: 11, name: 'Adams Musa', activated: true},
-        { id: 2, name: 'John Doe', activated: true},
-        { id: 3, name: 'Jane Doe', activated: false},
+        { id: 11, name: 'Science'},
+        { id: 2, name: 'Marketing'},
+        { id: 3, name: 'Philosophy'},
       ],
       isOpen: false,
       loading: false,
-      email: null
+      category: null
     }
   },
 
   computed: {
     disabledBtn() {
-      return this.loading || !this.email
+      return this.loading || !this.category
     }
   },
 
@@ -202,21 +185,22 @@ export default {
       })
     },
 
-    async sendInvitation(){
+    async createCategory(){
       try {
         this.loading = true;
         const res = await this.$apollo.mutate({
           client: 'admin',
-          mutation: InviteAdmin,
-          variables: { email: this.email },
+          mutation: CreateCategory,
+          variables: { name: this.category },
         });
-        this.email = null;
-        this.$toast.success('Invitation sent')
+        console.log(res);
+        this.category = null;
+        this.$toast.success('Category created')
 
       } catch (errors) {
         this.$throwError(errors)
       }finally{
-         this.loading = false;
+        this.loading = false;
       }
     }
   }
@@ -224,8 +208,8 @@ export default {
 </script>
 
 <style scoped>
-.custom__button {
+/* .custom__button {
   box-shadow: -4px 4px 0rem rgba(176, 176, 176, 0.88);
-}
+} */
 
 </style>

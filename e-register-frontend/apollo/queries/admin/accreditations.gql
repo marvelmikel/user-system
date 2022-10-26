@@ -1,4 +1,4 @@
- query accreditation {
+ query Accreditation {
     accreditation {
       results {
         id
