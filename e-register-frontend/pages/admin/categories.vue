@@ -73,12 +73,12 @@
         tw-items-center
         tw-gap-5">
 
-        <!-- <button class="
+        <button class="
           custom__button
-          tw-w-28
+          tw-w-32
           tw-h-8
           tw-rounded-2xl
-          tw-bg-bright-green
+          tw-bg-dark-green
           tw-text-white
           tw-p-2
           tw-flex
@@ -86,8 +86,9 @@
           tw-justify-center
           tw-cursor-pointer
         ">
-          <i class='bx bx-right-arrow-alt tw-text-2xl tw-text-white'></i>
-        </button> -->
+          <!-- <i class='bx bx-right-arrow-alt tw-text-2xl tw-text-white'></i> -->
+          <span class="tw-text-xs">Add Subcategory</span>
+        </button>
 
         <i class='
         bx bxs-x-circle
@@ -130,9 +131,9 @@
 
         <div class="tw-flex tw-gap-3">
           <button
-            :disabled="disabledBtn"
+            :disabled="disabledCategoryBtn"
             @click="createCategory"
-            :class=" disabledBtn ? 'tw-opacity-30' : '' "
+            :class=" disabledCategoryBtn ? 'tw-opacity-30' : '' "
             class="tw-bg-green-500 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
           >
             Proceed
@@ -148,11 +149,58 @@
       </div>
     </Modal>
 
+    <Modal
+    :button="false"
+      :customClass="['tw-w-2/5']"
+      :isOpen="subcategory_modal_open"
+      @close-modal="subcategory_modal_open = false"
+    >
+      <div class="tw-my-5 tw-space-y-5 tw-px-4 tw-pb-3">
+        <h1 class="tw-text-lg tw-text-black">
+          Create Subcategory
+        </h1>
+
+        <input type="text"
+        v-model="subcategory"
+        placeholder="Category"
+        class="
+        tw-px-7
+        tw-py-3
+        tw-rounded-lg
+        tw-text-sm
+        tw-bg-gray-200
+        tw-border-none
+        focus:tw-outline-none
+        tw-w-full
+        "
+        />
+
+        <div class="tw-flex tw-gap-3">
+          <button
+            :disabled="disabledSubcategoryBtn"
+            @click="createSubcategory"
+            :class=" disabledSubcategoryBtn ? 'tw-opacity-30' : '' "
+            class="tw-bg-green-500 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
+          >
+            Proceed
+          </button>
+          <button
+            :disabled="loading"
+            @click.prevent="subcategory_modal_open = false"
+            class="tw-bg-red-600 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </Modal>
+
   </div>
 </template>
 
 <script>
 import CreateCategory  from "~/apollo/mutations/admin/CreateCategory";
+import GetCategories  from "~/apollo/queries/admin/getCategories";
 
 export default {
   name: 'admin-categories',
@@ -165,16 +213,33 @@ export default {
         { id: 3, name: 'Philosophy'},
       ],
       isOpen: false,
+      subcategory_modal_open: false,
       loading: false,
-      category: null
+      category: null,
+      subcategory: null
     }
   },
 
   computed: {
-    disabledBtn() {
+    disabledCategoryBtn() {
       return this.loading || !this.category
+    },
+    disabledSubcategoryBtn() {
+      return this.loading || !this.subcategory
     }
   },
+
+  mounted(){
+    this.getCategories()
+  },
+
+  // apollo: {
+  //   $client: 'admin',
+  //   categories: {
+  //     query: GetCategories,
+  //     prefetch: true,
+  //   }
+  // },
 
   methods: {
     deactivateAdmin(payload){
@@ -185,7 +250,42 @@ export default {
       })
     },
 
+    async getCategories(){
+
+      try {
+        const res = await this.$apollo.query({
+          client: 'admin',
+          query: GetCategories,
+          // variables: {
+          //   name: this.searchText,
+          // },
+        });
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+    },
+
     async createCategory(){
+      try {
+        this.loading = true;
+        const res = await this.$apollo.mutate({
+          client: 'admin',
+          mutation: CreateCategory,
+          variables: { name: this.category },
+        });
+        console.log(res);
+        this.category = null;
+        this.$toast.success('Category created')
+
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+        this.loading = false;
+      }
+    },
+
+    async createSubcategory(){
       try {
         this.loading = true;
         const res = await this.$apollo.mutate({
