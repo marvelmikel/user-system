@@ -52,7 +52,7 @@ export class SubcategoryService {
     }
   }
   // done
-  async findAll(search: string, categoryId: string) {
+  async findAll(search: string | null, categoryId: string) {
     try {
       // create root filter
       let searchFilter: any = {};

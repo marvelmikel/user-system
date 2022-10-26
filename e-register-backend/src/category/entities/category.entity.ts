@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
+import { Subcategory } from 'src/subcategory/entities/subcategory.entity';
 
 @Entity()
 @ObjectType()
@@ -15,4 +16,7 @@ export class Category {
   @Column()
   @Field({ defaultValue: false })
   isDeleted: boolean;
+
+  @Field(() => [Subcategory], { nullable: true })
+  subcategorys: Subcategory[];
 }
