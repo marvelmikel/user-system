@@ -86,8 +86,9 @@ type Query {
   admin(id: String!): Admin!
   user(id: String!): User!
   accreditation(accreditationQuery: AccreditationQuery!): [Accreditation!]!
-  findOne(id: String!): Category!
-  findAll(search: String): [Category!]!
+  findOne(id: String!): Accreditation!
+  findAllCategories(search: String): [Category!]!
+  findOneCategory(id: String!): Category!
   subcategory(id: String!): Subcategory!
 }
 
