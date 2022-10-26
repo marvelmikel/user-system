@@ -76,8 +76,7 @@ type Category {
   _id: ID!
   name: String!
   isDeleted: Boolean!
-  subcategorys: [Subcategory!]
-  getSubcatergory: [Subcategory!]!
+  subcategories: [Subcategory!]
 }
 
 type Query {
