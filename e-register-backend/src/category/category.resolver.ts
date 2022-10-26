@@ -40,7 +40,7 @@ export class CategoryResolver {
 
   // done
   @Query(() => [Category])
-  findAll(
+  findAllCategories(
     @Args({
       name: 'search',
       type: () => String,
@@ -53,7 +53,7 @@ export class CategoryResolver {
 
   // done
   @Query(() => Category)
-  findOne(@Args('id', { type: () => String }) id: string) {
+  findOneCategory(@Args('id', { type: () => String }) id: string) {
     return this.categoryService.findOne(id);
   }
 
