@@ -87,8 +87,6 @@ export class SubcategoryService {
         order: { name: 'DESC' },
       });
 
-      console.log(result);
-
       return result;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
