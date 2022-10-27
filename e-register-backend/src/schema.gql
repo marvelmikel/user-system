@@ -66,16 +66,17 @@ type Document {
 }
 
 type Subcategory {
-  id: ID!
+  _id: ID!
   categoryId: String!
   name: String!
   isDeleted: Boolean!
 }
 
 type Category {
-  id: ID!
+  _id: ID!
   name: String!
   isDeleted: Boolean!
+  subcategories: [Subcategory!]
 }
 
 type Query {
@@ -84,8 +85,9 @@ type Query {
   admin(id: String!): Admin!
   user(id: String!): User!
   accreditation(accreditationQuery: AccreditationQuery!): [Accreditation!]!
-  findOne(id: String!): Category!
-  findAll(search: String): [Category!]!
+  findOne(id: String!): Accreditation!
+  findAllCategories(search: String): [Category!]!
+  findOneCategory(id: String!): Category!
   subcategory(id: String!): Subcategory!
 }
 

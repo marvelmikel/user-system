@@ -6,7 +6,7 @@ import { Column, Entity, ObjectIdColumn } from 'typeorm';
 export class Subcategory {
   @ObjectIdColumn()
   @Field(() => ID)
-  id: string;
+  _id: string;
 
   @ObjectIdColumn()
   @Field(() => String)

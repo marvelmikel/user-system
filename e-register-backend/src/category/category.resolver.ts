@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Context,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { CategoryService } from './category.service';
 import { Category } from './entities/category.entity';
 import { CreateCategoryInput } from './dto/create-category.input';
@@ -7,12 +15,15 @@ import { HelperService } from 'src/helper/helper.service';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { SoftCategoryInput } from './dto/soft-category.input';
+import { Subcategory } from 'src/subcategory/entities/subcategory.entity';
+import { SubcategoryService } from 'src/subcategory/subcategory.service';
 
 @Resolver(() => Category)
 export class CategoryResolver {
   constructor(
     private readonly categoryService: CategoryService,
     private helperService: HelperService,
+    private subcategoryService: SubcategoryService,
   ) {}
 
   // done
@@ -29,7 +40,7 @@ export class CategoryResolver {
 
   // done
   @Query(() => [Category])
-  findAll(
+  findAllCategories(
     @Args({
       name: 'search',
       type: () => String,
@@ -42,7 +53,7 @@ export class CategoryResolver {
 
   // done
   @Query(() => Category)
-  findOne(@Args('id', { type: () => String }) id: string) {
+  findOneCategory(@Args('id', { type: () => String }) id: string) {
     return this.categoryService.findOne(id);
   }
 
@@ -89,5 +100,10 @@ export class CategoryResolver {
   ) {
     this.helperService.isAnAdmin(data);
     return this.categoryService.remove(data, id);
+  }
+
+  @ResolveField(() => [Subcategory])
+  subcategories(@Parent() category: Category) {
+    return this.subcategoryService.findAll(category._id);
   }
 }
