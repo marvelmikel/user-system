@@ -22,6 +22,7 @@ export class SubcategoryService {
       // create a query params
       const queryParam: any = {
         name: name,
+        categoryId: createSubcategoryInput.categoryId,
       };
       // check if name already existe
       const checkCategory = await this.subcategoryRepository.findOne({
@@ -32,7 +33,7 @@ export class SubcategoryService {
 
       // create admin instance
       const newCategory = this.subcategoryRepository.create({
-        ...CreateSubcategoryInput,
+        categoryId: createSubcategoryInput.categoryId,
         name: name,
       });
 
@@ -54,6 +55,7 @@ export class SubcategoryService {
   // done
   async findAll(categoryId: string, search?: string) {
     try {
+      console.log(categoryId);
       // create root filter
       let searchFilter: any = {};
       // check if search exist
@@ -86,6 +88,8 @@ export class SubcategoryService {
         where: primaryFilter,
         order: { name: 'DESC' },
       });
+
+      console.log(result);
 
       return result;
     } catch (error) {
