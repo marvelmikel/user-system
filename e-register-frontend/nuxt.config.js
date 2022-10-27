@@ -30,7 +30,14 @@ export default {
   css: ["~/css/font.css", "~/css/layout.css", "~/css/color.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/plugins/helpers", "~/plugins/data", "~/plugins/apollo", "~/plugins/admin-apollo"],
+  plugins: [
+    "~/plugins/helpers",
+    "~/plugins/data",
+    "~/plugins/apollo",
+    "~/plugins/admin-apollo",
+    { src: '~/plugins/global', ssr: false },
+
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

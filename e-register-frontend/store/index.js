@@ -12,9 +12,9 @@ export const state = () => ({
 export const actions = {
   async login({ commit }, payload) {
     console.log(payload);
-    // this.$cookies.set('USER-LOGIN-STATE', true)
-    // this.$cookies.set('USER-TOKEN', payload.access_token.accessToken)
-    // commit('AUTHENTICATE', payload)
+    this.$cookies.set('USER-LOGIN-STATE', true)
+    this.$cookies.set('USER-TOKEN', payload)
+    commit('AUTHENTICATE', payload)
   },
   async adminLogin({ commit }, payload) {
     this.$cookies.set('ADMIN-LOGIN-STATE', true)

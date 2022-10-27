@@ -27,7 +27,7 @@
         tw-py-4
         tw-px-12
         "
-        to="/admin/companies">Companies</nuxt-link>
+        to="/admin">Companies</nuxt-link>
         <nuxt-link class="
         tw-block
         tw-py-4

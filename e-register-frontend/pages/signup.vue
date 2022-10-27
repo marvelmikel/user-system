@@ -57,7 +57,9 @@
         ">Sign Up</h3>
         <form >
 
-          <input type="text"
+          <input
+            v-model="email"
+            type="text"
             placeholder="Email Address"
             class="
             tw-px-7
@@ -72,7 +74,9 @@
             tw-placeholder-gray-400
             "
           />
-          <input type="password"
+          <input
+            v-model="credential"
+            type="password"
             placeholder="Password"
             class="
             tw-px-7
@@ -89,9 +93,9 @@
           />
         </form>
         <div class="tw-flex tw-justify-end tw-my-5">
-          <span class="tw-text-xs">Forgetten Password?</span>
+          <nuxt-link to="/forgotten-password" class="tw-text-xs tw-cursor-pointer">Forgetten Password?</nuxt-link>
         </div>
-        <button class="
+        <button @click="signup" class="
           tw-p-3
           tw-w-full
           tw-rounded-lg
@@ -114,11 +118,51 @@
 </template>
 
 <script>
+import CreateUser  from "~/apollo/mutations/user/createUser";
+
 export default {
   name: "signup",
+  data() {
+    return {
+      loading: false,
+      email: null,
+      credential: null
+    }
+  },
   // layout: 'home',
   mounted(){
-    console.log(this.$route.params);
+    // console.log(this.$route.params);
+  },
+
+  methods: {
+    async signup(){
+      try {
+        this.loading = true;
+        const res = await this.$apollo.mutate({
+          mutation: CreateUser,
+          variables: {
+            email: this.email,
+            credential: this.credential
+          },
+        });
+        console.log(res);
+        if (res.data) {
+          const user = res.data.createUser || null;
+          if (user) {
+            // this.$store.dispatch('saveAdmin', user)
+            this.$router.push({path: 'signin'})
+            this.$toast.success('You can login now')
+          }else{
+            this.$toast.success('Something went wrong')
+          }
+        }
+
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+         this.loading = false;
+      }
+    }
   }
 }
 </script>

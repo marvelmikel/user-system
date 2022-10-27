@@ -64,6 +64,7 @@
               tw-text-white
               tw-w-full
             "
+            :class=" authenticating ? 'tw-opacity-40' : '' "
           >
             <!-- <i class="bx bx-loader-circle bx-spin" v-if="authenticating"></i> -->
 
@@ -81,7 +82,7 @@
 </template>
 
 <script>
-import LoginAdmin  from "~/apollo/mutations/admin/signinAdmin";
+import LoginUser  from "~/apollo/mutations/user/signinUser";
 
 export default {
   name: "signin",
@@ -111,11 +112,21 @@ export default {
     async authenticate() {
       try {
         this.authenticating = true;
-        const data = await this.$apollo.mutate({
-          mutation: LoginAdmin,
+        const res = await this.$apollo.mutate({
+          mutation: LoginUser,
           variables: { email: this.email, credential: this.credential },
         });
-        console.log(data);
+        if (res.data) {
+          const token = res.data.loginUser || null;
+          if (token) {
+            this.$store.dispatch('login', token)
+            this.$router.push({path: '/'})
+            this.$toast.success('Successfully authenticated')
+          }else{
+            this.$toast.error('Something went wrong')
+          }
+        }
+
       } catch (errors) {
         this.$throwError(errors)
       }finally{

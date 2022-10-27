@@ -1,0 +1,39 @@
+mutation CreateUser(
+  $email: String!,
+  $credential: String!,
+  ) {
+  createUser(createUserInput: {
+    email: $email,
+    credential: $credential
+  }) {
+    id,
+    email,
+    # nameOfCompany,
+    # location,
+    # address,
+    # rcNumber,
+    # dateOfIncorporation,
+    # tin,
+    # isEmailActive,
+    # phoneNumber,
+    # isActive,
+    # certificateOfIncorporation,
+    # isCertificateOfIncorporation,
+    # certificateOfTaxClearance,
+    # isCertificateOfTaxClearance,
+    # applicationLetter,
+    # isApplicationLetter,
+    # evidenceOfPayment,
+    # isEvidenceOfPayment,
+    # letterOfCredibilityFromBanks,
+    # isLetterOfCredibilityFromBanks,
+    # collaborationCertificateWithForeignPartners,
+    # isCollaborationCertificateWithForeignPartners,
+    # curriculumVitae,
+    # isCurriculumVitae,
+    # boardOfDirectors,
+    # isBoardOfDirectorsInput,
+    # isDeleted,
+    # profilePic
+  }
+}

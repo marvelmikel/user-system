@@ -51,56 +51,72 @@
       </button>
     </div>
 
-    <div
-      v-for="(data) in results" :key="data.id"
-      class="
-        tw-mb-5
-        tw-pb-3
-        tw-border-b
-        tw-border-gray-300
-        tw-flex
-        tw-justify-between
-      ">
-
-      <p class="tw-flex tw-items-center">{{ data.name }}</p>
-
-      <div class="tw-flex tw-items-center">
-        <!-- <ToggleBtn :state="data.activated" :id="data.id" @checkedevent="deactivateAdmin"/> -->
-      </div>
-
-      <div class="
-        tw-flex
-        tw-items-center
-        tw-gap-5">
-
-        <button class="
-          custom__button
-          tw-w-32
-          tw-h-8
-          tw-rounded-2xl
-          tw-bg-dark-green
-          tw-text-white
-          tw-p-2
-          tw-flex
-          tw-items-center
-          tw-justify-center
-          tw-cursor-pointer
-        ">
-          <!-- <i class='bx bx-right-arrow-alt tw-text-2xl tw-text-white'></i> -->
-          <span class="tw-text-xs">Add Subcategory</span>
-        </button>
-
-        <i class='
-        bx bxs-x-circle
-        tw-text-4xl
-        tw-cursor-pointer
-        tw-text-red-600
-        '></i>
-      </div>
-
+    <div v-if="loadingCategories" class="tw-w-full">
+      <PuSkeleton :count="2"/>
     </div>
+    <div v-else>
+
+      <div v-if="categories.length">
+        <div
+          v-for="(data) in categories" :key="data._id"
+          class="
+            tw-mb-5
+            tw-pb-3
+            tw-border-b
+            tw-border-gray-300
+            tw-flex
+            tw-justify-between
+          ">
+
+          <p class="tw-flex tw-items-center">{{ data.name }}</p>
+
+          <div class="tw-flex tw-items-center">
+            <!-- <ToggleBtn :state="data.activated" :id="data.id" @checkedevent="deactivateAdmin"/> -->
+          </div>
+
+          <div class="
+            tw-flex
+            tw-items-center
+            tw-gap-5">
+
+            <button
+            @click="openSubcategoryModal(data)"
+            class="
+              custom__button
+              tw-w-32
+              tw-h-8
+              tw-rounded-2xl
+              tw-bg-bright-green
+              tw-text-white
+              tw-p-2
+              tw-flex
+              tw-items-center
+              tw-justify-center
+              tw-cursor-pointer
+            ">
+              <!-- <i class='bx bx-right-arrow-alt tw-text-2xl tw-text-white'></i> -->
+              <span class="tw-text-xs">Add Subcategory</span>
+            </button>
 
 
+
+            <i class='
+            bx bxs-x-circle
+            tw-text-4xl
+            tw-cursor-pointer
+            tw-text-red-600
+            '></i>
+          </div>
+
+        </div>
+      </div>
+      <div v-else class="tw-w-full tw-flex tw-items-center tw-justify-center tw-flex-col">
+        <i class='bx bx-error tw-text-6xl tw-text-gray-300'></i>
+        <h3 class="tw-text-gray-300 tw-font-bold tw-text-center tw-text-2xl">
+          No Category Data
+        </h3>
+      </div>
+    </div>
 
 
     <Modal
@@ -150,14 +166,14 @@
     </Modal>
 
     <Modal
-    :button="false"
-      :customClass="['tw-w-2/5']"
-      :isOpen="subcategory_modal_open"
-      @close-modal="subcategory_modal_open = false"
+      :button="false"
+      :customClass="['tw-w-3/5']"
+      :isOpen="add_subcategory_modal_is_open"
+      @close-modal="add_subcategory_modal_is_open = false"
     >
       <div class="tw-my-5 tw-space-y-5 tw-px-4 tw-pb-3">
-        <h1 class="tw-text-lg tw-text-black">
-          Create Subcategory
+        <h1 class="tw-text-lg tw-text-black tw-capitalize">
+          create {{ category_name }} subcategory
         </h1>
 
         <input type="text"
@@ -186,37 +202,58 @@
           </button>
           <button
             :disabled="loading"
-            @click.prevent="subcategory_modal_open = false"
+            @click.prevent="add_subcategory_modal_is_open = false"
             class="tw-bg-red-600 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
           >
             Cancel
           </button>
         </div>
+
+        <div class="tw-my-2" v-for="(item, index) in subcategory_data" :key="index">
+          <input type="text"
+            :value="item.name"
+            disabled
+            placeholder=""
+            class="
+            tw-w-full
+            tw-px-7
+            tw-py-2
+            tw-rounded-lg
+            tw-text-sm
+            tw-bg-gray-400
+            tw-text-white
+            tw-border-none
+            focus:tw-outline-none"
+          />
+        </div>
       </div>
     </Modal>
+
+
 
   </div>
 </template>
 
 <script>
-import CreateCategory  from "~/apollo/mutations/admin/CreateCategory";
-import GetCategories  from "~/apollo/queries/admin/getCategories";
+import CreateCategory from "~/apollo/mutations/admin/createCategory";
+import CreateSubcategory from "~/apollo/mutations/admin/createSubcategory";
+import GetCategories from "~/apollo/queries/admin/getCategories";
 
 export default {
   name: 'admin-categories',
   layout: 'adminDefault',
   data() {
     return {
-      results: [
-        { id: 11, name: 'Science'},
-        { id: 2, name: 'Marketing'},
-        { id: 3, name: 'Philosophy'},
-      ],
       isOpen: false,
-      subcategory_modal_open: false,
+      add_subcategory_modal_is_open: false,
       loading: false,
+      loadingCategories: false,
       category: null,
-      subcategory: null
+      subcategory_data: null,
+      category_id: null,
+      category_name: '',
+      subcategory: null,
+      categories: []
     }
   },
 
@@ -253,6 +290,7 @@ export default {
     async getCategories(){
 
       try {
+        this.loadingCategories = true;
         const res = await this.$apollo.query({
           client: 'admin',
           query: GetCategories,
@@ -261,8 +299,11 @@ export default {
           // },
         });
         console.log(res);
+        this.categories = res.data.findAllCategories ?? null;
       } catch (err) {
         console.log(err);
+      }finally {
+        this.loadingCategories = false;
       }
     },
 
@@ -275,8 +316,11 @@ export default {
           variables: { name: this.category },
         });
         console.log(res);
+        this.getCategories()
+        console.log('Get category called');
         this.category = null;
         this.$toast.success('Category created')
+
 
       } catch (errors) {
         this.$throwError(errors)
@@ -290,18 +334,27 @@ export default {
         this.loading = true;
         const res = await this.$apollo.mutate({
           client: 'admin',
-          mutation: CreateCategory,
-          variables: { name: this.category },
+          mutation: CreateSubcategory,
+          variables: { name: this.subcategory, categoryId: this.category_id },
         });
         console.log(res);
-        this.category = null;
-        this.$toast.success('Category created')
+        this.subcategory = null;
+        this.$toast.success('Subcategory created')
+        this.getCategories()
 
       } catch (errors) {
         this.$throwError(errors)
       }finally{
         this.loading = false;
       }
+    },
+
+    openSubcategoryModal(data){
+      console.log(data)
+      this.add_subcategory_modal_is_open = true
+      this.category_id = data._id
+      this.category_name = data.name
+      this.subcategory_data = data.subcategories
     }
   }
 }
