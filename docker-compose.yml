@@ -20,7 +20,7 @@ services:
     ports:
       - 8082:5000
     environment:
-      - DATABASE_URL=mongodb+srv://tvapp:szszukeme54321@cluster0.rwoun.mongodb.net/FME?retryWrites=true&w=majority&ssl=true
+      - DATABASE_URL=mongodb+srv://doadmin:5q04Nc9Kun3g267Z@db-mongodb-nyc1-88171-1a76ff67.mongo.ondigitalocean.com/admin?authSource=admin&replicaSet=db-mongodb-nyc1-88171&tls=true
       - HOST=smtp.gmail.com
       - PORT=465    
       - SECURE=true
