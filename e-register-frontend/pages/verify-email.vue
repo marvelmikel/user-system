@@ -36,9 +36,42 @@
 </template>
 
 <script>
+import ValidateEmailToken  from "~/apollo/mutations/user/validateEmailToken";
+
 export default {
   name: 'verify-email',
   layout: 'home',
+  data() {
+    return {
+      token: null,
+      loading: false,
+    }
+  },
+
+  mounted(){
+    this.token = this.$route.query.token || null;
+    console.log(this.token);
+    this.verifyToken()
+  },
+
+  methods: {
+    async verifyToken(){
+      try {
+        this.loading = true;
+        const res = await this.$apollo.mutate({
+          mutation: ValidateEmailToken,
+          variables: { token: this.token },
+        });
+        console.log(res);
+        this.$toast.success('Email validated successfully')
+
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+         this.loading = false;
+      }
+    }
+  }
 
 }
 </script>
