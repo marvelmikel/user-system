@@ -31,6 +31,8 @@
 export default {
   name: 'company-detail',
   layout: 'home',
+  middleware:['unauthenticated_user'],
+
   data() {
     return {
 

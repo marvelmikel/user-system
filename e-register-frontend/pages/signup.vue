@@ -150,7 +150,7 @@ export default {
           const user = res.data.createUser || null;
           if (user) {
             // this.$store.dispatch('saveAdmin', user)
-            // this.$router.push({path: 'verify-email'})
+            this.$router.push({ path: 'verify-your-email' })
             this.$toast.success('Verify your email')
           }else{
             this.$toast.success('Something went wrong')

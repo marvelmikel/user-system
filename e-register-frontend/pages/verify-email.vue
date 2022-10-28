@@ -1,37 +1,46 @@
 <template>
-  <div class="tw-mt-20">
-    <div class="tw-flex tw-gap-8 tw-justify-center">
-      <img class="tw-h-60" src="~assets/img/verify_email_img.svg" alt="verify_email_image"/>
-      <div>
-        <h3 class="
-        tw-font-bold
-        tw-text-3xl
-        tw-mb-6
-        ">Verify Email</h3>
-        <button class="
-          tw-p-3
-          tw-w-full
-          tw-rounded-lg
-          tw-bg-light-green
-          tw-text-white
-          tw-text-sm
-          tw-mb-7
-        ">
-          Resend Email
-        </button>
-        <button class="
-          tw-p-3
-          tw-w-full
-          tw-rounded-lg
-          tw-bg-dark-yellow
-          tw-text-white
-          tw-text-sm
-        ">
-          Contact Support
-        </button>
+  <div>
+
+    <div v-if="loading"
+    class="
+      tw-flex
+      tw-flex-col
+      tw-justify-center
+      tw-items-center
+      tw-mt-10
+    ">
+      <div class="tw-w-4/6">
+        <PuSkeleton :duration="1.5" />
+      </div>
+      <div class="tw-w-3/6">
+        <PuSkeleton :duration="3" />
+      </div>
+      <div class="tw-w-3/6">
+        <PuSkeleton :duration="3" />
+      </div>
+      <div class="tw-w-2/6">
+        <PuSkeleton  />
       </div>
     </div>
 
+    <div v-else class="
+      tw-flex
+      tw-flex-col
+      tw-justify-center
+      tw-items-center
+      tw-mt-10
+    ">
+      <img v-if="!verified" class="tw-w-52" src="~assets/img/verified_successfully_img.png" alt="no_results_img" />
+      <img v-if="verified" class="tw-w-52" src="~assets/img/verified_unsuccessfully_img.png" alt="no_results_img" />
+
+      <h3 v-if="!verified" class="tw-text-center tw-my-3 tw-text-2xl tw-font-bold">Verified Unsuccessfully</h3>
+      <h3 v-if="verified" class="tw-text-center tw-my-3 tw-text-2xl tw-font-bold">Verified Successfully</h3>
+
+      <!-- <p class="tw-text-xs">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Lectus quis tortor senectus lobortis ullamcorper
+      </p> -->
+    </div>
   </div>
 </template>
 
@@ -41,21 +50,23 @@ import ValidateEmailToken  from "~/apollo/mutations/user/validateEmailToken";
 export default {
   name: 'verify-email',
   layout: 'home',
+
   data() {
     return {
       token: null,
-      loading: false,
+      loading: true,
+      verified: false
     }
   },
 
   mounted(){
-    this.token = this.$route.query.token || null;
-    console.log(this.token);
     this.verifyToken()
   },
 
   methods: {
     async verifyToken(){
+      this.token = this.$route.query.token || null;
+      console.log(this.token);
       try {
         this.loading = true;
         const res = await this.$apollo.mutate({
@@ -72,7 +83,6 @@ export default {
       }
     }
   }
-
 }
 </script>
 

@@ -165,7 +165,9 @@
           "
           type="submit"
           >
-            Create Account
+
+            <span class="tw-mr-2">Create Account </span>
+            <i class='bx bx-loader bx-spin' v-if="authenticating"></i>
           </button>
         </form>
 

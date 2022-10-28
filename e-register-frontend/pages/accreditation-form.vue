@@ -94,6 +94,7 @@
 export default {
   name: 'accreditation-form',
   layout: 'home',
+  middleware:['unauthenticated_user'],
 }
 </script>
 

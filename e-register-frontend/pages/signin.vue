@@ -55,7 +55,7 @@
           <input
           type="submit"
           value="Login"
-            :disabled="incompleForm"
+            :disabled="incompleForm || authenticating"
             class="
               tw-p-3
               tw-mb-14
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import LoginUser  from "~/apollo/mutations/user/signinUser";
+import LoginUser from "~/apollo/mutations/user/signinUser";
 
 export default {
   name: "signin",
@@ -93,6 +93,7 @@ export default {
       authenticating: false,
     };
   },
+  middleware:['authenticated_user'],
 
   // apollo: {
   //   $client: 'otherClient',
@@ -120,7 +121,8 @@ export default {
           const token = res.data.loginUser || null;
           if (token) {
             this.$store.dispatch('login', token)
-            this.$router.push({path: '/'})
+            // this.$router.push({ path: '/company' })
+            // this.$router.push ({name: 'resend-verification-email', params: {email: this.email}})
             this.$toast.success('Successfully authenticated')
           }else{
             this.$toast.error('Something went wrong')

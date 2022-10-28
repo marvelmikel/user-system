@@ -66,6 +66,8 @@
 export default {
   name: 'company',
   layout: 'home',
+  middleware:['unauthenticated_user'],
+
 
 }
 </script>

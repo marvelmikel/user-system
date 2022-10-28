@@ -52,6 +52,7 @@
 export default {
   name: 'accreditations',
   layout: 'home',
+  middleware:['unauthenticated_user'],
 
 }
 </script>
