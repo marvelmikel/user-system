@@ -17,10 +17,16 @@
 
     <div class="tw-flex tw-items-center tw-space-x-8" :class="[!isTransparent?'tw-text-white':'tw-text-black']">
       <nuxt-link exact class="tw-pb-1"  to="/">Home</nuxt-link>
-      <nuxt-link exact class="tw-pb-1" v-if="!isLoggedIn" :to="signinUrl">Sign In</nuxt-link>
-      <a @click.prevent="logout" v-if="isLoggedIn" href="#" class="hover:tw-text-green-500">Logout</a>
+      
       <nuxt-link exact class="tw-pb-1" to="/environmental-consultants-accreditation">About Us</nuxt-link>
       <nuxt-link exact class="tw-pb-1" to="/contact-us">Contact Us</nuxt-link>
+
+
+      <div v-if="!isLoggedIn">
+        <div  class="tw-pb-1 tw-bg-light-green tw-text-white tw-rounded tw-py-2 tw-px-4 tw-cursor-pointer" v-if="$route.path == '/signin'" @click.prevent="$router.push({path:'/signup'})">Sign Up</div>
+        <div  class="tw-pb-1 tw-bg-light-green tw-text-white tw-rounded tw-py-2 tw-px-4 tw-cursor-pointer" v-else  @click.prevent="$router.push({path:'/signin'})">Sign In</div>
+      </div>
+      <a @click.prevent="logout" v-if="isLoggedIn" href="#" class="hover:tw-text-green-500">Logout</a>
     </div>
   </nav>
 </template>

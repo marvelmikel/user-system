@@ -121,8 +121,12 @@ export default {
           const token = res.data.loginUser.token || null;
           if (token) {
             this.$store.dispatch('login', token)
-            // this.$router.push({ path: '/company' })
-            // this.$router.push ({name: 'resend-verification-email', params: {email: this.email}})
+            if(res.data.loginUser.isEmailActive){
+
+              this.$router.push({ path: '/company' })
+            }else{
+              this.$router.push ({name: 'resend-verification-email', params: {email: this.email}})
+            }
             this.$toast.success('Successfully authenticated')
           }else{
             this.$toast.error('Something went wrong')
