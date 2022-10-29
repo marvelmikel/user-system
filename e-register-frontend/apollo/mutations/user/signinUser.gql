@@ -1,3 +1,6 @@
 mutation LoginUser($email: String!, $credential: String!) {
-  loginUser(loginUserInput: { email: $email, credential: $credential })
+  loginUser(loginUserInput: { email: $email, credential: $credential }) {
+    token
+    isEmailActive
+  }
 }

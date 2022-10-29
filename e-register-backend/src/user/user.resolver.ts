@@ -7,6 +7,7 @@ import { Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { HelperService } from 'src/helper/helper.service';
 import { LoginUserInput } from './dto/login-user.input';
+import { Any } from 'typeorm';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -51,7 +52,7 @@ export class UserResolver {
   // The mutation takes the login user input as an argument
   // The login user input consist of email and credentails
   // The mutation returns a token
-  @Mutation(() => String)
+  @Mutation(() => User)
   loginUser(@Args('loginUserInput') loginUserInput: LoginUserInput) {
     return this.userService.loginUser(loginUserInput);
   }

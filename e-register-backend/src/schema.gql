@@ -31,6 +31,7 @@ type Accreditation {
 type User {
   id: ID!
   nameOfCompany: String
+  token: String
   location: String
   address: String
   rcNumber: String
@@ -120,7 +121,7 @@ type Mutation {
   removeAdmin(id: String!): String!
   createUser(createUserInput: CreateUserInput!): User!
   createUserByAdmin(createUserInput: CreateUserInput!): User!
-  loginUser(loginUserInput: LoginUserInput!): String!
+  loginUser(loginUserInput: LoginUserInput!): User!
   resendEmailVerification: String!
   validateEmailVerification(token: String!): String!
   forgottenPassword(email: String!): String!

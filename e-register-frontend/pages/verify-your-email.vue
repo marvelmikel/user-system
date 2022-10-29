@@ -10,8 +10,8 @@
     <h1 class="tw-text-center tw-my-3 tw-text-2xl tw-font-bold">
       Account Created Successfully
     </h1>
-    <p class="tw-text-sm">
-      Congratulations your account has been created successfully.
+    <p class="tw-text-sm tw-text-center">
+      Congratulations your account has been created successfully. <br>
       Kindly check your email for email verification
     </p>
   </div>

@@ -4,7 +4,7 @@
     <div class="color tw-h-screen tw-flex tw-items-center">
       <div class="tw-w-1/3 tw-mx-auto">
         <form @submit.prevent="authenticate">
-          <h3 class="tw-text-white tw-mb-5 tw-text-3xl tw-font-bold">
+          <h3 class="tw-text-white tw-mb-5 tw-text-3xl ">
             Sign In
           </h3>
 
@@ -48,7 +48,7 @@
             />
           </div>
 
-          <p class="tw-text-sm tw-text-right tw-mb-4 tw-text-gray-400">
+          <p class="tw-text-sm tw-text-right tw-mb-4 tw-text-white">
             Forgetten Password?
           </p>
 
@@ -73,7 +73,7 @@
             to="/signup"
             class="tw-text-sm tw-text-white tw-text-center tw-block"
           >
-            Have an account? Sign Up
+            Have an account? <span class="tw-text-dark-yellow"> Sign Up</span>
           </nuxt-link>
         </form>
       </div>
@@ -118,7 +118,7 @@ export default {
           variables: { email: this.email, credential: this.credential },
         });
         if (res.data) {
-          const token = res.data.loginUser || null;
+          const token = res.data.loginUser.token || null;
           if (token) {
             this.$store.dispatch('login', token)
             // this.$router.push({ path: '/company' })

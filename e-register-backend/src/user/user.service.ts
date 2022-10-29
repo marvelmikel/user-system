@@ -50,7 +50,7 @@ export class UserService {
 
       // generate registration token
       const tokenPayload: any = {
-        email: this.create,
+        email: createUserInput.email,
       };
       const token = await this.helperService.generateToken({
         payload: tokenPayload,
@@ -130,6 +130,7 @@ export class UserService {
       // destructure token
       const data: any = await this.helperService.verifyToken(token);
 
+      console.log(data);
       // fiind user by email
       // create a query params
       const queryParam: any = { email: data.email };
@@ -251,9 +252,13 @@ export class UserService {
         id: checkAdminExist.id,
       };
 
-      return await this.helperService.generateToken({
+      const token = await this.helperService.generateToken({
         payload: tokenPayload,
       });
+      return {
+        ...checkAdminExist,
+        token,
+      };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }

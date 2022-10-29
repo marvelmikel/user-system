@@ -52,7 +52,6 @@
       <div>
         <h3 class="
         tw-font-bold
-        tw-mt-32
         tw-text-4xl
         ">Sign Up</h3>
         <form >

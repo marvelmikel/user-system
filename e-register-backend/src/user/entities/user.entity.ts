@@ -13,6 +13,9 @@ export class User {
   @Field({ nullable: true })
   nameOfCompany: string;
 
+  @Field({ nullable: true })
+  token: string;
+
   @Column()
   @Field({ nullable: true })
   location: string;

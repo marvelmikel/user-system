@@ -15,11 +15,12 @@
   >
     <Logo :isBlack="isTransparent" />
 
-    <div class="tw-flex tw-items-center tw-space-x-5" :class="[!isTransparent?'tw-text-white':'tw-text-black']">
-      <nuxt-link v-if="!isLoggedIn" :to="signinUrl">Sign In</nuxt-link>
+    <div class="tw-flex tw-items-center tw-space-x-8" :class="[!isTransparent?'tw-text-white':'tw-text-black']">
+      <nuxt-link exact class="tw-pb-1"  to="/">Home</nuxt-link>
+      <nuxt-link exact class="tw-pb-1" v-if="!isLoggedIn" :to="signinUrl">Sign In</nuxt-link>
       <a @click.prevent="logout" v-if="isLoggedIn" href="#" class="hover:tw-text-green-500">Logout</a>
-      <nuxt-link to="/environmental-consultants-accreditation">About Us</nuxt-link>
-      <nuxt-link to="/contact-us">Contact Us</nuxt-link>
+      <nuxt-link exact class="tw-pb-1" to="/environmental-consultants-accreditation">About Us</nuxt-link>
+      <nuxt-link exact class="tw-pb-1" to="/contact-us">Contact Us</nuxt-link>
     </div>
   </nav>
 </template>
@@ -52,4 +53,10 @@ export default {
 </script>
 
 <style>
+.nuxt-link-active {
+  /* color: #076476; */
+  border-bottom: 3px solid yellowgreen;
+  /* font-weight: bold; */
+
+}
 </style>
