@@ -129,8 +129,6 @@ export class UserService {
     try {
       // destructure token
       const data: any = await this.helperService.verifyToken(token);
-
-      console.log(data);
       // fiind user by email
       // create a query params
       const queryParam: any = { email: data.email };
@@ -146,9 +144,6 @@ export class UserService {
       });
       if (!updatedData) throw new Error('Unable to Updated');
       // get updated data
-      // checkEmail = await this.userRepository.findOne({
-      //   where: queryParam,
-      // });
       return 'Email Verification successful';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);

@@ -7,7 +7,6 @@ import { Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { HelperService } from 'src/helper/helper.service';
 import { LoginUserInput } from './dto/login-user.input';
-import { Any } from 'typeorm';
 
 @Resolver(() => User)
 export class UserResolver {
