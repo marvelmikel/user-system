@@ -129,6 +129,7 @@ export class UserService {
     try {
       // destructure token
       const data: any = await this.helperService.verifyToken(token);
+      console.log(data);
       // fiind user by email
       // create a query params
       const queryParam: any = { email: data.email };
@@ -139,10 +140,9 @@ export class UserService {
       // check if user exist
       if (!checkEmail) throw new Error('Email is not attached to a user');
 
-      const updatedData = this.userRepository.update(checkEmail.id, {
+      await this.userRepository.update(checkEmail.id, {
         isEmailActive: true,
       });
-      if (!updatedData) throw new Error('Unable to Updated');
       // get updated data
       return 'Email Verification successful';
     } catch (error) {
