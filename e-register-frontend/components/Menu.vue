@@ -26,7 +26,21 @@
         <div  class="tw-pb-1 tw-bg-light-green tw-text-white tw-rounded tw-py-2 tw-px-4 tw-cursor-pointer" v-if="$route.path == '/signin'" @click.prevent="$router.push({path:'/signup'})">Sign Up</div>
         <div  class="tw-pb-1 tw-bg-light-green tw-text-white tw-rounded tw-py-2 tw-px-4 tw-cursor-pointer" v-else  @click.prevent="$router.push({path:'/signin'})">Sign In</div>
       </div>
-      <a @click.prevent="logout" v-if="isLoggedIn" href="#" class="hover:tw-text-green-500">Logout</a>
+      <div class="tw-flex tw-items-center tw-gap-8" v-else>
+         <div class="tw-relative">
+          <img class="tw-rounded-full tw-w-10" src="~assets/img/user_img.png" alt="user_img">
+          <i class='
+          bx bxs-error-circle
+          tw-absolute
+          tw--right-1.5
+          tw--top-1.5
+          tw-text-light-green
+          tw-text-xl
+          '></i>
+        </div>
+         <i class="bx bx-layer-plus tw-text-3xl"></i>
+        <!-- <a @click.prevent="logout"  href="#" class="hover:tw-text-green-500">Logout</a> -->
+      </div>
     </div>
   </nav>
 </template>

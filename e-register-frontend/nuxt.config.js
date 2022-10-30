@@ -12,7 +12,7 @@ export default {
       { name: "format-detection", content: "telephone=no" },
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "icon", type: "image/x-icon", href: "/black.svg" },
       {
         rel: "stylesheet",
         href: "https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css",
@@ -35,8 +35,7 @@ export default {
     "~/plugins/data",
     "~/plugins/apollo",
     "~/plugins/admin-apollo",
-    { src: '~/plugins/global', ssr: false },
-
+    { src: "~/plugins/global", ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -56,7 +55,7 @@ export default {
     // cookieAttributes: {
     //   expires: 7 // optional, default: 7 (days)
     // },
-    authenticationType: 'Bearer',
+    authenticationType: "Bearer",
     clientConfigs: {
       default: "~/plugins/apollo.js",
       admin: "~/plugins/admin-apollo.js",

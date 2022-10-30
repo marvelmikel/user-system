@@ -5,8 +5,8 @@
       <img v-else src="~/assets/images/white.svg" alt="black logo" />
     </div>
     <div :class="[isBlack?'tw-text-black':'tw-text-white']">
-      <h4 class="tw-text-2xl">Federal Ministry of Environment</h4>
-      <p>Department of Pollution Control & Environmental Health</p>
+      <h4 class="tw-text-xl">Federal Ministry of Environment</h4>
+      <p class="tw-text-md">Department of Pollution Control & Environmental Health</p>
     </div>
   </div>
 </template>
