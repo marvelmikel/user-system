@@ -118,15 +118,11 @@ export default {
           variables: { email: this.email, credential: this.credential },
         });
         if (res.data) {
-          const token = res.data.loginUser.token || null;
-          if (token) {
-            this.$store.dispatch('login', token)
-            if(res.data.loginUser.isEmailActive){
-
-              this.$router.push({ path: '/company' })
-            }else{
-              this.$router.push ({name: 'resend-verification-email', params: {email: this.email}})
-            }
+          const user = res.data.loginUser || null;
+          
+          if (user.token) {
+            await this.$store.dispatch('login', user)
+            this.$router.push({ path: '/company' })
             this.$toast.success('Successfully authenticated')
           }else{
             this.$toast.error('Something went wrong')

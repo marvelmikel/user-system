@@ -36,6 +36,7 @@ export default {
     "~/plugins/apollo",
     "~/plugins/admin-apollo",
     { src: "~/plugins/global", ssr: false },
+    { src: "~/plugins/persistent-state", ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

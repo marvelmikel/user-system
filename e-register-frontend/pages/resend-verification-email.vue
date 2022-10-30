@@ -48,8 +48,8 @@ export default {
     }
   },
   mounted(){
-    let params = this.$router.params ? this.$router.params.email : null;
-    console.log(params);
+    // let params = this.$router.params ? this.$router.params.email : null;
+ 
     // this.resendVerificationEmail()
   },
 
@@ -62,7 +62,6 @@ export default {
           mutation: ValidateEmailToken,
           variables: { email: this.email },
         });
-        console.log(res);
         this.$toast.success('Email validated successfully')
 
       } catch (errors) {

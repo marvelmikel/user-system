@@ -231,7 +231,7 @@ export default {
             credential: this.password
           },
         });
-        console.log(res);
+        
         if (res.data) {
           const admin = res.data.createAdmin || null;
           if (admin) {

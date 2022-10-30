@@ -130,7 +130,6 @@ export default {
   },
   // layout: 'home',
   mounted(){
-    // console.log(this.$route.params);
   },
 
   methods: {
@@ -144,7 +143,6 @@ export default {
             credential: this.credential
           },
         });
-        console.log(res);
         if (res.data) {
           const user = res.data.createUser || null;
           if (user) {

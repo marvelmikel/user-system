@@ -298,10 +298,10 @@ export default {
           //   name: this.searchText,
           // },
         });
-        console.log(res);
+        
         this.categories = res.data.findAllCategories ?? null;
       } catch (err) {
-        console.log(err);
+       this.$throwError(err)
       }finally {
         this.loadingCategories = false;
       }
@@ -315,9 +315,7 @@ export default {
           mutation: CreateCategory,
           variables: { name: this.category },
         });
-        console.log(res);
         this.getCategories()
-        console.log('Get category called');
         this.category = null;
         this.$toast.success('Category created')
 
@@ -337,7 +335,6 @@ export default {
           mutation: CreateSubcategory,
           variables: { name: this.subcategory, categoryId: this.category_id },
         });
-        console.log(res);
         this.subcategory = null;
         this.$toast.success('Subcategory created')
         this.getCategories()
@@ -350,7 +347,6 @@ export default {
     },
 
     openSubcategoryModal(data){
-      console.log(data)
       this.add_subcategory_modal_is_open = true
       this.category_id = data._id
       this.category_name = data.name

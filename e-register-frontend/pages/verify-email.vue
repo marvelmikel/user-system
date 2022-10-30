@@ -66,14 +66,14 @@ export default {
   methods: {
     async verifyToken(){
       this.token = this.$route.query.token || null;
-      console.log(this.token);
+     
       try {
         this.loading = true;
         const res = await this.$apollo.mutate({
           mutation: ValidateEmailToken,
           variables: { token: this.token },
         });
-        console.log(res);
+     
         this.$toast.success('Email validated successfully')
 
       } catch (errors) {

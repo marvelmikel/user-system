@@ -34,7 +34,7 @@
       tw-mx-auto
       tw-mt-8
       tw-flex
-      tw-gap-8
+      tw-gap-16
       ">
         <div class="tw-relative">
           <img class="tw-rounded-full tw-w-40" src="~assets/img/user_img.png" alt="user_img">
@@ -66,7 +66,7 @@
 export default {
   name: 'company',
   layout: 'home',
-  middleware:['unauthenticated_user'],
+  middleware:'unauthenticated_user',
 
 
 }

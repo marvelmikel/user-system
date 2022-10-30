@@ -97,32 +97,20 @@
       </div>
     </section>
 
-    <section class="">
-      <div class="
-      tw-w-9/12
-      tw-mx-auto
-      tw-py-12
-      ">
-        <div>
-
-          <img class="tw-w-42" src="~assets/img/coat_of_arms_of_nigeria.svg" alt="coat_of_arms_of_nigeria">
-        </div>
-        <p class="tw-text-sm tw-text-gray-">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Lectus quis tortor senectus lobortis ullamcorper
-        </p>
-
-      </div>
-    </section>
-    <section class="custom__gradient tw-py-5 tw-text-white">
+  
+    <section class="custom__gradie tw-py-5 tw-text-whit">
       <div class="
       tw-w-9/12
       tw-mx-auto
       tw-flex
+      tw-gap-32
       tw-justify-between
       tw-items-center
       ">
-        <p>Lorem ipsum dolor sit amet</p>
+      <div class="tw-flex tw-items-center tw-gap-2">
+         <img class="tw-w-16" src="~/assets/images/black.svg" alt="coat_of_arms_of_nigeria"></img>
+         <p>Lorem ipsum dolor  beatae id dicta sed cupiditate, nesciunt repellendus libero dolorem modi nulla, odio ipsum fuga laborum. amet</p>
+      </div>
         <div class="
         tw-flex
         tw-text-2xl
@@ -140,21 +128,17 @@
 
 <script>
 export default {
-  name: 'contact-us',
-  layout: 'home',
+  name: "contact-us",
+  layout: "home",
   data() {
-    return {
-
-    }
+    return {};
   },
-}
+};
 </script>
 
 
 <style scoped>
 .custom__gradient {
-  background: linear-gradient(279.92deg, #097388 78.36%, #50C18D 112.5%);
+  background: linear-gradient(279.92deg, #097388 78.36%, #50c18d 112.5%);
 }
-
-
 </style>

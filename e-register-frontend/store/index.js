@@ -11,48 +11,50 @@ export const state = () => ({
 // contains your actions
 export const actions = {
   async login({ commit }, payload) {
-    console.log(payload);
-    this.$cookies.set('USER-LOGIN-STATE', true)
-    this.$cookies.set('USER-TOKEN', payload)
-    commit('AUTHENTICATE', payload)
+    this.$cookies.set("USER-LOGIN-STATE", true);
+    this.$cookies.set("USER-TOKEN", payload.token);
+    this.$cookies.set("USER-EMAIL-VERIFY", payload.isEmailActive);
+    await commit("AUTHENTICATE", payload);
   },
   async adminLogin({ commit }, payload) {
-    this.$cookies.set('ADMIN-LOGIN-STATE', true)
-    this.$cookies.set('ADMIN-TOKEN', payload)
-    commit('ADMIN_AUTHENTICATE', payload)
+    this.$cookies.set("ADMIN-LOGIN-STATE", true);
+    this.$cookies.set("ADMIN-TOKEN", payload);
+    commit("ADMIN_AUTHENTICATE", payload);
   },
   saveAdmin({ commit }, payload) {
-    commit('SAVE_ADMIN', payload)
+    commit("SAVE_ADMIN", payload);
   },
-}
+};
 // contains your mutations
 export const mutations = {
   AUTHENTICATE(state, payload) {
-    state.user = payload.user
-    state.token = payload.access_token.accessToken ?? null;
-    state.isLoggedIn = true
+    state.user = payload;
+    state.token = payload.token ?? null;
+    state.isLoggedIn = true;
   },
   ADMIN_AUTHENTICATE(state, payload) {
     // state.admin = payload.admin
     state.adminToken = payload ?? null;
-    state.isAdminLoggedIn = true
+    state.isAdminLoggedIn = true;
   },
   LOGOUT(state) {
-    this.$cookies.removeAll()
-    state.user = null
+    this.$cookies.removeAll();
+    localStorage.clear();
+    state.user = null;
     state.token = null;
-    state.isLoggedIn = false
+    state.isLoggedIn = false;
   },
   ADMIN_LOGOUT(state) {
-    this.$cookies.removeAll()
-    state.admin = null
+    this.$cookies.removeAll();
+
+    state.admin = null;
     state.adminToken = null;
-    state.isAdminLoggedIn = false
+    state.isAdminLoggedIn = false;
   },
   SAVE_ADMIN(state, payload) {
-    state.admin = payload
-  }
-}
+    state.admin = payload;
+  },
+};
 // your root getters
 export const getters = {
   isLoggedIn(state) {
