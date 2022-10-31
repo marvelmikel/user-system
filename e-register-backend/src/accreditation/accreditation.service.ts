@@ -23,6 +23,7 @@ export class AccreditationService {
     private logService: LogService,
   ) {}
   async create(
+    userId: string,
     data: any,
     createAccreditationInput: CreateAccreditationInput,
     baseUrl: string,
@@ -37,7 +38,7 @@ export class AccreditationService {
             categoryId: new ObjectId(createAccreditationInput.categoryId),
           },
           {
-            userId: new ObjectId(createAccreditationInput.userId),
+            userId: new ObjectId(userId),
           },
         ],
       };

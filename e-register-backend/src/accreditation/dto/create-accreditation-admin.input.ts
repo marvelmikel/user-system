@@ -5,7 +5,7 @@ import { Entity } from 'typeorm';
 
 @Entity()
 @InputType()
-export class CreateAccreditationInput {
+export class CreateAccreditationByAdminInput {
   @IsMongoId()
   @Field(() => String)
   categoryId: string;
@@ -13,6 +13,10 @@ export class CreateAccreditationInput {
   @IsMongoId()
   @Field(() => String)
   subcategoryId: string;
+
+  @IsMongoId()
+  @Field(() => String)
+  userId: string;
 
   @Field({ defaultValue: null })
   uploadProofOfDocument: Upload;

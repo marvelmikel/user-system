@@ -1,7 +1,7 @@
-import { CreateAccreditationInput } from './create-accreditation.input';
 import { InputType, PartialType, OmitType } from '@nestjs/graphql';
+import { CreateAccreditationByAdminInput } from './create-accreditation-admin.input';
 
 @InputType()
 export class UpdateAccreditationInput extends PartialType(
-  OmitType(CreateAccreditationInput, ['userId'] as const),
+  OmitType(CreateAccreditationByAdminInput, ['userId'] as const),
 ) {}
