@@ -7,7 +7,7 @@ import { Column, Entity, ObjectIdColumn } from 'typeorm';
 export class User {
   @ObjectIdColumn()
   @Field(() => ID)
-  id: string;
+  _id: string;
 
   @Column()
   @Field({ nullable: true })

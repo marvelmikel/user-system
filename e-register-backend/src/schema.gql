@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type Admin {
-  id: ID!
+  _id: ID!
   firstName: String!
   middleName: String!
   lastName: String!
@@ -29,7 +29,7 @@ type Accreditation {
 }
 
 type User {
-  id: ID!
+  _id: ID!
   nameOfCompany: String
   token: String
   location: String

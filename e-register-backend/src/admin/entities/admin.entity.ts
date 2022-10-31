@@ -6,7 +6,7 @@ import { Column, Entity, ObjectIdColumn } from 'typeorm';
 export class Admin {
   @ObjectIdColumn()
   @Field(() => ID)
-  id: string;
+  _id: string;
 
   @Column()
   @Field()

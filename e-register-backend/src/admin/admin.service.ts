@@ -67,7 +67,7 @@ export class AdminService implements OnModuleInit {
     // create log
     this.logService.create({
       info: 'Created a Root Admin',
-      by: createdAdmin.id,
+      by: createdAdmin._id,
       isAdmin: true,
     });
   }
@@ -91,7 +91,7 @@ export class AdminService implements OnModuleInit {
         email: checkAdminExist.email,
         isAdmin: true,
         isRoot: checkAdminExist.isRoot,
-        id: checkAdminExist.id,
+        id: checkAdminExist._id,
       };
 
       return await this.helperService.generateToken({ payload: tokenPayload });

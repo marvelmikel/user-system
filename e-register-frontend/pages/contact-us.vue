@@ -108,7 +108,7 @@
       tw-items-center
       ">
       <div class="tw-flex tw-items-center tw-gap-2">
-         <img class="tw-w-16" src="~/assets/images/black.svg" alt="coat_of_arms_of_nigeria"></img>
+         <im class="tw-w-16" src="~/assets/images/black.svg" alt="coat_of_arms_of_nigeria"/>
          <p>Lorem ipsum dolor  beatae id dicta sed cupiditate, nesciunt repellendus libero dolorem modi nulla, odio ipsum fuga laborum. amet</p>
       </div>
         <div class="

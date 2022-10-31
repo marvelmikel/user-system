@@ -7,7 +7,6 @@ import { Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { HelperService } from 'src/helper/helper.service';
 import { LoginUserInput } from './dto/login-user.input';
-import { Any } from 'typeorm';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -44,7 +43,7 @@ export class UserResolver {
     data: any,
   ) {
     this.helperService.isAnAdmin(data);
-    return this.userService.create(createUserInput, req.headers['host']);
+    return this.userService.create(createUserInput, req.headers['origin']);
   }
 
   // Login Mutation

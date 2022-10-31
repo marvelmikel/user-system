@@ -71,7 +71,7 @@ export class UserService {
       // create log
       this.logService.create({
         info: 'New User Created',
-        by: savedData.id,
+        by: savedData._id,
         isAdmin: false,
       });
 
@@ -115,7 +115,7 @@ export class UserService {
       // create log
       this.logService.create({
         info: 'Resend Email Verification',
-        by: checkEmail.id,
+        by: checkEmail._id,
         isAdmin: false,
       });
 
@@ -129,7 +129,6 @@ export class UserService {
     try {
       // destructure token
       const data: any = await this.helperService.verifyToken(token);
-
       console.log(data);
       // fiind user by email
       // create a query params
@@ -140,15 +139,12 @@ export class UserService {
       });
       // check if user exist
       if (!checkEmail) throw new Error('Email is not attached to a user');
-
-      const updatedData = this.userRepository.update(checkEmail.id, {
+      console.log(checkEmail);
+      const updatedEmail = await this.userRepository.update(checkEmail._id, {
         isEmailActive: true,
       });
-      if (!updatedData) throw new Error('Unable to Updated');
+      console.log(updatedEmail);
       // get updated data
-      // checkEmail = await this.userRepository.findOne({
-      //   where: queryParam,
-      // });
       return 'Email Verification successful';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
@@ -190,7 +186,7 @@ export class UserService {
       // create log
       this.logService.create({
         info: 'Resend Email Verification',
-        by: checkEmail.id,
+        by: checkEmail._id,
         isAdmin: false,
       });
 
@@ -216,7 +212,7 @@ export class UserService {
       // check if user exist
       if (!checkEmail) throw new Error('Invalid User Details');
 
-      const updatedData = await this.userRepository.update(checkEmail.id, {
+      const updatedData = await this.userRepository.update(checkEmail._id, {
         credential: await this.helperService.hashPassword(credential),
       });
       if (!updatedData) throw new Error('Unable to Updated');
@@ -249,7 +245,7 @@ export class UserService {
         email: checkAdminExist.email,
         isAdmin: false,
         isRoot: false,
-        id: checkAdminExist.id,
+        id: checkAdminExist._id,
       };
 
       const token = await this.helperService.generateToken({

@@ -1,6 +1,6 @@
 mutation CreateUser($email: String!, $credential: String!) {
   createUser(createUserInput: { email: $email, credential: $credential }) {
-    id
+    _id
     email
     # nameOfCompany,
     # location,
