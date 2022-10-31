@@ -101,7 +101,10 @@
           tw-bg-light-green
           tw-text-white
           tw-text-sm
-        ">
+        "
+        :disabled="loading || !email || !credential"
+        :class=" loading ? 'tw-opacity-40' : '' "
+        >
           Create Account
         </button>
 

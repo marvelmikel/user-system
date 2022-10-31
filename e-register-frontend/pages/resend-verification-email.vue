@@ -48,8 +48,7 @@ export default {
     }
   },
   mounted(){
-    // let params = this.$router.params ? this.$router.params.email : null;
- 
+    let params = this.$router.params ? this.$router.params.email : null;
     // this.resendVerificationEmail()
   },
 
@@ -59,7 +58,7 @@ export default {
       try {
         this.loading = true;
         const res = await this.$apollo.mutate({
-          mutation: ValidateEmailToken,
+          mutation: ResendVerificationEmail,
           variables: { email: this.email },
         });
         this.$toast.success('Email validated successfully')
