@@ -139,10 +139,11 @@ export class UserService {
       });
       // check if user exist
       if (!checkEmail) throw new Error('Email is not attached to a user');
-
-      await this.userRepository.update(checkEmail.id, {
+      console.log(checkEmail);
+      const updatedEmail = await this.userRepository.update(checkEmail.id, {
         isEmailActive: true,
       });
+      console.log(updatedEmail);
       // get updated data
       return 'Email Verification successful';
     } catch (error) {
