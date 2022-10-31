@@ -84,7 +84,7 @@ type Query {
   admins(args: CustomQuery!): [Admin!]!
   profile: Admin!
   admin(id: String!): Admin!
-  user(id: String!): User!
+  user: User!
   accreditation(accreditationQuery: AccreditationQuery!): [Accreditation!]!
   findOne(id: String!): Accreditation!
   findAllCategories(search: String): [Category!]!
