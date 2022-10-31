@@ -1,6 +1,7 @@
 import { CreateUserInput } from './create-user.input';
 import { InputType, Field, PartialType, OmitType } from '@nestjs/graphql';
 import {
+  ArrayMaxSize,
   ArrayMinSize,
   IsDateString,
   IsMobilePhone,
@@ -83,13 +84,13 @@ export class UpdateUserInput extends PartialType(
 
   @IsOptional()
   @Field(() => [DocumentInput], { defaultValue: [] })
-  @ArrayMinSize(2)
+  @ArrayMaxSize(2)
   @ValidateNested({ each: true })
   curriculumVitaeInput: DocumentInput[];
 
   @IsOptional()
   @Field(() => [DocumentInput], { defaultValue: [] })
-  @ArrayMinSize(3)
+  @ArrayMaxSize(3)
   @ValidateNested({ each: true })
   boardOfDirectorsInput: DocumentInput[];
 

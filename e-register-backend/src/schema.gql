@@ -59,6 +59,7 @@ type User {
   isBoardOfDirectorsInput: Boolean!
   isDeleted: Boolean!
   profilePic: String
+  accreditation: [Accreditation!]
 }
 
 type Document {
@@ -84,7 +85,8 @@ type Query {
   admins(args: CustomQuery!): [Admin!]!
   profile: Admin!
   admin(id: String!): Admin!
-  user(id: String!): User!
+  getAllUsers: [User!]!
+  getUser: User!
   accreditation(accreditationQuery: AccreditationQuery!): [Accreditation!]!
   findOne(id: String!): Accreditation!
   findAllCategories(search: String): [Category!]!
@@ -126,7 +128,8 @@ type Mutation {
   validateEmailVerification(token: String!): String!
   forgottenPassword(email: String!): String!
   resetPassword(token: String!, credential: String!): String!
-  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUserByAdmin(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
   createAccreditation(createAccreditationInput: CreateAccreditationInput!): Accreditation!
   updateAccreditation(id: String!, updateAccreditationInput: UpdateAccreditationInput!): Accreditation!

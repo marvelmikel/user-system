@@ -273,6 +273,7 @@ export class UserService {
 
   async findOne(id: string, data: any) {
     try {
+      console.log(id, data);
       const query: any = { _id: new ObjectId(id) };
       const result = await this.userRepository.findOne({
         where: query,

@@ -8,6 +8,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { HelperService } from 'src/helper/helper.service';
 import { AccreditationQuery } from './dto/query-accreditation.input';
 import { AdminUpdateAccreditationInput } from './dto/admin-accreditation.input';
+import { CreateAccreditationByAdminInput } from './dto/create-accreditation-admin.input';
 
 @Resolver(() => Accreditation)
 export class AccreditationResolver {
@@ -16,6 +17,24 @@ export class AccreditationResolver {
     private helperService: HelperService,
   ) {}
 
+  @UseGuards(AuthGuard)
+  @Mutation(() => Accreditation)
+  createAccreditationByAdmin(
+    @Context('data')
+    data: any,
+    @Context('req')
+    req: Request,
+    @Args('createAccreditationByAdminInput')
+    createAccreditationByAdminInput: CreateAccreditationByAdminInput,
+  ) {
+    this.helperService.isAUser(data);
+    return this.accreditationService.create(
+      createAccreditationByAdminInput.userId,
+      data,
+      createAccreditationByAdminInput,
+      req.headers['host'],
+    );
+  }
   @UseGuards(AuthGuard)
   @Mutation(() => Accreditation)
   createAccreditation(
@@ -28,6 +47,7 @@ export class AccreditationResolver {
   ) {
     this.helperService.isAUser(data);
     return this.accreditationService.create(
+      data.id,
       data,
       createAccreditationInput,
       req.headers['host'],

@@ -1,4 +1,13 @@
-import { Resolver, Query, Mutation, Args, Int, Context } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Int,
+  Context,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
@@ -7,12 +16,16 @@ import { Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { HelperService } from 'src/helper/helper.service';
 import { LoginUserInput } from './dto/login-user.input';
+import { Accreditation } from 'src/accreditation/entities/accreditation.entity';
+import { AccreditationService } from 'src/accreditation/accreditation.service';
+import { AccreditationQuery } from 'src/accreditation/dto/query-accreditation.input';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
     private readonly helperService: HelperService,
+    private readonly accreditationService: AccreditationService,
   ) {}
 
   // creating user resolver
@@ -109,27 +122,56 @@ export class UserResolver {
     return this.userService.resetPassword(token, credential);
   }
 
-  @Query(() => [User], { name: 'user' })
-  findAll() {
+  @Query(() => [User])
+  getAllUsers() {
     // return this.userService.findAll();
   }
 
-  @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    console.log(id);
-
-    // return this.userService.findOne(id);
+  @UseGuards(AuthGuard)
+  @Query(() => User)
+  getUser(
+    @Context('data')
+    data: any,
+  ) {
+    return this.userService.findOne(data.id, data);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => User)
   updateUser(
+    @Context('data')
+    data: any,
+    @Args('updateUserInput')
+    updateUserInput: UpdateUserInput,
+    @Context('req')
+    req: Request,
+  ) {
+    return this.userService.update(
+      data.id,
+      updateUserInput,
+      data,
+      req.headers['origin'],
+    );
+  }
+  @UseGuards(AuthGuard)
+  @Mutation(() => User)
+  updateUserByAdmin(
+    @Context('data')
+    data: any,
     @Args('id')
     id: string,
     @Args('updateUserInput')
     updateUserInput: UpdateUserInput,
+    @Context('req')
+    req: Request,
   ) {
-    console.log(id, updateUserInput);
-    // return this.userService.update(id, updateUserInput);
+    this.helperService.isAnAdmin(data);
+    return this.userService.update(
+      id,
+      updateUserInput,
+      data,
+      req.headers['origin'],
+    );
   }
 
   @Mutation(() => User)
@@ -137,5 +179,10 @@ export class UserResolver {
     console.log(id);
 
     // return this.userService.remove(id);
+  }
+
+  @ResolveField(() => [Accreditation])
+  accreditation(@Parent() user: User) {
+    return this.accreditationService.getUserAccreditaion(user._id);
   }
 }

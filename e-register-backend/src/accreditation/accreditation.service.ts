@@ -23,6 +23,7 @@ export class AccreditationService {
     private logService: LogService,
   ) {}
   async create(
+    userId: string,
     data: any,
     createAccreditationInput: CreateAccreditationInput,
     baseUrl: string,
@@ -37,7 +38,7 @@ export class AccreditationService {
             categoryId: new ObjectId(createAccreditationInput.categoryId),
           },
           {
-            userId: new ObjectId(createAccreditationInput.userId),
+            userId: new ObjectId(userId),
           },
         ],
       };
@@ -137,6 +138,33 @@ export class AccreditationService {
           subcategoryFilter,
           userFilter,
         ],
+      };
+
+      // find all
+      const result = await this.accreditationRepository.find({
+        where: primaryFilter,
+      });
+
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
+    }
+  }
+  async getUserAccreditaion(userId: any) {
+    try {
+      // create root filter
+      let userFilter: any = {};
+      // check if search exist
+      if (userId) {
+        userFilter = {
+          userId: userId,
+        };
+      }
+
+      let primaryFilter: any = {};
+
+      primaryFilter = {
+        $and: [{ isDeleted: false }, userFilter],
       };
 
       // find all
