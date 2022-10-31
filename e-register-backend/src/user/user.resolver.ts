@@ -114,11 +114,13 @@ export class UserResolver {
     // return this.userService.findAll();
   }
 
+  @UseGuards(AuthGuard)
   @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    console.log(id);
-
-    // return this.userService.findOne(id);
+  findOne(
+    @Context('data')
+    data: any,
+  ) {
+    return this.userService.findOne(data._id, data);
   }
 
   @Mutation(() => User)
