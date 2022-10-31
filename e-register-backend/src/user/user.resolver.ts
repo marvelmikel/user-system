@@ -43,7 +43,7 @@ export class UserResolver {
     data: any,
   ) {
     this.helperService.isAnAdmin(data);
-    return this.userService.create(createUserInput, req.headers['host']);
+    return this.userService.create(createUserInput, req.headers['origin']);
   }
 
   // Login Mutation
