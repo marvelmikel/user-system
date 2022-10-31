@@ -109,18 +109,18 @@ export class UserResolver {
     return this.userService.resetPassword(token, credential);
   }
 
-  @Query(() => [User], { name: 'user' })
-  findAll() {
+  @Query(() => [User])
+  getAllUsers() {
     // return this.userService.findAll();
   }
 
   @UseGuards(AuthGuard)
-  @Query(() => User, { name: 'user' })
-  findOne(
+  @Query(() => User)
+  getUser(
     @Context('data')
     data: any,
   ) {
-    return this.userService.findOne(data._id, data);
+    return this.userService.findOne(data.id, data);
   }
 
   @Mutation(() => User)
