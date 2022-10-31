@@ -127,7 +127,8 @@ type Mutation {
   validateEmailVerification(token: String!): String!
   forgottenPassword(email: String!): String!
   resetPassword(token: String!, credential: String!): String!
-  updateUser(id: String!, updateUserInput: UpdateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUserByAdmin(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
   createAccreditation(createAccreditationInput: CreateAccreditationInput!): Accreditation!
   updateAccreditation(id: String!, updateAccreditationInput: UpdateAccreditationInput!): Accreditation!

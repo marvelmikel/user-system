@@ -123,15 +123,42 @@ export class UserResolver {
     return this.userService.findOne(data.id, data);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => User)
   updateUser(
+    @Context('data')
+    data: any,
+    @Args('updateUserInput')
+    updateUserInput: UpdateUserInput,
+    @Context('req')
+    req: Request,
+  ) {
+    return this.userService.update(
+      data.id,
+      updateUserInput,
+      data,
+      req.headers['origin'],
+    );
+  }
+  @UseGuards(AuthGuard)
+  @Mutation(() => User)
+  updateUserByAdmin(
+    @Context('data')
+    data: any,
     @Args('id')
     id: string,
     @Args('updateUserInput')
     updateUserInput: UpdateUserInput,
+    @Context('req')
+    req: Request,
   ) {
-    console.log(id, updateUserInput);
-    // return this.userService.update(id, updateUserInput);
+    this.helperService.isAnAdmin(data);
+    return this.userService.update(
+      id,
+      updateUserInput,
+      data,
+      req.headers['origin'],
+    );
   }
 
   @Mutation(() => User)
