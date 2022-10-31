@@ -1,5 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { ValidateNested } from 'class-validator';
+import { Accreditation } from 'src/accreditation/entities/accreditation.entity';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
 @Entity()
@@ -129,6 +130,9 @@ export class User {
   @Column()
   @Field({ nullable: true })
   profilePic: string;
+
+  @Field(() => [Accreditation], { nullable: true })
+  accreditation: Accreditation[];
 }
 
 @ObjectType()

@@ -149,6 +149,33 @@ export class AccreditationService {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
+  async getUserAccreditaion(userId: any) {
+    try {
+      // create root filter
+      let userFilter: any = {};
+      // check if search exist
+      if (userId) {
+        userFilter = {
+          userId: userId,
+        };
+      }
+
+      let primaryFilter: any = {};
+
+      primaryFilter = {
+        $and: [{ isDeleted: false }, userFilter],
+      };
+
+      // find all
+      const result = await this.accreditationRepository.find({
+        where: primaryFilter,
+      });
+
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
+    }
+  }
 
   async findOne(id: string) {
     try {
