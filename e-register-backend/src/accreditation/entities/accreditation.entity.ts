@@ -15,19 +15,19 @@ export class Accreditation {
   id: string;
 
   @ObjectIdColumn()
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   categoryId: string;
 
   @ObjectIdColumn()
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   subCategoryId: string;
 
   @ObjectIdColumn()
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   userId: string;
 
   @ObjectIdColumn()
-  @Field({ defaultValue: false })
+  @Field({ defaultValue: true })
   accredited: boolean;
 
   @ObjectIdColumn()
@@ -37,24 +37,24 @@ export class Accreditation {
   @Column()
   @Field(() => String, {
     defaultValue: StatusEnum.PENDING,
-    nullable: false,
+    nullable: true,
   })
   status: string;
 
   @Column()
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   dateAccredited: string;
 
   @Column()
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   expiryDate: string;
 
   @Column()
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   proofOfPayment: string;
 
   @Column()
-  @Field({ nullable: false })
+  @Field({ nullable: true })
   supportingDocument: string;
 
   @AfterLoad()
