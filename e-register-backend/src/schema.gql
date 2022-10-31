@@ -29,7 +29,7 @@ type Accreditation {
 }
 
 type User {
-  id: ID!
+  _id: ID!
   nameOfCompany: String
   token: String
   location: String

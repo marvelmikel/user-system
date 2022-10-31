@@ -71,7 +71,7 @@ export class UserService {
       // create log
       this.logService.create({
         info: 'New User Created',
-        by: savedData.id,
+        by: savedData._id,
         isAdmin: false,
       });
 
@@ -115,7 +115,7 @@ export class UserService {
       // create log
       this.logService.create({
         info: 'Resend Email Verification',
-        by: checkEmail.id,
+        by: checkEmail._id,
         isAdmin: false,
       });
 
@@ -140,7 +140,7 @@ export class UserService {
       // check if user exist
       if (!checkEmail) throw new Error('Email is not attached to a user');
       console.log(checkEmail);
-      const updatedEmail = await this.userRepository.update(checkEmail.id, {
+      const updatedEmail = await this.userRepository.update(checkEmail._id, {
         isEmailActive: true,
       });
       console.log(updatedEmail);
@@ -186,7 +186,7 @@ export class UserService {
       // create log
       this.logService.create({
         info: 'Resend Email Verification',
-        by: checkEmail.id,
+        by: checkEmail._id,
         isAdmin: false,
       });
 
@@ -212,7 +212,7 @@ export class UserService {
       // check if user exist
       if (!checkEmail) throw new Error('Invalid User Details');
 
-      const updatedData = await this.userRepository.update(checkEmail.id, {
+      const updatedData = await this.userRepository.update(checkEmail._id, {
         credential: await this.helperService.hashPassword(credential),
       });
       if (!updatedData) throw new Error('Unable to Updated');
@@ -245,7 +245,7 @@ export class UserService {
         email: checkAdminExist.email,
         isAdmin: false,
         isRoot: false,
-        id: checkAdminExist.id,
+        id: checkAdminExist._id,
       };
 
       const token = await this.helperService.generateToken({
