@@ -1,0 +1,32 @@
+mutation UpdateCompany(
+  $nameOfCompany: String!,
+  $location: String!,
+  $address: String!,
+  $rcNumber: String!,
+  $dateOfIncorporation: String!,
+  $tin: String!,
+  $phoneNumber: String!
+  ) {
+  updateUser(updateUserInput: {
+    nameOfCompany: $nameOfCompany,
+    tin: $tin,
+    location: $location,
+    address: $address,
+    rcNumber: $rcNumber,
+    dateOfIncorporation: $dateOfIncorporation,
+    phoneNumber: $phoneNumber
+  }){
+    _id
+    nameOfCompany
+    location
+    address
+    rcNumber
+    dateOfIncorporation
+    tin
+    phoneNumber
+  }
+}
+
+
+
+

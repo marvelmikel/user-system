@@ -33,7 +33,7 @@
         tw-py-4
         tw-px-12
         "
-        to="/admin/accreditation" >Accreditations</nuxt-link>
+        to="/admin/accreditations" >Accreditations</nuxt-link>
         <nuxt-link class="
         tw-block
         tw-py-4

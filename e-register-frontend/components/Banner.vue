@@ -19,7 +19,7 @@
         ">
         {{ title }}
         </h1>
-        <button v-if="showButton" class="
+        <button @click="emitBtnEvent" v-if="showButton" class="
         tw-rounded-lg
         tw-bg-green-500
         tw-text-white
@@ -34,7 +34,12 @@
 <script>
 export default {
   name: 'Banner',
-  props: ['title', 'showButton', 'buttonTxt']
+  props: ['title', 'showButton', 'buttonTxt'],
+  methods: {
+    emitBtnEvent(){
+      this.$emit('button-event')
+    }
+  }
 }
 </script>
 

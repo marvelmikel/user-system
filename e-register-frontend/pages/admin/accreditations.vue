@@ -141,6 +141,8 @@
 </template>
 
 <script>
+import GetAccreditations from "~/apollo/queries/user/getAccreditations";
+
 export default {
   name: 'admin-accreditation-two',
   layout: 'adminDefault',

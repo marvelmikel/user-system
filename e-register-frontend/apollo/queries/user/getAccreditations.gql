@@ -1,0 +1,19 @@
+query GetAccreditations {
+  getUser {
+    _id
+    accreditation {
+      id
+      categoryId
+      subCategoryId
+      userId
+      accredited
+      isDeleted
+      status
+      dateAccredited
+      expiryDate
+      proofOfPayment
+      supportingDocument
+    }
+  }
+}
+

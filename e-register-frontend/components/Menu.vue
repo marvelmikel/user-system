@@ -64,7 +64,7 @@
       <div class="tw-flex tw-items-center tw-gap-8" v-else>
         <div class="tw-relative">
          <div class="tw-cursor-pointer" @click="showMenu = true">
-           <div 
+           <div
             v-if="!userDetails?.profilePic"
             class="
               tw-overflow-hidden
@@ -117,11 +117,11 @@
           >
             <div @click.prevent="$router.push({path:'/company'})" class="tw-flex tw-gap-3 tw-items-center tw-cursor-pointer"> <i class="bx bx-user tw-text-xl"></i>Profile</div>
             <div @click.prevent="logout" class="tw-flex tw-gap-3 tw-items-center tw-cursor-pointer"> <i class="bx bx-log-in tw-text-xl"></i>Logout</div>
-           
+
           </div>
         </div>
 
-        <i class="bx bx-layer-plus tw-text-3xl"></i>
+        <i @click.prevent="$router.push({path:'/accreditations'})" class="bx bx-layer-plus tw-text-3xl tw-cursor-pointer"></i>
         <!-- <a @click.prevent="logout"  href="#" class="hover:tw-text-green-500">Logout</a> -->
       </div>
     </div>

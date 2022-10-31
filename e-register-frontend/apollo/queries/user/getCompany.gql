@@ -1,0 +1,14 @@
+query GetCompany {
+  getUser {
+    _id
+    nameOfCompany
+    location
+    address
+    rcNumber
+    dateOfIncorporation
+    tin
+    phoneNumber
+    profilePic
+  }
+}
+
