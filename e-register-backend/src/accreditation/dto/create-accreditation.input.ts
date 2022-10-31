@@ -18,9 +18,9 @@ export class CreateAccreditationInput {
   @Field(() => String)
   userId: string;
 
-  @Field(() => String)
+  @Field({ defaultValue: null })
   uploadProofOfDocument: Upload;
 
-  @Field(() => String)
+  @Field({ defaultValue: null })
   uploadSupportingDocument: Upload;
 }
