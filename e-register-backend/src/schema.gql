@@ -59,6 +59,7 @@ type User {
   isBoardOfDirectorsInput: Boolean!
   isDeleted: Boolean!
   profilePic: String
+  accreditation: [Accreditation!]
 }
 
 type Document {
