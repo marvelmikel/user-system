@@ -2,7 +2,6 @@ query GetAccreditations {
   getUser {
     _id
     accreditation {
-      id
       categoryId
       subCategoryId
       userId

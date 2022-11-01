@@ -155,6 +155,8 @@ export class AccreditationService {
   }
   async getUserAccreditaion(userId: any) {
     try {
+      console.log(userId);
+
       // create root filter
       let userFilter: any = {};
       // check if search exist
@@ -174,6 +176,8 @@ export class AccreditationService {
       const result = await this.accreditationRepository.find({
         where: primaryFilter,
       });
+
+      console.log(result);
 
       return result;
     } catch (error) {
