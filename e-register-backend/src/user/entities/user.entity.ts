@@ -23,19 +23,19 @@ export class User {
 
   @Column()
   @Field({ nullable: true })
-  address: string;
+  address?: string;
 
   @Column()
   @Field({ nullable: true })
-  rcNumber: string;
+  rcNumber?: string;
 
   @Column()
   @Field({ nullable: true })
-  dateOfIncorporation: string;
+  dateOfIncorporation?: string;
 
   @Column()
   @Field({ nullable: true })
-  tin: string;
+  tin?: string;
 
   @Column()
   @Field({ nullable: true })
@@ -47,7 +47,7 @@ export class User {
 
   @Column()
   @Field({ nullable: true })
-  phoneNumber: string;
+  phoneNumber?: string;
 
   @Column()
   @Field({ defaultValue: true })
@@ -59,39 +59,39 @@ export class User {
   // documents to upload
   @Column()
   @Field({ nullable: true })
-  certificateOfIncorporation: string;
+  certificateOfIncorporation?: string;
 
   @Column()
   @Field({ defaultValue: false })
-  isCertificateOfIncorporation: boolean;
+  isCertificateOfIncorporation?: boolean;
 
   @Column()
   @Field({ nullable: true })
-  certificateOfTaxClearance: string;
+  certificateOfTaxClearance?: string;
 
   @Column()
   @Field({ defaultValue: false })
-  isCertificateOfTaxClearance: boolean;
+  isCertificateOfTaxClearance?: boolean;
 
   @Column()
   @Field({ nullable: true })
-  applicationLetter: string;
+  applicationLetter?: string;
 
   @Column()
   @Field({ defaultValue: false })
-  isApplicationLetter: boolean;
+  isApplicationLetter?: boolean;
 
   @Column()
   @Field({ nullable: true })
-  evidenceOfPayment: string;
+  evidenceOfPayment?: string;
 
   @Column()
   @Field({ defaultValue: false })
-  isEvidenceOfPayment: boolean;
+  isEvidenceOfPayment?: boolean;
 
   @Column()
   @Field({ nullable: true })
-  letterOfCredibilityFromBanks: string;
+  letterOfCredibilityFromBanks?: string;
 
   @Column()
   @Field({ defaultValue: false })
@@ -99,25 +99,25 @@ export class User {
 
   @Column()
   @Field({ nullable: true })
-  collaborationCertificateWithForeignPartners: string;
+  collaborationCertificateWithForeignPartners?: string;
 
   @Column()
   @Field({ defaultValue: false })
-  isCollaborationCertificateWithForeignPartners: boolean;
+  isCollaborationCertificateWithForeignPartners?: boolean;
 
   @Column()
   @Field(() => [Document], { defaultValue: [], nullable: true })
   @ValidateNested({ each: true })
-  curriculumVitae: Document[];
+  curriculumVitae?: Document[];
 
   @Column()
   @Field({ defaultValue: false, nullable: true })
-  isCurriculumVitae: boolean;
+  isCurriculumVitae?: boolean;
 
   @Column()
   @Field(() => [Document], { defaultValue: [], nullable: true })
   @ValidateNested({ each: true })
-  boardOfDirectors: Document[];
+  boardOfDirectors?: Document[];
 
   @Column()
   @Field({ defaultValue: false })
@@ -129,10 +129,10 @@ export class User {
 
   @Column()
   @Field({ nullable: true })
-  profilePic: string;
+  profilePic?: string;
 
   @Field(() => [Accreditation], { nullable: true })
-  accreditation: Accreditation[];
+  accreditation?: Accreditation[];
 }
 
 @ObjectType()
