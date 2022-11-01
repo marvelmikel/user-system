@@ -11,34 +11,34 @@ export class User {
   _id: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   nameOfCompany: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   token: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   location: string;
 
   @Column()
-  @Field({ nullable: true })
-  address?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  address: string;
 
   @Column()
-  @Field({ nullable: true })
-  rcNumber?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  rcNumber: string;
 
   @Column()
-  @Field({ nullable: true })
-  dateOfIncorporation?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  dateOfIncorporation: string;
 
   @Column()
-  @Field({ nullable: true })
-  tin?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  tin: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   email: string;
 
   @Column()
@@ -46,8 +46,8 @@ export class User {
   isEmailActive: boolean;
 
   @Column()
-  @Field({ nullable: true })
-  phoneNumber?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  phoneNumber: string;
 
   @Column()
   @Field({ defaultValue: true })
@@ -58,66 +58,66 @@ export class User {
 
   // documents to upload
   @Column()
-  @Field({ nullable: true })
-  certificateOfIncorporation?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  certificateOfIncorporation: string;
 
   @Column()
   @Field({ defaultValue: false })
-  isCertificateOfIncorporation?: boolean;
+  isCertificateOfIncorporation: boolean;
 
   @Column()
-  @Field({ nullable: true })
-  certificateOfTaxClearance?: string;
-
-  @Column()
-  @Field({ defaultValue: false })
-  isCertificateOfTaxClearance?: boolean;
-
-  @Column()
-  @Field({ nullable: true })
-  applicationLetter?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  certificateOfTaxClearance: string;
 
   @Column()
   @Field({ defaultValue: false })
-  isApplicationLetter?: boolean;
+  isCertificateOfTaxClearance: boolean;
 
   @Column()
-  @Field({ nullable: true })
-  evidenceOfPayment?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  applicationLetter: string;
+
+  @Column()
+  @Field(() => String, { defaultValue: false })
+  isApplicationLetter: boolean;
+
+  @Column()
+  @Field(() => String, { defaultValue: null, nullable: true })
+  evidenceOfPayment: string;
 
   @Column()
   @Field({ defaultValue: false })
-  isEvidenceOfPayment?: boolean;
+  isEvidenceOfPayment: boolean;
 
   @Column()
-  @Field({ nullable: true })
-  letterOfCredibilityFromBanks?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  letterOfCredibilityFromBanks: string;
 
   @Column()
   @Field({ defaultValue: false })
   isLetterOfCredibilityFromBanks: boolean;
 
   @Column()
-  @Field({ nullable: true })
-  collaborationCertificateWithForeignPartners?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  collaborationCertificateWithForeignPartners: string;
 
   @Column()
   @Field({ defaultValue: false })
-  isCollaborationCertificateWithForeignPartners?: boolean;
+  isCollaborationCertificateWithForeignPartners: boolean;
 
   @Column()
   @Field(() => [Document], { defaultValue: [], nullable: true })
   @ValidateNested({ each: true })
-  curriculumVitae?: Document[];
+  curriculumVitae: Document[];
 
   @Column()
   @Field({ defaultValue: false, nullable: true })
-  isCurriculumVitae?: boolean;
+  isCurriculumVitae: boolean;
 
   @Column()
   @Field(() => [Document], { defaultValue: [], nullable: true })
   @ValidateNested({ each: true })
-  boardOfDirectors?: Document[];
+  boardOfDirectors: Document[];
 
   @Column()
   @Field({ defaultValue: false })
@@ -128,11 +128,11 @@ export class User {
   isDeleted: boolean;
 
   @Column()
-  @Field({ nullable: true })
-  profilePic?: string;
+  @Field(() => String, { defaultValue: null, nullable: true })
+  profilePic: string;
 
   @Field(() => [Accreditation], { nullable: true })
-  accreditation?: Accreditation[];
+  accreditation: Accreditation[];
 }
 
 @ObjectType()
