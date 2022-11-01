@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb';
 import { HelperService } from 'src/helper/helper.service';
 import { LogService } from 'src/log/log.service';
 import { MailService } from 'src/mail/mail.service';
-import { MongoRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AccreditationQuery } from './dto/query-accreditation.input';
 import { CreateAccreditationInput } from './dto/create-accreditation.input';
 import { UpdateAccreditationInput } from './dto/update-accreditation.input';
@@ -17,8 +17,7 @@ import { CustomQuery } from 'src/admin/dto/query-admin.input';
 export class AccreditationService {
   constructor(
     @InjectRepository(Accreditation)
-    private accreditationRepository: MongoRepository<Accreditation>,
-    private accreditationMainRepository: Repository<Accreditation>,
+    private accreditationRepository: Repository<Accreditation>,
     private mailService: MailService,
     private helperService: HelperService,
     private logService: LogService,
@@ -174,11 +173,11 @@ export class AccreditationService {
       };
 
       // find all
-      const result = await this.accreditationMainRepository.find({
+      const result = await this.accreditationRepository.find({
         where: primaryFilter,
       });
 
-      console.log(result, 'henry');
+      console.log(result);
 
       return result;
     } catch (error) {
@@ -402,40 +401,40 @@ export class AccreditationService {
 
   async findAllUsers(customQuery: CustomQuery) {
     try {
-      const { categoryId, subcategoryId } = customQuery;
+      // const { categoryId, subcategoryId } = customQuery;
 
-      // filter
-      const accreditationFilter: any = this.helperService.mongoObjectFilter({
-        $and: this.helperService.mongoArrayFilter([
-          this.helperService.mongoQuery(
-            'categoryId',
-            '$eq',
-            categoryId ? new ObjectId(categoryId) : null,
-          ),
-          this.helperService.mongoQuery(
-            'subcategoryId',
-            '$eq',
-            subcategoryId ? new ObjectId(subcategoryId) : null,
-          ),
-        ]),
-      });
+      // // filter
+      // const accreditationFilter: any = this.helperService.mongoObjectFilter({
+      //   $and: this.helperService.mongoArrayFilter([
+      //     this.helperService.mongoQuery(
+      //       'categoryId',
+      //       '$eq',
+      //       categoryId ? new ObjectId(categoryId) : null,
+      //     ),
+      //     this.helperService.mongoQuery(
+      //       'subcategoryId',
+      //       '$eq',
+      //       subcategoryId ? new ObjectId(subcategoryId) : null,
+      //     ),
+      //   ]),
+      // });
 
-      // create a pipeline
-      const result = this.accreditationRepository.aggregate([
-        accreditationFilter,
-        this.helperService.mongoObjectFilter({
-          $group: { _id: '$userId' },
-        }),
-        this.helperService.mongoObjectFilter({
-          $lookup: {
-            from: 'user',
-            localField: '_id',
-            foreignField: 'userId',
-            as: 'user',
-          },
-        }),
-      ]);
-      return result;
+      // // create a pipeline
+      // const result = this.accreditationRepository.aggregate([
+      //   accreditationFilter,
+      //   this.helperService.mongoObjectFilter({
+      //     $group: { _id: '$userId' },
+      //   }),
+      //   this.helperService.mongoObjectFilter({
+      //     $lookup: {
+      //       from: 'user',
+      //       localField: '_id',
+      //       foreignField: 'userId',
+      //       as: 'user',
+      //     },
+      //   }),
+      // ]);
+      return customQuery;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
