@@ -17,8 +17,8 @@ import { CustomQuery } from 'src/admin/dto/query-admin.input';
 export class AccreditationService {
   constructor(
     @InjectRepository(Accreditation)
-    private accreditationRepository: Repository<Accreditation>,
-    private accreditationMainRepository: MongoRepository<Accreditation>,
+    private accreditationRepository: MongoRepository<Accreditation>,
+    private accreditationMainRepository: Repository<Accreditation>,
     private mailService: MailService,
     private helperService: HelperService,
     private logService: LogService,
@@ -174,7 +174,7 @@ export class AccreditationService {
       };
 
       // find all
-      const result = await this.accreditationRepository.find({
+      const result = await this.accreditationMainRepository.find({
         where: primaryFilter,
       });
 
@@ -421,7 +421,7 @@ export class AccreditationService {
       });
 
       // create a pipeline
-      const result = this.accreditationMainRepository.aggregate([
+      const result = this.accreditationRepository.aggregate([
         accreditationFilter,
         this.helperService.mongoObjectFilter({
           $group: { _id: '$userId' },
