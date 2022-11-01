@@ -15,15 +15,15 @@ export class Accreditation {
   id: string;
 
   @ObjectIdColumn()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   categoryId: string;
 
   @ObjectIdColumn()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   subCategoryId: string;
 
   @ObjectIdColumn()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   userId: string;
 
   @ObjectIdColumn()
@@ -42,21 +42,22 @@ export class Accreditation {
   status: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   dateAccredited: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   expiryDate: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   proofOfPayment: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   supportingDocument: string;
 
+  // test
   @AfterLoad()
   update() {
     if (
