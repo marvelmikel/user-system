@@ -56,6 +56,7 @@ export class UserResolver {
     data: any,
   ) {
     this.helperService.isAnAdmin(data);
+    console.log(req);
     return this.userService.create(createUserInput, req.headers['origin']);
   }
 
