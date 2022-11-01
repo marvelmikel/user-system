@@ -3,7 +3,7 @@ query GetAccreditations {
     _id
     accreditation {
       categoryId
-      subCategoryId
+      subcategoryId
       userId
       accredited
       isDeleted
