@@ -2,7 +2,6 @@ import { CreateUserInput } from './create-user.input';
 import { InputType, Field, PartialType, OmitType } from '@nestjs/graphql';
 import {
   ArrayMaxSize,
-  ArrayMinSize,
   IsDateString,
   IsMobilePhone,
   IsOptional,

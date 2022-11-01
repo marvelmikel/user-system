@@ -16,16 +16,16 @@ type Admin {
 
 type Accreditation {
   id: ID!
-  categoryId: String!
-  subCategoryId: String!
-  userId: String!
+  categoryId: String
+  subCategoryId: String
+  userId: String
   accredited: Boolean!
   isDeleted: Boolean!
-  status: String!
-  dateAccredited: String!
-  expiryDate: String!
-  proofOfPayment: String!
-  supportingDocument: String!
+  status: String
+  dateAccredited: String
+  expiryDate: String
+  proofOfPayment: String
+  supportingDocument: String
 }
 
 type User {
@@ -46,7 +46,7 @@ type User {
   certificateOfTaxClearance: String
   isCertificateOfTaxClearance: Boolean!
   applicationLetter: String
-  isApplicationLetter: Boolean!
+  isApplicationLetter: String!
   evidenceOfPayment: String
   isEvidenceOfPayment: Boolean!
   letterOfCredibilityFromBanks: String
@@ -131,6 +131,7 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
   updateUserByAdmin(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
+  createAccreditationByAdmin(createAccreditationByAdminInput: CreateAccreditationByAdminInput!): Accreditation!
   createAccreditation(createAccreditationInput: CreateAccreditationInput!): Accreditation!
   updateAccreditation(id: String!, updateAccreditationInput: UpdateAccreditationInput!): Accreditation!
   updateAccreditationByAdmin(id: String!, adminUpdateAccreditationInput: AdminUpdateAccreditationInput!): Accreditation!
@@ -209,27 +210,33 @@ input DocumentInput {
   title: String!
 }
 
-input CreateAccreditationInput {
+input CreateAccreditationByAdminInput {
   categoryId: String!
   subcategoryId: String!
   userId: String!
-  uploadProofOfDocument: String!
-  uploadSupportingDocument: String!
+  uploadProofOfDocument: Upload = null
+  uploadSupportingDocument: Upload = null
+}
+
+input CreateAccreditationInput {
+  categoryId: String!
+  subcategoryId: String!
+  uploadProofOfDocument: Upload = null
+  uploadSupportingDocument: Upload = null
 }
 
 input UpdateAccreditationInput {
   categoryId: String
   subcategoryId: String
-  uploadProofOfDocument: String
-  uploadSupportingDocument: String
+  uploadProofOfDocument: Upload = null
+  uploadSupportingDocument: Upload = null
 }
 
 input AdminUpdateAccreditationInput {
   categoryId: String
   subcategoryId: String
-  userId: String
-  uploadProofOfDocument: String
-  uploadSupportingDocument: String
+  uploadProofOfDocument: Upload = null
+  uploadSupportingDocument: Upload = null
   accredited: Boolean!
 }
 

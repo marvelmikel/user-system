@@ -18,7 +18,6 @@ import { HelperService } from 'src/helper/helper.service';
 import { LoginUserInput } from './dto/login-user.input';
 import { Accreditation } from 'src/accreditation/entities/accreditation.entity';
 import { AccreditationService } from 'src/accreditation/accreditation.service';
-import { AccreditationQuery } from 'src/accreditation/dto/query-accreditation.input';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -39,7 +38,8 @@ export class UserResolver {
     @Context('req')
     req: Request,
   ) {
-    return this.userService.create(createUserInput, req.headers['host']);
+    console.log(req);
+    return this.userService.create(createUserInput, req.headers['origin']);
   }
   // creating user resolver
   // the reslover if for regitering new users

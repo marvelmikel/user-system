@@ -11,34 +11,34 @@ export class User {
   _id: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   nameOfCompany: string;
 
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   token: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   location: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   address: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   rcNumber: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   dateOfIncorporation: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   tin: string;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   email: string;
 
   @Column()
@@ -46,7 +46,7 @@ export class User {
   isEmailActive: boolean;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   phoneNumber: string;
 
   @Column()
@@ -58,7 +58,7 @@ export class User {
 
   // documents to upload
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   certificateOfIncorporation: string;
 
   @Column()
@@ -66,7 +66,7 @@ export class User {
   isCertificateOfIncorporation: boolean;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   certificateOfTaxClearance: string;
 
   @Column()
@@ -74,15 +74,15 @@ export class User {
   isCertificateOfTaxClearance: boolean;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   applicationLetter: string;
 
   @Column()
-  @Field({ defaultValue: false })
+  @Field(() => String, { defaultValue: false })
   isApplicationLetter: boolean;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   evidenceOfPayment: string;
 
   @Column()
@@ -90,7 +90,7 @@ export class User {
   isEvidenceOfPayment: boolean;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   letterOfCredibilityFromBanks: string;
 
   @Column()
@@ -98,7 +98,7 @@ export class User {
   isLetterOfCredibilityFromBanks: boolean;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   collaborationCertificateWithForeignPartners: string;
 
   @Column()
@@ -128,7 +128,7 @@ export class User {
   isDeleted: boolean;
 
   @Column()
-  @Field({ nullable: true })
+  @Field(() => String, { defaultValue: null, nullable: true })
   profilePic: string;
 
   @Field(() => [Accreditation], { nullable: true })
