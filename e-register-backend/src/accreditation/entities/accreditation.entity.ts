@@ -14,23 +14,23 @@ export class Accreditation {
   @Field(() => ID)
   id: string;
 
-  @ObjectIdColumn()
+  @Column()
   @Field(() => ID, { defaultValue: null, nullable: true })
   categoryId: string;
 
-  @ObjectIdColumn()
+  @Column()
   @Field(() => ID, { defaultValue: null, nullable: true })
-  subCategoryId: string;
+  subcategoryId: string;
 
-  @ObjectIdColumn()
+  @Column()
   @Field(() => ID, { defaultValue: null, nullable: true })
   userId: string;
 
-  @ObjectIdColumn()
+  @Column()
   @Field({ defaultValue: true })
   accredited: boolean;
 
-  @ObjectIdColumn()
+  @Column()
   @Field({ defaultValue: false })
   isDeleted: boolean;
 
