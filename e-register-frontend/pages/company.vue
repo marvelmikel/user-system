@@ -38,31 +38,36 @@
     </div>
 
     <div v-else>
-
+      <p class="tw-text-center tw-pt-5 tw-text-gray-400">Fill all form field to go to next step</p>
       <div class="
       tw-w-5/12
       tw-mx-auto
       tw-mt-8
       ">
+        <ul id="progressbar">
+            <li @click="navigate_step(1)" ref="step_1" class="tw-cursor-pointer" id="step_one"></li>
+            <li @click="navigate_step(2)" ref="step_2" class="tw-cursor-pointer" id="step_two"></li>
+            <li @click="navigate_step(3)" ref="step_3" class="tw-cursor-pointer" id="step_three"></li>
+            <li @click="navigate_step(4)" ref="step_4" class="tw-cursor-pointer" id="step_four"></li>
+        </ul>
+      </div>
+
+      <!-- <div class="tw-w-5/12 tw-mx-auto tw-mt-8">
         <div class="tw-flex tw-justify-between tw-text-2xl tw-font-bold">
           <div ref="step_1" @click="navigate_step(1)" class="tw-flex tw-items-center tw-justify-center compliance_navicon active">
             <span>1</span>
-            <!-- <i class='bx bx-check complete_compliance'></i> -->
           </div>
           <div ref="step_2" @click="navigate_step(2)" class="tw-flex tw-items-center tw-justify-center compliance_navicon">
             <span>2</span>
-            <!-- <span class="incomplete_compliance">!</span> -->
           </div>
           <div ref="step_3" @click="navigate_step(3)" class="tw-flex tw-items-center tw-justify-center compliance_navicon">
             <span>3</span>
-            <!-- <span class="incomplete_compliance">!</span> -->
           </div>
           <div ref="step_4" @click="navigate_step(4)" class="tw-flex tw-items-center tw-justify-center compliance_navicon">
             <span>4</span>
-            <!-- <span class="incomplete_compliance">!</span> -->
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="
       tw-w-9/12
@@ -85,14 +90,8 @@
           '></i>
         </div>
         <div class="tw-flex-1">
-          <!-- <InputItem :label="'Name'" :value="'John Doe'"/>
-          <InputItem :label="'Location'" :value="'Abuja'"/>
-          <InputItem :label="'Address'" :value="'plot 238, shehu shagri way, CBD'"/>
-          <InputItem :label="'RC Number'" :value="'562736'"/>
-          <InputItem :label="'Date Of Inc'" :value="'6th July 2021'"/>
-          <InputItem :label="'TIN'" :value="'67432'"/>
-          <InputItem :label="'Phone'" :value="'johndoe@gmail.com'"/> -->
-          <div>
+
+          <div v-show="step == 1">
             <div class="tw-flex tw-items-center tw-mb-3">
               <span class="tw-w-1/5">Name</span>
               <input type="text" v-model="company.nameOfCompany" placeholder="Company Name" class="tw-px-7 tw-py-3 tw-text-sm tw-rounded-lg tw-w-1/2 tw-bg-gray-200 tw-border-none focus:tw-outline-none" />
@@ -127,7 +126,78 @@
               <span class="tw-w-1/5">Phone</span>
               <input type="text" v-model="company.phoneNumber" placeholder="67432" class="tw-px-7 tw-py-3 tw-text-sm tw-rounded-lg tw-w-1/2 tw-bg-gray-200 tw-border-none focus:tw-outline-none" />
             </div>
+
+
           </div>
+
+          <div v-show="step == 2">
+            <!-- Certificate Of Incorporation -->
+            <div class="tw-mb-4">
+              <p class="tw-mb-2">Certificate Of Incorporation</p>
+              <input
+                ref="certificateOfIncorporation"
+                type="file"
+                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
+                @change.prevent="setCertificateOfIncorporation"
+              />
+
+              <div @click.prevent="$refs.certificateOfIncorporation.click()"
+                class="
+                tw-cursor-pointer
+                tw-py-12
+                tw-rounded-lg
+                tw-w-4/6
+                tw-bg-gray-200
+                tw-flex
+                tw-justify-center
+                tw-items-center
+              ">
+              <i class='bx bx-note tw-text-2xl'></i>
+              </div>
+
+              <div v-if="company.certificateOfIncorporation" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+                <span class="tw-text-xs tw-text-gray-500">
+                  {{ company.certificateOfIncorporation.name || '' }}
+                </span>
+                <i @click="removeCertificateOfIncorporation" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+              </div>
+            </div>
+            <!-- Certificate Of Incorporation End -->
+
+
+
+          </div>
+
+          <div v-show="step == 3">
+          </div>
+
+          <div v-show="step == 4">
+          </div>
+
+          <div class="tw-flex tw-justify-start tw-my-10 tw-gap-4">
+            <button @click="previous"
+            class="
+            tw-bg-gray-600
+            tw-text-white
+            tw-w-1/6
+            tw-p-3
+            tw-text-sm
+            ">
+              Back
+            </button>
+            <button @click="next"
+            class="
+            tw-bg-purple-600
+            tw-text-white
+            tw-w-1/6
+            tw-p-3
+            tw-text-sm
+            ">
+              Next
+            </button>
+
+          </div>
+
         </div>
       </div>
 
@@ -153,7 +223,8 @@ export default {
         dateOfIncorporation: null,
         tin: null,
         phoneNumber: null,
-        profilePic: null
+        profilePic: null,
+        certificateOfIncorporation: null,
       },
       loadingCompany: false,
       editing: false,
@@ -214,17 +285,25 @@ export default {
 
     navigate_step(no){
       this.step = no;
-    }
+    },
+
+    setCertificateOfIncorporation(){},
+
+    removeCertificateOfIncorporation(){}
   },
 
   watch: {
     step(value){
-      let navicons = document.querySelectorAll('.compliance_navicon');
-      navicons.forEach(element => {
-        element.classList.remove('active');
-      });
+    //   let navicons = document.querySelectorAll('.compliance_navicon');
+    //   navicons.forEach(element => {
+    //     element.classList.remove('active');
+    //   });
 
-      this.$refs[`step_${value}`].classList.add('active')
+      for (let i = 1; i < value; i++) {
+        if (i < 5) {
+          this.$refs[`step_${i}`].classList.add('completed')
+        }
+      }
     }
   }
 
@@ -240,7 +319,7 @@ export default {
 
 
 
-.active_step {
+/* .active_step {
   color: #641eff !important;
 }
 
@@ -262,12 +341,108 @@ export default {
   border: 1px solid #b1b1b1;
   border-radius: 100%;
   cursor: pointer;
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   color: #c4c4c4;
 }
 
 .compliance_navicon.active .complete_compliance, .compliance_navicon.active .incomplete_compliance {
   color: #fff;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#progressbar {
+  margin-bottom: 30px;
+  overflow: hidden;
+  color: lightgrey
+}
+
+#progressbar .completed {
+    /* color: #673AB7 */
+    @apply tw-text-dark-green;
+}
+
+#progressbar li {
+  /* list-style-type: none; */
+  /* font-size: 15px; */
+  width: 25%;
+  float: left;
+  position: relative;
+  font-weight: 400;
+}
+
+#progressbar #step_one:before {
+    content: "1"
+}
+
+#progressbar #step_two:before {
+    content: "2"
+}
+
+#progressbar #step_three:before {
+    content: "3"
+}
+
+#progressbar #step_four:before {
+    content: "4"
+}
+
+#progressbar li:before {
+    width: 50px;
+    height: 50px;
+    line-height: 45px;
+    display: block;
+    font-size: 20px;
+    color: #ffffff;
+    background: lightgray;
+    border-radius: 50%;
+    margin: 0 auto 10px auto;
+    padding: 2px;
+    text-align: center;
+}
+
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: lightgray;
+    position: absolute;
+    left: 0;
+    top: 25px;
+    z-index: -1
+}
+
+#progressbar li.completed:before,
+#progressbar li.completed:after {
+  /* background: #673AB7 */
+  @apply tw-bg-dark-green;
+}
+
+.progress {
+    height: 20px
+}
+
+.progress-bar {
+  /* background-color: #673AB7; */
+  @apply tw-bg-dark-green;
+}
+
+.fit-image {
+    width: 100%;
+    object-fit: cover
 }
 </style>
