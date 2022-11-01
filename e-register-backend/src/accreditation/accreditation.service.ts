@@ -56,6 +56,7 @@ export class AccreditationService {
         categoryId: createAccreditationInput.categoryId,
         subcategoryId: createAccreditationInput.subcategoryId,
         isDeleted: false,
+        userId: userId,
       };
       // proof of payment document
       if (createAccreditationInput.uploadProofOfDocument) {
