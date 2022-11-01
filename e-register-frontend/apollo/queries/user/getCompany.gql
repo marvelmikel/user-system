@@ -8,6 +8,21 @@ query GetCompany {
     dateOfIncorporation
     tin
     phoneNumber
+
+    certificateOfIncorporation
+    certificateOfTaxClearance
+    applicationLetter
+    evidenceOfPayment
+    letterOfCredibilityFromBanks
+    collaborationCertificateWithForeignPartners
+    curriculumVitae{
+      file
+      title
+    }
+    boardOfDirectors{
+      file
+      title
+    }
     profilePic
   }
 }

@@ -45,10 +45,10 @@
       tw-mt-8
       ">
         <ul id="progressbar">
-            <li @click="navigate_step(1)" ref="step_1" class="tw-cursor-pointer" id="step_one"></li>
-            <li @click="navigate_step(2)" ref="step_2" class="tw-cursor-pointer" id="step_two"></li>
-            <li @click="navigate_step(3)" ref="step_3" class="tw-cursor-pointer" id="step_three"></li>
-            <li @click="navigate_step(4)" ref="step_4" class="tw-cursor-pointer" id="step_four"></li>
+            <li ref="step_1" :class="step_one_complete ? 'completed' : '' " class="tw-cursor-pointer" id="step_one"></li>
+            <li ref="step_2" :class="step_two_complete ? 'completed' : '' " class="tw-cursor-pointer" id="step_two"></li>
+            <li ref="step_3" class="tw-cursor-pointer" id="step_three"></li>
+            <li ref="step_4" class="tw-cursor-pointer" id="step_four"></li>
         </ul>
       </div>
 
@@ -314,7 +314,7 @@
             <button @click="next"
             v-if="step <= 3"
             class="
-            tw-bg-purple-600
+            tw-bg-light-green
             tw-text-white
             tw-w-1/6
             tw-p-3
@@ -350,15 +350,18 @@ export default {
         dateOfIncorporation: null,
         tin: null,
         phoneNumber: null,
-        profilePic: null,
+
         certificateOfIncorporation: null,
         certificateOfTaxClearance: null,
         applicationLetter: null,
+
         evidenceOfPayment: null,
         letterOfCredibilityFromBanks: null,
         collaborationCertificateWithForeignPartners: null,
+
         curriculumVitaeInput: null,
-        boardOfDirectorsInput: null
+        boardOfDirectorsInput: null,
+        profilePic: null,
       },
       loadingCompany: false,
       editing: false,
@@ -369,6 +372,22 @@ export default {
 
   mounted(){
     this.getCompany()
+  },
+
+  computed: {
+    step_one_complete() {
+      return this.company.nameOfCompany && this.company.location && this.company.address && this.company.rcNumber && this.company.dateOfIncorporation && this.company.tin && this.company.phoneNumber ? true : false
+    },
+    step_two_complete(){
+      return this.company.certificateOfIncorporation && this.company.certificateOfTaxClearance && this.company.applicationLetter ? true : false
+    },
+    step_three_complete(){
+      return this.company.evidenceOfPayment && this.company.letterOfCredibilityFromBanks && this.company.collaborationCertificateWithForeignPartners ? true : false
+    },
+    step_four_complete(){
+      return this.company.curriculumVitaeInput && this.company.boardOfDirectorsInput ? true : false
+    },
+
   },
 
   methods: {
@@ -411,7 +430,33 @@ export default {
     },
 
     next() {
-      this.step += 1;
+      if (this.step === 1) {
+        if (this.step_one_complete) {
+          this.step += 1;
+          return;
+        }
+      }
+      if (this.step === 2) {
+        if (this.step_two_complete) {
+          this.step += 1;
+          return;
+        }
+      }
+      if (this.step === 3) {
+        if (this.step_three_complete) {
+          this.step += 1;
+          return;
+        }
+      }
+      if (this.step === 4) {
+        if (this.step_four_complete) {
+          this.step += 1;
+          return;
+        }
+      }
+
+      return this.$toast.error(`Step ${this.step} is incomplete`)
+
     },
     previous() {
       this.step -= 1;
@@ -421,24 +466,55 @@ export default {
       this.step = no;
     },
 
-    setCertificateOfIncorporation(){},
-    setCertificateOfTaxClearance(){},
-    setApplicationLetter(){},
-    setEvidenceOfPayment(){},
-    setLetterOfCredibilityFromBanks(){},
-    setCollaborationCertificateWithForeignPartners(){},
-    setCurriculumVitaeInput(){},
-    setBoardOfDirectorsInput(){},
+    setCertificateOfIncorporation(e){
+      this.company.certificateOfIncorporation = e.target.files[0];
+    },
+    setCertificateOfTaxClearance(e){
+      this.company.certificateOfTaxClearance = e.target.files[0];
+    },
+    setApplicationLetter(e){
+      this.company.applicationLetter = e.target.files[0];
+    },
+    setEvidenceOfPayment(e){
+      this.company.evidenceOfPayment = e.target.files[0];
+    },
+    setLetterOfCredibilityFromBanks(e){
+      this.company.letterOfCredibilityFromBanks = e.target.files[0];
+    },
+    setCollaborationCertificateWithForeignPartners(e){
+      this.company.collaborationCertificateWithForeignPartners = e.target.files[0];
+    },
+    setCurriculumVitaeInput(e){
+      this.company.curriculumVitaeInput = e.target.files[0];
+    },
+    setBoardOfDirectorsInput(e){
+      this.company.boardOfDirectorsInput = e.target.files[0];
+    },
 
-
-    removeCertificateOfIncorporation(){},
-    removeCertificateOfTaxClearance(){},
-    removeApplicationLetter(){},
-    removeEvidenceOfPayment(){},
-    removeLetterOfCredibilityFromBanks(){},
-    removeCollaborationCertificateWithForeignPartners(){},
-    removeCurriculumVitaeInput(){},
-    removeBoardOfDirectorsInput(){},
+    removeCertificateOfIncorporation(){
+      this.company.certificateOfIncorporation = null;
+    },
+    removeCertificateOfTaxClearance(){
+      this.company.certificateOfTaxClearance = null;
+    },
+    removeApplicationLetter(){
+      this.company.applicationLetter = null;
+    },
+    removeEvidenceOfPayment(){
+      this.company.evidenceOfPayment = null;
+    },
+    removeLetterOfCredibilityFromBanks(){
+      this.company.letterOfCredibilityFromBanks = null;
+    },
+    removeCollaborationCertificateWithForeignPartners(){
+      this.company.collaborationCertificateWithForeignPartners = null;
+    },
+    removeCurriculumVitaeInput(){
+      this.company.curriculumVitaeInput = null;
+    },
+    removeBoardOfDirectorsInput(){
+      this.company.boardOfDirectorsInput = null;
+    },
 
   },
 

@@ -172,12 +172,6 @@ export default {
       if (!validate) {
         return this.$toast.error("All fields are required");
       }
-      console.log(
-        this.proofOfDocument,
-        this.categoryId,
-        this.subCategory,
-        this.supportingDocument
-      );
       try {
         this.applying = true;
         const res = await this.$apollo.mutate({
@@ -192,10 +186,9 @@ export default {
             hasUpload: true,
           },
         });
-        console.log(res);
+        this.$router.push({path: '/accreditations'})
         this.$toast.success("Application sent");
       } catch (errors) {
-        console.log(errors);
         this.$throwError(errors);
       } finally {
         this.applying = false;

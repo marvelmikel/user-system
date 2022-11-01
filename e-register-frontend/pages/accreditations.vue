@@ -27,11 +27,18 @@
             <p class="tw-text-sm">baseline/impact assessment</p>
           </div>
           <div class="tw-flex-1 tw-flex tw-justify-between tw-items-center">
-            <p class="tw-flex tw-items-center tw-gap-3">
+
+            <p v-if="item.accredited" class="tw-flex tw-items-center tw-gap-3">
               <i class='bx bxs-circle tw-text-xs tw-text-bright-green'></i>
               <span class="tw-text-xs">Approved</span>
             </p>
-            <button class="
+            <p v-if="!item.accredited" class="tw-flex tw-items-center tw-gap-3">
+              <i class='bx bxs-circle tw-text-xs tw-text-red-500'></i>
+              <span class="tw-text-xs">Pending</span>
+            </p>
+
+            <button @click="$router.push({path: '/accreditation'})"
+            class="
               custom__button
               tw-w-28
               tw-h-9
@@ -59,7 +66,7 @@
         tw-mt-10
       ">
         <h1 class="tw-text-center tw-my-3 tw-text-2xl tw-font-bold">
-          No Result found for search
+          No accreditations yet
         </h1>
         <img class="tw-w-52" src="~assets/img/no_results_img.png" alt="no_results_img">
       </div>
@@ -94,8 +101,7 @@ export default {
         const res = await this.$apollo.query({
           query: GetAccreditations
         });
-        console.log(res);
-        this.accreditations = res.data.getUser ?? [];
+        this.accreditations = res.data.getUser.accreditation || [];
       } catch (err) {
       this.$throwError(err)
       }finally {
