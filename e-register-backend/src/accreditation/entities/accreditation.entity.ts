@@ -20,7 +20,7 @@ export class Accreditation {
 
   @Column()
   @Field(() => ID, { defaultValue: null, nullable: true })
-  subCategoryId: string;
+  subcategoryId: string;
 
   @Column()
   @Field(() => ID, { defaultValue: null, nullable: true })
