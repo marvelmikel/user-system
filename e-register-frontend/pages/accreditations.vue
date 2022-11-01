@@ -23,8 +23,8 @@
           tw-flex
         ">
           <div class="tw-flex-1">
-            <h1 class="tw-font-bold tw-text-2xl tw-mb-2">Environmental cleaning</h1>
-            <p class="tw-text-sm">baseline/impact assessment</p>
+            <h1 class="tw-font-bold tw-text-2xl tw-mb-2">{{item?.category?.name}}</h1>
+            <p class="tw-text-sm">{{item?.subcategory?.name}}</p>
           </div>
           <div class="tw-flex-1 tw-flex tw-justify-between tw-items-center">
 

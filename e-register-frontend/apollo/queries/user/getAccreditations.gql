@@ -12,6 +12,13 @@ query GetAccreditations {
       expiryDate
       proofOfPayment
       supportingDocument
+      category {
+        _id
+        name
+      }
+      subcategory {
+        name
+      }
     }
   }
 }
