@@ -38,14 +38,20 @@ export const mutations = {
     state.isAdminLoggedIn = true;
   },
   LOGOUT(state) {
-    this.$cookies.removeAll();
+    // this.$cookies.removeAll();
+    this.$cookies.remove("USER-LOGIN-STATE");
+    this.$cookies.remove("USER-TOKEN");
+    this.$cookies.remove("USER-EMAIL-VERIFY");
+
     localStorage.clear();
     state.user = null;
     state.token = null;
     state.isLoggedIn = false;
   },
   ADMIN_LOGOUT(state) {
-    this.$cookies.removeAll();
+    // this.$cookies.removeAll();
+    this.$cookies.remove("ADMIN-LOGIN-STATE");
+    this.$cookies.remove("ADMIN-TOKEN");
 
     state.admin = null;
     state.adminToken = null;

@@ -26,7 +26,7 @@
         "
         :class=" editing ? 'tw-opacity-40' : '' "
         >
-          Edit
+          Save
         </button>
       </div>
     </div>
@@ -91,7 +91,7 @@
         </div>
         <div class="tw-flex-1">
 
-          <div v-show="step == 1">
+          <div v-show="step === 1">
             <div class="tw-flex tw-items-center tw-mb-3">
               <span class="tw-w-1/5">Name</span>
               <input type="text" v-model="company.nameOfCompany" placeholder="Company Name" class="tw-px-7 tw-py-3 tw-text-sm tw-rounded-lg tw-w-1/2 tw-bg-gray-200 tw-border-none focus:tw-outline-none" />
@@ -130,7 +130,7 @@
 
           </div>
 
-          <div v-show="step == 2">
+          <div v-show="step === 2">
             <!-- Certificate Of Incorporation -->
             <div class="tw-mb-4">
               <p class="tw-mb-2">Certificate Of Incorporation</p>
@@ -140,20 +140,7 @@
                 class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
                 @change.prevent="setCertificateOfIncorporation"
               />
-
-              <div @click.prevent="$refs.certificateOfIncorporation.click()"
-                class="
-                tw-cursor-pointer
-                tw-py-12
-                tw-rounded-lg
-                tw-w-4/6
-                tw-bg-gray-200
-                tw-flex
-                tw-justify-center
-                tw-items-center
-              ">
-              <i class='bx bx-note tw-text-2xl'></i>
-              </div>
+              <UploadBox @upload-event="$refs.certificateOfIncorporation.click()"/>
 
               <div v-if="company.certificateOfIncorporation" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
                 <span class="tw-text-xs tw-text-gray-500">
@@ -164,18 +151,157 @@
             </div>
             <!-- Certificate Of Incorporation End -->
 
+            <!-- Certificate Of Tax Clearance -->
+            <div class="tw-mb-4">
+              <p class="tw-mb-2">Certificate Of Tax Clearance</p>
+              <input
+                ref="certificateOfTaxClearance"
+                type="file"
+                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
+                @change.prevent="setCertificateOfTaxClearance"
+              />
+              <UploadBox @upload-event="$refs.certificateOfTaxClearance.click()"/>
+
+              <div v-if="company.certificateOfTaxClearance" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+                <span class="tw-text-xs tw-text-gray-500">
+                  {{ company.certificateOfTaxClearance.name || '' }}
+                </span>
+                <i @click="removeCertificateOfTaxClearance" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+              </div>
+            </div>
+            <!-- Certificate Of Tax Clearance End -->
+
+            <!-- Application Letter -->
+            <div class="tw-mb-4">
+              <p class="tw-mb-2">Application Letter</p>
+              <input
+                ref="applicationLetter"
+                type="file"
+                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
+                @change.prevent="setApplicationLetter"
+              />
+              <UploadBox @upload-event="$refs.applicationLetter.click()"/>
+
+              <div v-if="company.applicationLetter" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+                <span class="tw-text-xs tw-text-gray-500">
+                  {{ company.applicationLetter.name || '' }}
+                </span>
+                <i @click="removeApplicationLetter" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+              </div>
+            </div>
+            <!-- Application Letter End -->
 
 
           </div>
 
-          <div v-show="step == 3">
+          <div v-show="step === 3">
+            <!-- Evidence Of Payment -->
+            <div class="tw-mb-4">
+              <p class="tw-mb-2">Evidence Of Payment</p>
+              <input
+                ref="evidenceOfPayment"
+                type="file"
+                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
+                @change.prevent="setEvidenceOfPayment"
+              />
+              <UploadBox @upload-event="$refs.evidenceOfPayment.click()"/>
+
+              <div v-if="company.evidenceOfPayment" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+                <span class="tw-text-xs tw-text-gray-500">
+                  {{ company.evidenceOfPayment.name || '' }}
+                </span>
+                <i @click="removeEvidenceOfPayment" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+              </div>
+            </div>
+            <!-- Evidence Of Payment End -->
+
+            <!-- Letter Of Credibility From Banks -->
+            <div class="tw-mb-4">
+              <p class="tw-mb-2">Letter Of Credibility From Banks</p>
+              <input
+                ref="letterOfCredibilityFromBanks"
+                type="file"
+                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
+                @change.prevent="setLetterOfCredibilityFromBanks"
+              />
+              <UploadBox @upload-event="$refs.letterOfCredibilityFromBanks.click()"/>
+
+              <div v-if="company.letterOfCredibilityFromBanks" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+                <span class="tw-text-xs tw-text-gray-500">{{ company.letterOfCredibilityFromBanks.name || '' }}</span>
+                <i @click="removeLetterOfCredibilityFromBanks" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+              </div>
+            </div>
+            <!-- Letter Of Credibility From Banks End -->
+
+            <!-- Collaboration Certificate With Foreign Partners -->
+            <div class="tw-mb-4">
+              <p class="tw-mb-2">Collaboration Certificate With Foreign Partners</p>
+              <input
+                ref="collaborationCertificateWithForeignPartners"
+                type="file"
+                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
+                @change.prevent="setCollaborationCertificateWithForeignPartners"
+              />
+
+              <UploadBox @upload-event="$refs.collaborationCertificateWithForeignPartners.click()"/>
+
+              <div v-if="company.collaborationCertificateWithForeignPartners" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+                <span class="tw-text-xs tw-text-gray-500">{{ company.collaborationCertificateWithForeignPartners.name || '' }}</span>
+                <i @click="removeCollaborationCertificateWithForeignPartners" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+              </div>
+            </div>
+            <!-- Collaboration Certificate With Foreign Partners End -->
           </div>
 
-          <div v-show="step == 4">
+          <div v-show="step === 4">
+            <!-- Curriculum Vitae Input -->
+            <div class="tw-mb-4">
+              <p class="tw-mb-2">Curriculum Vitae</p>
+              <input
+                ref="curriculumVitaeInput"
+                type="file"
+                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
+                @change.prevent="setCurriculumVitaeInput"
+              />
+
+              <UploadBox @upload-event="$refs.curriculumVitaeInput.click()"/>
+
+              <div v-if="company.curriculumVitaeInput" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+                <span class="tw-text-xs tw-text-gray-500">
+                  {{ company.curriculumVitaeInput.name || '' }}
+                </span>
+                <i @click="removeCurriculumVitaeInput" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+              </div>
+            </div>
+            <!-- Curriculum Vitae Input End -->
+
+            <!-- Board Of Directors -->
+            <div class="tw-mb-4">
+              <p class="tw-mb-2">Board Of Directors</p>
+              <input
+                ref="boardOfDirectorsInput"
+                type="file"
+                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
+                @change.prevent="setBoardOfDirectorsInput"
+              />
+
+              <UploadBox @upload-event="$refs.boardOfDirectorsInput.click()"/>
+
+              <div v-if="company.boardOfDirectorsInput" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+                <span class="tw-text-xs tw-text-gray-500">
+                  {{ company.boardOfDirectorsInput.name || '' }}
+                </span>
+                <i @click="removeBoardOfDirectorsInput" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+              </div>
+            </div>
+            <!-- Board Of Directors End -->
+
+
+
           </div>
 
           <div class="tw-flex tw-justify-start tw-my-10 tw-gap-4">
-            <button @click="previous"
+            <button v-if="step > 1" @click="previous"
             class="
             tw-bg-gray-600
             tw-text-white
@@ -186,6 +312,7 @@
               Back
             </button>
             <button @click="next"
+            v-if="step <= 3"
             class="
             tw-bg-purple-600
             tw-text-white
@@ -225,6 +352,13 @@ export default {
         phoneNumber: null,
         profilePic: null,
         certificateOfIncorporation: null,
+        certificateOfTaxClearance: null,
+        applicationLetter: null,
+        evidenceOfPayment: null,
+        letterOfCredibilityFromBanks: null,
+        collaborationCertificateWithForeignPartners: null,
+        curriculumVitaeInput: null,
+        boardOfDirectorsInput: null
       },
       loadingCompany: false,
       editing: false,
@@ -288,8 +422,24 @@ export default {
     },
 
     setCertificateOfIncorporation(){},
+    setCertificateOfTaxClearance(){},
+    setApplicationLetter(){},
+    setEvidenceOfPayment(){},
+    setLetterOfCredibilityFromBanks(){},
+    setCollaborationCertificateWithForeignPartners(){},
+    setCurriculumVitaeInput(){},
+    setBoardOfDirectorsInput(){},
 
-    removeCertificateOfIncorporation(){}
+
+    removeCertificateOfIncorporation(){},
+    removeCertificateOfTaxClearance(){},
+    removeApplicationLetter(){},
+    removeEvidenceOfPayment(){},
+    removeLetterOfCredibilityFromBanks(){},
+    removeCollaborationCertificateWithForeignPartners(){},
+    removeCurriculumVitaeInput(){},
+    removeBoardOfDirectorsInput(){},
+
   },
 
   watch: {
