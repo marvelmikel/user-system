@@ -11,9 +11,7 @@ mutation CreateAccreditation(
       uploadProofOfDocument: $uploadProofOfDocument
       uploadSupportingDocument: $uploadSupportingDocument
     }
-  ) {
-    categoryId
-  }
+  )
 }
 
 
