@@ -96,6 +96,8 @@ export class AccreditationService {
         by: data.id,
         isAdmin: false,
       });
+
+      return 'Accreditation created Successfully';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
