@@ -37,6 +37,10 @@ const envFilePath: string = getEnvPath(`${__dirname}/utils/env`);
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       debug: false,
       playground: true,
+      cors: {
+        origin: '*',
+        credentials: true,
+      },
       context: ({ req }) => ({ headers: req.headers }),
     }),
 
