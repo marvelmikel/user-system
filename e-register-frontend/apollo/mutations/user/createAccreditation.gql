@@ -3,16 +3,15 @@ mutation CreateAccreditation(
   $subcategoryId: String!
   $uploadProofOfDocument: Upload!
   $uploadSupportingDocument: Upload!
-  ) {
-  createAccreditation(createAccreditationInput: {
-    categoryId: $categoryId,
-    subcategoryId: $subcategoryId,
-    uploadProofOfDocument: $uploadProofOfDocument,
-    uploadSupportingDocument: $uploadSupportingDocument
-  }){
-    id
-    categoryId
-  }
+) {
+  createAccreditation(
+    createAccreditationInput: {
+      categoryId: $categoryId
+      subcategoryId: $subcategoryId
+      uploadProofOfDocument: $uploadProofOfDocument
+      uploadSupportingDocument: $uploadSupportingDocument
+    }
+  )
 }
 
 

@@ -53,9 +53,10 @@ export class AccreditationService {
 
       // create a new instance;
       let newPayload: any = {
-        categoryId: createAccreditationInput.categoryId,
-        subcategoryId: createAccreditationInput.subcategoryId,
+        categoryId: new ObjectId(createAccreditationInput.categoryId),
+        subcategoryId: new ObjectId(createAccreditationInput.subcategoryId),
         isDeleted: false,
+        userId: new ObjectId(userId),
       };
       // proof of payment document
       if (createAccreditationInput.uploadProofOfDocument) {
@@ -96,6 +97,8 @@ export class AccreditationService {
         by: data.id,
         isAdmin: false,
       });
+
+      return 'Accreditation created Successfully';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
@@ -152,6 +155,8 @@ export class AccreditationService {
   }
   async getUserAccreditaion(userId: any) {
     try {
+      console.log(userId);
+
       // create root filter
       let userFilter: any = {};
       // check if search exist
@@ -171,6 +176,8 @@ export class AccreditationService {
       const result = await this.accreditationRepository.find({
         where: primaryFilter,
       });
+
+      console.log(result, 'henry');
 
       return result;
     } catch (error) {

@@ -132,7 +132,7 @@ type Mutation {
   updateUserByAdmin(id: String!, updateUserInput: UpdateUserInput!): User!
   removeUser(id: Int!): User!
   createAccreditationByAdmin(createAccreditationByAdminInput: CreateAccreditationByAdminInput!): Accreditation!
-  createAccreditation(createAccreditationInput: CreateAccreditationInput!): Accreditation!
+  createAccreditation(createAccreditationInput: CreateAccreditationInput!): String!
   updateAccreditation(id: String!, updateAccreditationInput: UpdateAccreditationInput!): Accreditation!
   updateAccreditationByAdmin(id: String!, adminUpdateAccreditationInput: AdminUpdateAccreditationInput!): Accreditation!
   removeAccreditation(id: String!): Accreditation!
