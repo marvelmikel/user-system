@@ -1,4 +1,12 @@
-import { Resolver, Query, Mutation, Args, Context } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  Context,
+  ResolveField,
+  Parent,
+} from '@nestjs/graphql';
 import { AccreditationService } from './accreditation.service';
 import { Accreditation } from './entities/accreditation.entity';
 import { CreateAccreditationInput } from './dto/create-accreditation.input';
@@ -9,11 +17,17 @@ import { HelperService } from 'src/helper/helper.service';
 import { AccreditationQuery } from './dto/query-accreditation.input';
 import { AdminUpdateAccreditationInput } from './dto/admin-accreditation.input';
 import { CreateAccreditationByAdminInput } from './dto/create-accreditation-admin.input';
+import { Category } from 'src/category/entities/category.entity';
+import { CategoryService } from 'src/category/category.service';
+import { Subcategory } from 'src/subcategory/entities/subcategory.entity';
+import { SubcategoryService } from 'src/subcategory/subcategory.service';
 
 @Resolver(() => Accreditation)
 export class AccreditationResolver {
   constructor(
     private readonly accreditationService: AccreditationService,
+    private readonly categoryService: CategoryService,
+    private readonly subcategoryService: SubcategoryService,
     private helperService: HelperService,
   ) {}
 
@@ -146,5 +160,14 @@ export class AccreditationResolver {
       id,
       status,
     );
+  }
+
+  @ResolveField(() => [Category])
+  category(@Parent() accreditation: Accreditation) {
+    return this.categoryService.findOne(accreditation.categoryId);
+  }
+  @ResolveField(() => [Subcategory])
+  subcategory(@Parent() accreditation: Accreditation) {
+    return this.subcategoryService.findOne(accreditation.subcategoryId);
   }
 }
