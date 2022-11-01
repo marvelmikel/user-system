@@ -15,15 +15,15 @@ export class Accreditation {
   id: string;
 
   @ObjectIdColumn()
-  @Field(() => ID)
+  @Field(() => ID, { defaultValue: null, nullable: true })
   categoryId: string;
 
   @ObjectIdColumn()
-  @Field(() => ID)
+  @Field(() => ID, { defaultValue: null, nullable: true })
   subCategoryId: string;
 
   @ObjectIdColumn()
-  @Field(() => ID)
+  @Field(() => ID, { defaultValue: null, nullable: true })
   userId: string;
 
   @ObjectIdColumn()

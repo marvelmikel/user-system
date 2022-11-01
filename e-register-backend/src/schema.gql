@@ -16,9 +16,9 @@ type Admin {
 
 type Accreditation {
   id: ID!
-  categoryId: ID!
-  subCategoryId: ID!
-  userId: ID!
+  categoryId: ID
+  subCategoryId: ID
+  userId: ID
   accredited: Boolean!
   isDeleted: Boolean!
   status: String
