@@ -36,7 +36,7 @@ export class AccreditationResolver {
     );
   }
   @UseGuards(AuthGuard)
-  @Mutation(() => Accreditation)
+  @Mutation(() => String)
   createAccreditation(
     @Context('data')
     data: any,
