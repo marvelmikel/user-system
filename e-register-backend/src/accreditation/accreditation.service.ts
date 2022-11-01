@@ -53,10 +53,10 @@ export class AccreditationService {
 
       // create a new instance;
       let newPayload: any = {
-        categoryId: createAccreditationInput.categoryId,
-        subcategoryId: createAccreditationInput.subcategoryId,
+        categoryId: new ObjectId(createAccreditationInput.categoryId),
+        subcategoryId: new ObjectId(createAccreditationInput.subcategoryId),
         isDeleted: false,
-        userId: userId,
+        userId: new ObjectId(userId),
       };
       // proof of payment document
       if (createAccreditationInput.uploadProofOfDocument) {
