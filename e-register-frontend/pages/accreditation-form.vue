@@ -13,11 +13,17 @@
       tw-mt-8
       ">
 
+
+
+
+
+
+
       <div class="form-control tw-mb-3">
         <label for="Company">Field</label>
-        <select required v-model="category">
+        <select required v-model="categoryId">
           <option :value="null" disabled>Choose</option>
-          <option :value="category" v-for="category in categories" :key="category._id">{{ category.name }}</option>
+          <option :value="category._id" v-for="category in categories" :key="category._id">{{ category.name }}</option>
         </select>
       </div>
 
@@ -30,7 +36,7 @@
       </div>
 
       <!-- Upload Proof of Document -->
-      <div>
+      <div class="tw-mb-4">
         <p class="tw-mb-2">Upload Proof of Document</p>
         <input
           ref="proofofDocument"
@@ -42,7 +48,6 @@
         <div @click.prevent="$refs.proofofDocument.click()"
           class="
           tw-cursor-pointer
-          tw-mb-4
           tw-py-12
           tw-rounded-lg
           tw-w-full
@@ -53,11 +58,19 @@
         ">
         <i class='bx bx-note tw-text-2xl'></i>
         </div>
+
+        <div v-if="proofOfDocument"
+        class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+          <span class="tw-text-xs tw-text-gray-500">
+            {{ proofOfDocument.name || '' }}
+          </span>
+          <i @click="removeProofOfDocument" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+        </div>
       </div>
       <!-- End of Proof of Document-->
 
       <!-- Upload Supporting Document -->
-      <div>
+      <div class="tw-mb-4">
         <p class="tw-mb-2">Upload Supporting Document</p>
         <input
           ref="supportingDocument"
@@ -69,7 +82,6 @@
         <div @click.prevent="$refs.supportingDocument.click()"
           class="
           tw-cursor-pointer
-          tw-mb-4
           tw-py-12
           tw-rounded-lg
           tw-w-full
@@ -79,6 +91,13 @@
           tw-items-center
         ">
         <i class='bx bx-note tw-text-2xl'></i>
+        </div>
+
+        <div v-if="supportingDocument" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
+          <span class="tw-text-xs tw-text-gray-500">
+            {{ supportingDocument.name || '' }}
+          </span>
+          <i @click="removeSupportingDocument" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
         </div>
       </div>
       <!-- End of upload supporting document-->
@@ -116,12 +135,14 @@ export default {
     return {
       categories: [],
       subCategories: [],
-      category: null,
+      categoryId: null,
       subCategory: null,
       loadingCategories: false,
       proofOfDocument: null,
       supportingDocument: null,
-      applying: false
+      applying: false,
+      step: 1,
+
     }
   },
   mounted(){
@@ -129,23 +150,18 @@ export default {
   },
   methods: {
     async apply(){
-      // if (!this.category._id) {
-      //   this.$toast.error('Please choose a field')
-      // }
-      // if (!this.subCategory) {
-      //   this.$toast.error('Please choose a specialty')
-      // }
 
+      let validate = this.validateInputs();
+
+      if (!validate) {
+        return this.$toast.error('All fields are required');
+      }
       try {
-        // let data_file = new FormData();
-        // data_file.append("uploadProofOfDocument", this.proofOfDocument);
-        // data_file.append("uploadSupportingDocument", this.supportingDocument);
-
         this.applying = true;
         const res = await this.$apollo.mutate({
           mutation: CreateAccreditation,
           variables: {
-            categoryId: this.category._id,
+            categoryId: this.categoryId,
             subcategoryId: this.subCategory,
             uploadProofOfDocument: this.proofOfDocument,
             uploadSupportingDocument: this.supportingDocument
@@ -159,6 +175,22 @@ export default {
       }finally{
         this.applying = false;
       }
+    },
+
+    validateInputs(){
+      if (!this.categoryId) {
+        return false;
+      }
+      if (!this.subCategory) {
+        return false;
+      }
+      if (!this.proofOfDocument) {
+        return false;
+      }
+      if (!this.supportingDocument) {
+        return false;
+      }
+      return true;
     },
 
     async getCategories(){
@@ -183,33 +215,34 @@ export default {
 
     setSupportingDocument(e){
       this.supportingDocument = e.target.files[0]
-    }
+    },
+
+    removeProofOfDocument(){
+      this.proofOfDocument = null
+    },
+
+    removeSupportingDocument(){
+      this.supportingDocument = null
+    },
+
+
   },
 
   watch: {
-    category(category){
-      this.subCategories = category.subcategories
+    categoryId(categoryId){
+      this.categories.filter(category => {
+        if (category._id === categoryId) {
+          this.subCategories = category.subcategories
+        }
+      })
       this.subCategory = null
-    }
+    },
+
+
   }
 }
 </script>
 
-<style>
+<style scoped>
 
-.form-control textarea,
-.form-control input,
-.form-control select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 100%;
-  padding: .5rem;
-  background: #e5e7eb;
-  border: 2px solid #e5e7eb;
-  border-radius: 0.5rem;
-  color: black;
-  text-indent: 1rem;
-  /* margin-top: .6rem; */
-  font-size: 1rem;
-}
 </style>

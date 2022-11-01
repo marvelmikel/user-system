@@ -48,6 +48,7 @@
         ">
           Proceed to login
         </button>
+
       <!-- <p class="tw-text-xs">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         Lectus quis tortor senectus lobortis ullamcorper
