@@ -177,7 +177,7 @@ export class AccreditationService {
         where: primaryFilter,
       });
 
-      console.log(result);
+      console.log(result, 'henry');
 
       return result;
     } catch (error) {
