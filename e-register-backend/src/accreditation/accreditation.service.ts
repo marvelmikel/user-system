@@ -4,7 +4,7 @@ import { ObjectId } from 'mongodb';
 import { HelperService } from 'src/helper/helper.service';
 import { LogService } from 'src/log/log.service';
 import { MailService } from 'src/mail/mail.service';
-import { MongoRepository } from 'typeorm';
+import { MongoRepository, Repository } from 'typeorm';
 import { AccreditationQuery } from './dto/query-accreditation.input';
 import { CreateAccreditationInput } from './dto/create-accreditation.input';
 import { UpdateAccreditationInput } from './dto/update-accreditation.input';
@@ -18,6 +18,7 @@ export class AccreditationService {
   constructor(
     @InjectRepository(Accreditation)
     private accreditationRepository: MongoRepository<Accreditation>,
+    private accreditationMainRepository: Repository<Accreditation>,
     private mailService: MailService,
     private helperService: HelperService,
     private logService: LogService,
@@ -173,7 +174,7 @@ export class AccreditationService {
       };
 
       // find all
-      const result = await this.accreditationRepository.find({
+      const result = await this.accreditationMainRepository.find({
         where: primaryFilter,
       });
 
