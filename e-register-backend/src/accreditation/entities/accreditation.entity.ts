@@ -1,6 +1,8 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import { AfterLoad, Column, Entity, ObjectIdColumn } from 'typeorm';
 import moment from 'moment';
+import { Category } from 'src/category/entities/category.entity';
+import { Subcategory } from 'src/subcategory/entities/subcategory.entity';
 
 enum StatusEnum {
   PENDING = 'PENDING',
@@ -27,7 +29,7 @@ export class Accreditation {
   userId: string;
 
   @Column()
-  @Field({ defaultValue: true })
+  @Field({ defaultValue: false })
   accredited: boolean;
 
   @Column()
@@ -56,6 +58,12 @@ export class Accreditation {
   @Column()
   @Field(() => String, { defaultValue: null, nullable: true })
   supportingDocument: string;
+
+  @Field(() => Category, { nullable: true })
+  category: Category;
+
+  @Field(() => Subcategory, { nullable: true })
+  subcategory: Subcategory;
 
   // test
   @AfterLoad()
