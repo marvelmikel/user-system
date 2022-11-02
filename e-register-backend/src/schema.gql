@@ -28,22 +28,6 @@ type Category {
   subcategories: [Subcategory!]
 }
 
-type Accreditation {
-  id: ID!
-  categoryId: ID
-  subcategoryId: ID
-  userId: ID
-  accredited: Boolean!
-  isDeleted: Boolean!
-  status: String
-  dateAccredited: String
-  expiryDate: String
-  proofOfPayment: String
-  supportingDocument: String
-  category: Category
-  subcategory: Subcategory
-}
-
 type User {
   _id: ID!
   nameOfCompany: String
@@ -62,6 +46,7 @@ type User {
   certificateOfTaxClearance: String
   isCertificateOfTaxClearance: Boolean!
   applicationLetter: String
+  description: String
   isApplicationLetter: String!
   evidenceOfPayment: String
   isEvidenceOfPayment: Boolean!
@@ -81,6 +66,24 @@ type User {
 type Document {
   file: String
   title: String
+}
+
+type Accreditation {
+  id: ID!
+  categoryId: ID
+  subcategoryId: ID
+  userId: ID
+  accredited: Boolean!
+  isDeleted: Boolean!
+  status: String
+  dateAccredited: String
+  dateCreated: String
+  expiryDate: String
+  proofOfPayment: String
+  supportingDocument: String
+  category: Category
+  subcategory: Subcategory
+  user: User
 }
 
 type Query {

@@ -3,6 +3,7 @@ import { AfterLoad, Column, Entity, ObjectIdColumn } from 'typeorm';
 import moment from 'moment';
 import { Category } from 'src/category/entities/category.entity';
 import { Subcategory } from 'src/subcategory/entities/subcategory.entity';
+import { User } from 'src/user/entities/user.entity';
 
 enum StatusEnum {
   PENDING = 'PENDING',
@@ -49,6 +50,10 @@ export class Accreditation {
 
   @Column()
   @Field(() => String, { defaultValue: null, nullable: true })
+  dateCreated: string;
+
+  @Column()
+  @Field(() => String, { defaultValue: null, nullable: true })
   expiryDate: string;
 
   @Column()
@@ -64,6 +69,9 @@ export class Accreditation {
 
   @Field(() => Subcategory, { nullable: true })
   subcategory: Subcategory;
+
+  @Field(() => User, { nullable: true })
+  user: User;
 
   // test
   @AfterLoad()

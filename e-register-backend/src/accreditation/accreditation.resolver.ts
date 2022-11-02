@@ -21,6 +21,8 @@ import { Category } from 'src/category/entities/category.entity';
 import { CategoryService } from 'src/category/category.service';
 import { Subcategory } from 'src/subcategory/entities/subcategory.entity';
 import { SubcategoryService } from 'src/subcategory/subcategory.service';
+import { User } from 'src/user/entities/user.entity';
+import { UserService } from 'src/user/user.service';
 
 @Resolver(() => Accreditation)
 export class AccreditationResolver {
@@ -28,6 +30,7 @@ export class AccreditationResolver {
     private readonly accreditationService: AccreditationService,
     private readonly categoryService: CategoryService,
     private readonly subcategoryService: SubcategoryService,
+    private readonly userService: UserService,
     private helperService: HelperService,
   ) {}
 
@@ -88,7 +91,7 @@ export class AccreditationResolver {
     @Args('id', { type: () => String })
     id: string,
   ) {
-    this.helperService.isAnAdmin(data);
+    this.helperService.isAnAdminOrAUser(data);
     return this.accreditationService.findOne(id);
   }
 
@@ -169,5 +172,13 @@ export class AccreditationResolver {
   @ResolveField(() => [Subcategory])
   subcategory(@Parent() accreditation: Accreditation) {
     return this.subcategoryService.findOne(accreditation.subcategoryId);
+  }
+  @ResolveField(() => [User])
+  user(
+    @Context('data')
+    data: any,
+    @Parent() accreditation: Accreditation,
+  ) {
+    return this.userService.findOne(accreditation.userId, data);
   }
 }
