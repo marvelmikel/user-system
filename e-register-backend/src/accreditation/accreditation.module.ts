@@ -8,6 +8,7 @@ import { HelperModule } from 'src/helper/helper.module';
 import { LogModule } from 'src/log/log.module';
 import { CategoryModule } from 'src/category/category.module';
 import { SubcategoryModule } from 'src/subcategory/subcategory.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SubcategoryModule } from 'src/subcategory/subcategory.module';
     LogModule,
     CategoryModule,
     SubcategoryModule,
+    UserModule,
   ],
   providers: [AccreditationResolver, AccreditationService],
   exports: [AccreditationService],
