@@ -4,7 +4,7 @@
 
     <div v-if="loadingAccreditations" class="tw-flex tw-items-center tw-justify-center tw-mt-5">
       <div class="tw-w-9/12">
-        <PuSkeleton :count="6"/>
+        <PuSkeleton :count="9"/>
       </div>
     </div>
     <div v-else>
@@ -23,36 +23,29 @@
           tw-flex
         ">
           <div class="tw-flex-1">
-            <h1 class="tw-font-bold tw-text-2xl tw-mb-2">{{item?.category?.name}}</h1>
-            <p class="tw-text-sm">{{item?.subcategory?.name}}</p>
+            <h1 class="tw-font-bold tw-text-2xl tw-capitalize">{{item?.category?.name}}</h1>
+            <p class="tw-capitalize tw-text-sm">{{item?.subcategory?.name}}</p>
           </div>
           <div class="tw-flex-1 tw-flex tw-justify-between tw-items-center">
 
-            <p v-if="item.accredited" class="tw-flex tw-items-center tw-gap-3">
+            <p v-if="item.status === 'APPROVED'" class="tw-flex tw-items-center tw-gap-3">
               <i class='bx bxs-circle tw-text-xs tw-text-bright-green'></i>
               <span class="tw-text-xs">Approved</span>
             </p>
-            <p v-if="!item.accredited" class="tw-flex tw-items-center tw-gap-3">
-              <i class='bx bxs-circle tw-text-xs tw-text-red-500'></i>
+            <p v-if="item.status === 'PENDING'" class="tw-flex tw-items-center tw-gap-3">
+              <i class='bx bxs-circle tw-text-xs tw-text-yellow-500'></i>
+              <span class="tw-text-xs">Pending</span>
+            </p>
+            <p v-if="item.status === 'EXPIRED'" class="tw-flex tw-items-center tw-gap-3">
+              <i class='bx bxs-circle tw-text-xs tw-text-red-600'></i>
               <span class="tw-text-xs">Pending</span>
             </p>
 
-            <button @click="navigateToAccreditation(item._id)"
-            class="
-              custom__button
-              tw-w-28
-              tw-h-9
-              tw-rounded-2xl
-              tw-bg-bright-green
-              tw-text-white
-              tw-p-2
-              tw-flex
-              tw-items-center
-              tw-justify-center
-              tw-cursor-pointer
-            ">
-              <i class='bx bx-right-arrow-alt tw-text-2xl tw-text-white'></i>
-            </button>
+            <i @click="navigateToAccreditation(item._id)"
+            class='bx bx-right-arrow-alt
+            tw-text-4xl
+            tw-cursor-pointer
+            '></i>
           </div>
         </div>
 

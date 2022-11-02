@@ -2,56 +2,73 @@
   <div class="">
     <Banner title='Accreditation'/>
 
-    <div class="
-      tw-w-9/12
-      tw-mx-auto
-      tw-mt-8
-      tw-relative
-      ">
+    <div v-if="loadingAccreditation" class="tw-flex tw-items-center tw-justify-center tw-mt-8">
+      <div class="tw-w-9/12">
+        <PuSkeleton :count="9"/>
+      </div>
+    </div>
+    <div v-else>
 
-      <img class="
-      tw-w-100
-      tw-absolute
-      tw-left-0
-      tw-right-0
-      tw-ml-auto
-      tw-mr-auto
-      "
-      src="~assets/img/pending_stamp.svg" alt="expired_stamp" />
-
-      <div class="tw-mt-10 tw-absolute tw-w-full">
-        <div
-          class="
-          tw-mb-5
-          tw-pb-3
-          tw-border-b
-          tw-border-gray-300
-          tw-flex
+      <div v-if="accreditation" class="
+        tw-w-9/12
+        tw-mx-auto
+        tw-mt-8
+        tw-relative
         ">
-          <div class="tw-flex-1">
-            <h1 class="tw-font-bold tw-text-2xl tw-mb-2">Environmental cleaning</h1>
-            <p class="tw-text-sm">baseline/impact assessment</p>
+
+        <img v-if="accreditation.status === 'PENDING'" class="tw-w-100 tw-absolute
+        tw-left-0 tw-right-0
+        tw-ml-auto tw-mr-auto
+        " src="~assets/img/pending_stamp.svg" alt="pending_stamp" />
+        <img v-if="accreditation.status === 'APPROVED'" class="tw-w-100 tw-absolute
+        tw-left-0 tw-right-0
+        tw-ml-auto tw-mr-auto
+        " src="~assets/img/approved_stamp.svg" alt="approved_stamp" />
+        <img v-if="accreditation.status === 'EXPIRED'" class="tw-w-100 tw-absolute
+        tw-left-0 tw-right-0
+        tw-ml-auto tw-mr-auto
+        " src="~assets/img/expired_stamp.svg" alt="expired_stamp" />
+
+        <div class="tw-mt-10 tw-absolute tw-w-full">
+          <div
+            class="
+            tw-mb-5
+            tw-pb-3
+            tw-border-b
+            tw-border-gray-300
+            tw-flex
+          ">
+            <div class="tw-flex-1">
+              <h1 class="tw-font-bold tw-text-2xl tw-mb-2 tw-capitalize">
+                {{ accreditation.category.name || '' }}
+              </h1>
+              <p class="tw-text-sm tw-capitalize">
+                {{ accreditation.subcategory.name || '' }}
+              </p>
+            </div>
+            <div class="tw-flex-1 tw-flex tw-flex-col tw-justify-evenly">
+              <p v-if="accreditation.status === 'APPROVED'" class="tw-text-sm">Date Accredited  {{ accreditation.dateAccredited }}</p>
+              <p v-if="accreditation.status === 'EXPIRED'" class="tw-text-sm">Expiry Date  {{ accreditation.expiryDate }}</p>
+            </div>
           </div>
-          <div class="tw-flex-1 tw-flex tw-flex-col tw-justify-evenly">
-            <p class="tw-text-sm">Date Accredited  30th August 2021</p>
-            <p class="tw-text-sm">Expiry Date  30th August 2022</p>
-          </div>
+
+          <!-- <p class="tw-mb-7">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus quis tortor senectus lobortis ullamcorper ullamcorper. Quis sit donec amet sit praesent ac. Eu augue libero lobortis convallis. Euismod ultrices non fermentum risus quisque cursus odio sed.</p>
+          <p class="tw-mb-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus quis tortor senectus lobortis ullamcorper ullamcorper. Quis sit donec amet sit praesent ac. Eu augue libero lobortis convallis. Euismod ultrices non fermentum risus quisque cursus odio sed.</p> -->
+          <button class="
+          tw-rounded-lg
+          tw-bg-green-500
+          tw-text-white
+          tw-w-40
+          tw-p-2
+          tw-text-sm
+          ">
+            Download Pdf
+          </button>
         </div>
 
-        <p class="tw-mb-7">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus quis tortor senectus lobortis ullamcorper ullamcorper. Quis sit donec amet sit praesent ac. Eu augue libero lobortis convallis. Euismod ultrices non fermentum risus quisque cursus odio sed.</p>
-        <p class="tw-mb-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus quis tortor senectus lobortis ullamcorper ullamcorper. Quis sit donec amet sit praesent ac. Eu augue libero lobortis convallis. Euismod ultrices non fermentum risus quisque cursus odio sed.</p>
-        <button class="
-        tw-rounded-lg
-        tw-bg-green-500
-        tw-text-white
-        tw-w-40
-        tw-p-2
-        tw-text-sm
-        ">
-          Download Pdf
-        </button>
       </div>
 
+      <NoItem v-else />
     </div>
 
   </div>
@@ -64,31 +81,32 @@ export default {
   name: 'accreditation',
   layout: 'home',
   middleware:['unauthenticated_user'],
-
-  created() {
-    console.log('Sample');
-
+  data() {
+    return {
+      accreditation: null,
+      loadingAccreditation: false
+    }
   },
   mounted(){
     this.getAccreditation()
-    console.log('Sample');
-    console.log(this.$route.params);
   },
 
   methods: {
     async getAccreditation(){
       try {
-        this.loadingAccreditations = true;
+        this.loadingAccreditation = true;
         const res = await this.$apollo.query({
           query: GetAccreditation,
-          variables: { id: this.$route.params.id}
+          variables: {
+            id: this.$route.params.id,
+          },
         });
         console.log(res);
-        // this.accreditations = res.data.getUser.accreditation || [];
+        this.accreditation = res.data.getAccreditation || null;
       } catch (err) {
-      this.$throwError(err)
+        this.$throwError(err)
       }finally {
-        this.loadingAccreditations = false;
+        this.loadingAccreditation = false;
       }
     },
   }
