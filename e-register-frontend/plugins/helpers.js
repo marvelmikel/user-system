@@ -3,7 +3,7 @@ export default (context, inject) => {
     if (err) {
       let errors = err.graphQLErrors ? [...err.graphQLErrors] : [];
       //   const { networkError, message, gqlError, graphqlErrors } = graphqlError;
-
+      console.log(err);
       // if (errors.length) {
       //   if (errors[0].message === 'jwt expired') {
       //     context.app.store.commit("ADMIN_LOGOUT");
