@@ -19,6 +19,9 @@ query GetAccreditations {
       subcategory {
         name
       }
+      user {
+        nameOfCompany
+      }
     }
   }
 }
