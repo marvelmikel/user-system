@@ -42,9 +42,10 @@
             </p>
 
             <i @click="navigateToAccreditation(item._id)"
-            class='bx bx-right-arrow-alt
+            class='bx bx-right-arrow-circle
             tw-text-4xl
             tw-cursor-pointer
+            hover:tw-text-gray-500
             '></i>
           </div>
         </div>
