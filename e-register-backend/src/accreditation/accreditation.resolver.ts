@@ -73,7 +73,7 @@ export class AccreditationResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => [Accreditation], { name: 'accreditation' })
-  findAll(
+  getAccreditations(
     @Context('data')
     data: any,
     @Args('accreditationQuery')
@@ -85,7 +85,7 @@ export class AccreditationResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => Accreditation)
-  findOne(
+  getAccredition(
     @Context('data')
     data: any,
     @Args('id', { type: () => String })
