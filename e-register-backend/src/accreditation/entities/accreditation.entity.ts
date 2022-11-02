@@ -15,7 +15,7 @@ enum StatusEnum {
 export class Accreditation {
   @ObjectIdColumn()
   @Field(() => ID)
-  id: string;
+  _id: string;
 
   @Column()
   @Field(() => ID, { defaultValue: null, nullable: true })
