@@ -3,7 +3,7 @@
     <Banner title='Accreditation' :showButton="true" buttonTxt="Apply" @button-event="navigateToApplication"/>
 
     <div v-if="loadingAccreditations" class="tw-flex tw-items-center tw-justify-center tw-mt-5">
-      <div class="tw-w-1/2">
+      <div class="tw-w-9/12">
         <PuSkeleton :count="6"/>
       </div>
     </div>
@@ -37,7 +37,7 @@
               <span class="tw-text-xs">Pending</span>
             </p>
 
-            <button @click="$router.push({path: '/accreditation'})"
+            <button @click="navigateToAccreditation(item._id)"
             class="
               custom__button
               tw-w-28
@@ -111,7 +111,11 @@ export default {
 
     navigateToApplication(){
       this.$router.push({ path: '/accreditation-form' })
-    }
+    },
+
+    navigateToAccreditation(id) {
+      this.$router.push(`/accreditation/${id}`);
+    },
   }
 }
 </script>

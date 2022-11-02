@@ -34,7 +34,19 @@
 <script>
 export default {
   name: 'Banner',
-  props: ['title', 'showButton', 'buttonTxt'],
+  props: {
+    title: {
+      type: String,
+    },
+    showButton: {
+      type: Boolean,
+      default: false,
+    },
+    buttonTxt: {
+      type: String,
+      default: 'Apply'
+    }
+  },
   methods: {
     emitBtnEvent(){
       this.$emit('button-event')

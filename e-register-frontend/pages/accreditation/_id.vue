@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <Banner title='Accreditation' :showButton="false" buttonTxt="Apply"/>
+    <Banner title='Accreditation'/>
 
     <div class="
       tw-w-9/12
@@ -58,11 +58,40 @@
 </template>
 
 <script>
+import GetAccreditation from "~/apollo/queries/user/getAccreditation";
+
 export default {
   name: 'accreditation',
   layout: 'home',
   middleware:['unauthenticated_user'],
 
+  created() {
+    console.log('Sample');
+
+  },
+  mounted(){
+    this.getAccreditation()
+    console.log('Sample');
+    console.log(this.$route.params);
+  },
+
+  methods: {
+    async getAccreditation(){
+      try {
+        this.loadingAccreditations = true;
+        const res = await this.$apollo.query({
+          query: GetAccreditation,
+          variables: { id: this.$route.params.id}
+        });
+        console.log(res);
+        // this.accreditations = res.data.getUser.accreditation || [];
+      } catch (err) {
+      this.$throwError(err)
+      }finally {
+        this.loadingAccreditations = false;
+      }
+    },
+  }
 }
 </script>
 
