@@ -85,7 +85,7 @@ export class AccreditationResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => Accreditation)
-  getAccredition(
+  getAccreditation(
     @Context('data')
     data: any,
     @Args('id', { type: () => String })
