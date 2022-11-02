@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AccreditationService } from './accreditation.service';
 import { AccreditationResolver } from './accreditation.resolver';
 import { Accreditation } from './entities/accreditation.entity';
@@ -18,7 +18,7 @@ import { UserModule } from 'src/user/user.module';
     LogModule,
     CategoryModule,
     SubcategoryModule,
-    UserModule,
+    forwardRef(() => UserModule),
   ],
   providers: [AccreditationResolver, AccreditationService],
   exports: [AccreditationService],
