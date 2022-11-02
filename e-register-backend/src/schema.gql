@@ -14,18 +14,18 @@ type Admin {
   isDeleted: Boolean!
 }
 
-type Accreditation {
-  id: ID!
-  categoryId: ID
-  subcategoryId: ID
-  userId: ID
-  accredited: Boolean!
+type Subcategory {
+  _id: ID!
+  categoryId: String!
+  name: String!
   isDeleted: Boolean!
-  status: String
-  dateAccredited: String
-  expiryDate: String
-  proofOfPayment: String
-  supportingDocument: String
+}
+
+type Category {
+  _id: ID!
+  name: String!
+  isDeleted: Boolean!
+  subcategories: [Subcategory!]
 }
 
 type User {
@@ -46,6 +46,7 @@ type User {
   certificateOfTaxClearance: String
   isCertificateOfTaxClearance: Boolean!
   applicationLetter: String
+  description: String
   isApplicationLetter: String!
   evidenceOfPayment: String
   isEvidenceOfPayment: Boolean!
@@ -67,18 +68,22 @@ type Document {
   title: String
 }
 
-type Subcategory {
-  _id: ID!
-  categoryId: String!
-  name: String!
+type Accreditation {
+  id: ID!
+  categoryId: ID
+  subcategoryId: ID
+  userId: ID
+  accredited: Boolean!
   isDeleted: Boolean!
-}
-
-type Category {
-  _id: ID!
-  name: String!
-  isDeleted: Boolean!
-  subcategories: [Subcategory!]
+  status: String
+  dateAccredited: String
+  dateCreated: String
+  expiryDate: String
+  proofOfPayment: String
+  supportingDocument: String
+  category: Category
+  subcategory: Subcategory
+  user: User
 }
 
 type Query {

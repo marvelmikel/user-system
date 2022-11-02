@@ -57,6 +57,7 @@ export class AccreditationService {
         subcategoryId: new ObjectId(createAccreditationInput.subcategoryId),
         isDeleted: false,
         userId: new ObjectId(userId),
+        dateCreated: new Date(Date.now()).toISOString(),
       };
       // proof of payment document
       if (createAccreditationInput.uploadProofOfDocument) {

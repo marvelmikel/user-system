@@ -78,6 +78,10 @@ export class User {
   applicationLetter: string;
 
   @Column()
+  @Field(() => String, { defaultValue: null, nullable: true })
+  description: string;
+
+  @Column()
   @Field(() => String, { defaultValue: false })
   isApplicationLetter: boolean;
 
