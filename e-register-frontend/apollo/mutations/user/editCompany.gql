@@ -5,7 +5,13 @@ mutation UpdateCompany(
   $rcNumber: String,
   $dateOfIncorporation: String,
   $tin: String,
-  $phoneNumber: String
+  $phoneNumber: String,
+  $certificateOfIncorporation: Upload,
+  $certificateOfTaxClearance: Upload,
+  $applicationLetter: Upload,
+  $evidenceOfPayment: Upload,
+  $letterOfCredibilityFromBanks: Upload,
+  $collaborationCertificateWithForeignPartners: Upload
   ) {
   updateUser(updateUserInput: {
     nameOfCompany: $nameOfCompany,
@@ -15,6 +21,12 @@ mutation UpdateCompany(
     rcNumber: $rcNumber,
     dateOfIncorporation: $dateOfIncorporation,
     phoneNumber: $phoneNumber
+    certificateOfIncorporation: $certificateOfIncorporation,
+    certificateOfTaxClearance: $certificateOfTaxClearance,
+    applicationLetter: $applicationLetter,
+    evidenceOfPayment: $evidenceOfPayment,
+    letterOfCredibilityFromBanks: $letterOfCredibilityFromBanks,
+    collaborationCertificateWithForeignPartners: $collaborationCertificateWithForeignPartners,
   }){
     _id
     nameOfCompany

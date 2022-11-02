@@ -144,7 +144,7 @@
 
               <div v-if="company.certificateOfIncorporation" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
                 <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.certificateOfIncorporation.name || '' }}
+                  {{ company.certificateOfIncorporation.name || 'certificateOfIncorporation' }}
                 </span>
                 <i @click="removeCertificateOfIncorporation" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
               </div>
@@ -164,7 +164,7 @@
 
               <div v-if="company.certificateOfTaxClearance" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
                 <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.certificateOfTaxClearance.name || '' }}
+                  {{ company.certificateOfTaxClearance.name || 'certificateOfTaxClearance' }}
                 </span>
                 <i @click="removeCertificateOfTaxClearance" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
               </div>
@@ -184,13 +184,12 @@
 
               <div v-if="company.applicationLetter" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
                 <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.applicationLetter.name || '' }}
+                  {{ company.applicationLetter.name || 'applicationLetter' }}
                 </span>
                 <i @click="removeApplicationLetter" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
               </div>
             </div>
             <!-- Application Letter End -->
-
 
           </div>
 
@@ -208,7 +207,7 @@
 
               <div v-if="company.evidenceOfPayment" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
                 <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.evidenceOfPayment.name || '' }}
+                  {{ company.evidenceOfPayment.name || 'evidenceOfPayment' }}
                 </span>
                 <i @click="removeEvidenceOfPayment" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
               </div>
@@ -227,7 +226,7 @@
               <UploadBox @upload-event="$refs.letterOfCredibilityFromBanks.click()"/>
 
               <div v-if="company.letterOfCredibilityFromBanks" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">{{ company.letterOfCredibilityFromBanks.name || '' }}</span>
+                <span class="tw-text-xs tw-text-gray-500">{{ company.letterOfCredibilityFromBanks.name || 'letterOfCredibilityFromBanks' }}</span>
                 <i @click="removeLetterOfCredibilityFromBanks" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
               </div>
             </div>
@@ -246,7 +245,7 @@
               <UploadBox @upload-event="$refs.collaborationCertificateWithForeignPartners.click()"/>
 
               <div v-if="company.collaborationCertificateWithForeignPartners" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">{{ company.collaborationCertificateWithForeignPartners.name || '' }}</span>
+                <span class="tw-text-xs tw-text-gray-500">{{ company.collaborationCertificateWithForeignPartners.name || 'collaboration-certificate-with-foreign-partners' }}</span>
                 <i @click="removeCollaborationCertificateWithForeignPartners" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
               </div>
             </div>
@@ -268,7 +267,7 @@
 
               <div v-if="company.curriculumVitaeInput" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
                 <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.curriculumVitaeInput.name || '' }}
+                  {{ company.curriculumVitaeInput.name || 'curriculumVitae' }}
                 </span>
                 <i @click="removeCurriculumVitaeInput" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
               </div>
@@ -289,7 +288,7 @@
 
               <div v-if="company.boardOfDirectorsInput" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
                 <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.boardOfDirectorsInput.name || '' }}
+                  {{ company.boardOfDirectorsInput.name || 'boardOfDirectors' }}
                 </span>
                 <i @click="removeBoardOfDirectorsInput" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
               </div>
@@ -411,6 +410,7 @@ export default {
     },
 
     async createCompany(){
+
       try {
         this.editing = true;
         const res = await this.$apollo.mutate({
@@ -422,7 +422,6 @@ export default {
         this.$toast.success('Company Updated')
 
       } catch (errors) {
-        console.log(errors);
         this.$throwError(errors)
       }finally{
         this.editing = false;
