@@ -170,6 +170,7 @@
 
 <script>
 import InviteAdmin  from "~/apollo/mutations/admin/inviteAdmin";
+import GetAdmins from "~/apollo/queries/admin/getAdmins";
 
 export default {
   name: 'admin-admins',
@@ -181,10 +182,16 @@ export default {
         { id: 2, name: 'John Doe', activated: true},
         { id: 3, name: 'Jane Doe', activated: false},
       ],
+      admins: [],
       isOpen: false,
       loading: false,
-      email: null
+      email: null,
+      loadingAdmins: false,
     }
+  },
+
+  mounted(){
+    // this.getAdmins()
   },
 
   computed: {
@@ -218,7 +225,25 @@ export default {
       }finally{
          this.loading = false;
       }
-    }
+    },
+
+    async getAdmins(){
+      try {
+        this.loadingAdmins = true;
+        const res = await this.$apollo.query({
+          query: GetAdmins,
+          // variables: {
+          //   isDeleted: false
+          // }
+        });
+        console.log(res);
+        // this.company = res.data.getUser ?? null;
+      } catch (err) {
+      this.$throwError(err)
+      }finally {
+        this.loadingAdmins = false;
+      }
+    },
   }
 }
 </script>
