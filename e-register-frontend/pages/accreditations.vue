@@ -95,7 +95,14 @@ export default {
         const res = await this.$apollo.query({
           query: GetAccreditations
         });
-        this.accreditations = res.data.getUser.accreditation || [];
+        if (res.data) {
+          if (res.data.getUser) {
+            if (res.data.getUser.accreditation) {
+
+              this.accreditations = res.data.getUser.accreditation || [];
+            }
+          }
+        }
       } catch (err) {
       this.$throwError(err)
       }finally {
