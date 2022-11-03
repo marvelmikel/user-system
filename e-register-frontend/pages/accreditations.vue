@@ -42,7 +42,7 @@
             </p>
 
             <i @click="$router.push(`/accreditation/${item._id}`)"
-            class='bx bx-right-arrow-circle
+            class='bx bx-right-arrow-alt
             tw-text-4xl
             tw-cursor-pointer
             hover:tw-text-gray-500
