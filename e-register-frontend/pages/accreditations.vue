@@ -23,8 +23,10 @@
           tw-flex
         ">
           <div class="tw-flex-1">
-            <h1 class="tw-font-bold tw-text-2xl tw-capitalize">{{item?.category?.name}}</h1>
-            <p class="tw-capitalize tw-text-sm">{{item?.subcategory?.name}}</p>
+            <h1 class="tw-font-bold tw-text-xl tw-capitalize">
+              {{item?.category?.name}} / {{item?.subcategory?.name}}
+            </h1>
+            <!-- <p class="tw-capitalize tw-text-sm">{{item?.subcategory?.name}}</p> -->
           </div>
           <div class="tw-flex-1 tw-flex tw-justify-between tw-items-center">
 
