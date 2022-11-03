@@ -164,9 +164,9 @@ return {
 </script>
 
 <style>
-.nuxt-link-active {
+/* .nuxt-link-active { */
   /* color: #076476; */
-  border-bottom: 3px solid yellowgreen;
+  /* border-bottom: 3px solid yellowgreen; */
   /* font-weight: bold; */
-}
+/* } */
 </style>

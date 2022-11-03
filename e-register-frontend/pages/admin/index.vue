@@ -100,6 +100,8 @@
 </template>
 
 <script>
+import GetAllUsers from "~/apollo/queries/admin/getAllUsers";
+
 export default {
   name: 'admin-index',
   layout: 'adminDefault',
@@ -108,9 +110,37 @@ export default {
     return {
       results: [
         { name: 'no_results'}
-      ]
+      ],
+      loading: false,
+      companies: []
     }
   },
+
+  mounted(){
+    this.getAllUsers()
+  },
+
+  methods: {
+    async getAllUsers(){
+      try {
+        this.loading = true;
+        const res = await this.$apollo.query({
+          client: 'admin',
+          query: GetAllUsers
+        });
+        console.log(res);
+        // this.accreditations = res.data.getUser.accreditation || [];
+      } catch (err) {
+      this.$throwError(err)
+      }finally {
+        this.loading = false;
+      }
+    },
+
+    navigateToApplication(){
+      this.$router.push({ path: '/accreditation-form' })
+    }
+  }
 }
 </script>
 

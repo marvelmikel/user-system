@@ -77,12 +77,14 @@ export default {
 .sidebar {
   width: 17%;
 }
-.sidebar .active {
+.sidebar .nuxt-link-exact-active  {
   @apply tw-bg-light-green;
   color: white;
+  border-bottom: 3px solid yellowgreen;
+
 }
 
-.sidebar a:hover:not(.active) {
+.sidebar a:hover:not(.nuxt-link-exact-active ) {
   @apply tw-bg-white tw-text-dark-green;
 }
 

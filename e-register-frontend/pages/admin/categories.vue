@@ -7,7 +7,9 @@
     tw-text-sm
     tw-mb-14
     ">
-      <input type="text"
+      <input @keyup="getCategories(true)"
+        v-model="searchText"
+       type="text"
         placeholder="Search Category"
         class="
         tw-col-start-1 tw-col-end-4
@@ -52,7 +54,7 @@
     </div>
 
     <div v-if="loadingCategories" class="tw-w-full">
-      <PuSkeleton :count="2"/>
+      <PuSkeleton :count="9"/>
     </div>
     <div v-else>
 
@@ -68,7 +70,7 @@
             tw-justify-between
           ">
 
-          <p class="tw-flex tw-items-center">{{ data.name }}</p>
+          <p class="tw-flex tw-items-center tw-capitalize">{{ data.name }}</p>
 
           <div class="tw-flex tw-items-center">
             <!-- <ToggleBtn :state="data.activated" :id="data.id" @checkedevent="deactivateAdmin"/> -->
@@ -98,9 +100,8 @@
               <span class="tw-text-xs">Add Subcategory</span>
             </button>
 
-
-
-            <i class='
+            <i @click="openDeleteModal(data)"
+            class='
             bx bxs-x-circle
             tw-text-4xl
             tw-cursor-pointer
@@ -215,21 +216,44 @@
             disabled
             placeholder=""
             class="
-            tw-w-full
-            tw-px-7
-            tw-py-2
-            tw-rounded-lg
-            tw-text-sm
-            tw-bg-gray-400
-            tw-text-white
-            tw-border-none
-            focus:tw-outline-none"
+            tw-w-full tw-px-7 tw-py-2 tw-text-sm tw-border-gray-400 tw-border-b focus:tw-outline-none tw-capitalize"
           />
         </div>
       </div>
     </Modal>
 
+    <Modal
+    :button="false"
+      :customClass="['tw-w-2/5']"
+      :isOpen="delete_modal_open"
+      @close-modal="delete_modal_open = false"
+    >
+      <div class="tw-my-5 tw-space-y-5 tw-px-2 tw-pb-1">
+        <h1 class="tw-text-lg tw-text-black">
+          Are you sure?
+        </h1>
 
+
+        <div class="tw-flex tw-gap-3">
+          <button
+            @click="removeCategory"
+            :disabled="deleting"
+            :class=" deleting ? 'tw-opacity-40' : '' "
+            class="tw-bg-green-500 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
+          >
+            Proceed
+          </button>
+          <button
+            :disabled="deleting"
+            :class=" deleting ? 'tw-opacity-40' : '' "
+            @click="closeDeleteModal"
+            class="tw-bg-red-600 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </Modal>
 
   </div>
 </template>
@@ -238,6 +262,7 @@
 import CreateCategory from "~/apollo/mutations/admin/createCategory";
 import CreateSubcategory from "~/apollo/mutations/admin/createSubcategory";
 import GetCategories from "~/apollo/queries/admin/getCategories";
+import RemoveCategory from "~/apollo/mutations/admin/removeCategory";
 
 export default {
   name: 'admin-categories',
@@ -246,14 +271,18 @@ export default {
     return {
       isOpen: false,
       add_subcategory_modal_is_open: false,
+      delete_modal_open: false,
       loading: false,
       loadingCategories: false,
       category: null,
+      category_id: null,
       subcategory_data: null,
       category_id: null,
       category_name: '',
       subcategory: null,
-      categories: []
+      categories: [],
+      deleting: false,
+      searchText: null
     }
   },
 
@@ -287,7 +316,7 @@ export default {
       })
     },
 
-    async getCategories(){
+    async getCategories(search = false){
 
       try {
         this.loadingCategories = true;
@@ -298,7 +327,7 @@ export default {
           //   name: this.searchText,
           // },
         });
-        
+
         this.categories = res.data.findAllCategories ?? null;
       } catch (err) {
        this.$throwError(err)
@@ -346,11 +375,38 @@ export default {
       }
     },
 
+    async removeCategory(){
+      try {
+        this.deleting = true;
+        const res = await this.$apollo.mutate({
+          client: 'admin',
+          mutation: RemoveCategory,
+          variables: { id: this.category_id },
+        });
+        console.log(res);
+        this.getCategories()
+        // this.$toast.success('Category deleted')
+
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+        this.deleting = false;
+      }
+    },
+
     openSubcategoryModal(data){
       this.add_subcategory_modal_is_open = true
       this.category_id = data._id
       this.category_name = data.name
       this.subcategory_data = data.subcategories
+    },
+    closeDeleteModal(){
+      this.delete_modal_open = false
+      this.category_id = null
+    },
+    openDeleteModal(category){
+      this.category_id = category._id
+      this.delete_modal_open = true
     }
   }
 }

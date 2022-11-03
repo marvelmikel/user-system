@@ -1,0 +1,41 @@
+query GetAllUsers {
+  getAllUsers {
+    _id
+    nameOfCompany
+    token
+    location
+    address
+    rcNumber
+    dateOfIncorporation
+    tin
+    email
+    isEmailActive
+    phoneNumber
+    isActive
+    certificateOfIncorporation
+    isCertificateOfIncorporation
+    certificateOfTaxClearance
+    isCertificateOfTaxClearance
+    applicationLetter
+    description
+    isApplicationLetter
+    evidenceOfPayment
+    isEvidenceOfPayment
+    letterOfCredibilityFromBanks
+    isLetterOfCredibilityFromBanks
+    collaborationCertificateWithForeignPartners
+    isCollaborationCertificateWithForeignPartners
+    curriculumVitae {
+      file
+      title
+    }
+    isCurriculumVitae
+    boardOfDirectors {
+      file
+      title
+    }
+    isBoardOfDirectorsInput
+    isDeleted
+    profilePic
+  }
+}

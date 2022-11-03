@@ -38,10 +38,10 @@
             </p>
             <p v-if="item.status === 'EXPIRED'" class="tw-flex tw-items-center tw-gap-3">
               <i class='bx bxs-circle tw-text-xs tw-text-red-600'></i>
-              <span class="tw-text-xs">Pending</span>
+              <span class="tw-text-xs">Expired</span>
             </p>
 
-            <i @click="navigateToAccreditation(item._id)"
+            <i @click="$router.push(`/accreditation/${item._id}`)"
             class='bx bx-right-arrow-circle
             tw-text-4xl
             tw-cursor-pointer
@@ -105,11 +105,7 @@ export default {
 
     navigateToApplication(){
       this.$router.push({ path: '/accreditation-form' })
-    },
-
-    navigateToAccreditation(id) {
-      this.$router.push(`/accreditation/${id}`);
-    },
+    }
   }
 }
 </script>

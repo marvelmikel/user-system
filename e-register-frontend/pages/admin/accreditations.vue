@@ -11,7 +11,6 @@
         placeholder="Search Company Name"
         class="
         tw-px-7
-        tw-py-2
         tw-rounded-lg
         tw-text-sm
         tw-col-span-4
@@ -20,49 +19,24 @@
         focus:tw-outline-none"
         />
 
-      <div class="
-        tw-col-span-2
-        tw-flex
-        tw-items-center
-        tw-px-7
-        tw-py-2
-        tw-rounded-lg
-        tw-bg-gray-200
-      ">
-        <select class="
-        tw-w-full
-        tw-text-sm
-        tw-bg-gray-200
-        tw-border-none
-        focus:tw-outline-none
-        ">
-          <option value="">Category</option>
+      <div class="form-control tw-col-span-2">
+        <select required>
+          <option disabled>Category</option>
+          <option value="1">Category</option>
+          <option value="1">Category</option>
         </select>
       </div>
 
-      <div class="
-        tw-col-span-2
-        tw-flex
-        tw-items-center
-        tw-px-7
-        tw-py-2
-        tw-rounded-lg
-        tw-bg-gray-200
-      ">
-        <select class="
-        tw-w-full
-        tw-text-sm
-        tw-bg-gray-200
-        tw-border-none
-        focus:tw-outline-none
-        ">
-          <option value="">Status</option>
+      <div class="form-control tw-col-span-2">
+        <select required>
+          <option disabled>Status</option>
+          <option value="1">Status</option>
+          <option value="1">Status</option>
         </select>
       </div>
 
       <button class="
         tw-col-span-3
-        tw-p-3
         tw-rounded-lg
         tw-bg-dark-green
         tw-text-white
@@ -73,7 +47,6 @@
 
       <button class="
         tw-col-span-1
-        tw-p-3
         tw-rounded-lg
         tw-bg-dark-green
         tw-text-white
