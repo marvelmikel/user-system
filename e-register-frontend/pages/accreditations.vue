@@ -96,11 +96,9 @@ export default {
           query: GetAccreditations
         });
         if (res.data) {
-          if (res.data.getUser) {
-            if (res.data.getUser.accreditation) {
-
-              this.accreditations = res.data.getUser.accreditation || [];
-            }
+          let { getUser } = res.data
+          if (getUser.accreditation) {
+            this.accreditations = getUser.accreditation || [];
           }
         }
       } catch (err) {
