@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Banner title='Accreditation' :showButton="true" buttonTxt="Apply" @button-event="navigateToApplication"/>
+    <Banner title='Accreditations' :showButton="true" buttonTxt="Apply" @button-event="navigateToApplication"/>
 
     <div v-if="loadingAccreditations" class="tw-flex tw-items-center tw-justify-center tw-mt-5">
       <div class="tw-w-9/12">
@@ -24,7 +24,7 @@
         ">
           <div class="tw-flex-1">
             <h1 class="tw-font-bold tw-text-xl tw-capitalize">
-              {{item?.category?.name}} / {{item?.subcategory?.name}}
+              {{item?.category?.name}} / <span class="tw-font-normal tw-text-xs">{{item?.subcategory?.name}}</span>
             </h1>
             <!-- <p class="tw-capitalize tw-text-sm">{{item?.subcategory?.name}}</p> -->
           </div>
