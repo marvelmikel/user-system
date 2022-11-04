@@ -6,14 +6,25 @@
         tw-flex tw-justify-between tw-items-center tw-cursor-pointer tw-mb-2
       "
     >
-      <p class="tw-text-xl">
+      <p class="tw-text-xl tw-font-bold">
         {{ item.question }}
       </p>
       <i class="bx bx-chevron-down tw-text-3xl"></i>
     </div>
-    <p v-if="open === true" class="tw-text-gray-700 tw-w-4/5">
-      {{ item.answer }}
-    </p>
+    <div v-if="open === true" class="tw-text-gray-700 tw-w-4/5">
+      <p v-if="item.answer.header" class="tw-mb-5">
+        {{ item.answer.header }}
+      </p>
+      <ul class="tw-list-disc tw-pl-10">
+        <li v-for="(list, index) in item.answer.list" :key="index" class="tw-text-sm">
+          {{ list }}
+        </li>
+      </ul>
+      <p v-if="item.answer.footer" class="tw-mt-5">
+        {{ item.answer.footer }}
+      </p>
+
+    </div>
   </div>
 </template>
 

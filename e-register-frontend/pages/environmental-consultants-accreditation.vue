@@ -80,8 +80,7 @@
             tw-col-start-5
             tw-col-end-12
             tw-text-gray-400">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lectus quis tortor senectus lobortis ullamcorper Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Lectus quis tortor senectus lobortis ullamcorper Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lectus quis tortor senectus lobortis ullamcorper
+            The accreditation of Environmental Consultants was initiated in 1992 by the Federal Environmental Protection Agency (FEPA) which was later subsumed into the Federal Ministry of Environment in 1999. The primary objective of the exercise is to identify technically sound private and public organizations capable of rendering consultancy services to address the various environmental challenges/issues in Nigeria in accordance with existing environmental laws, regulations, standards and global best practices.
             </p>
             <span class="tw-col-start-12 tw-col-end-13 tw-border-r-4 tw-border-dark-yellow">
               <!-- Test -->
