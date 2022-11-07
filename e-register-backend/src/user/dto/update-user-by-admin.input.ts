@@ -3,27 +3,27 @@ import { UpdateUserInput } from './update-user.input';
 
 @InputType()
 export class UpdateUserInputByAdmin extends UpdateUserInput {
-  @Field({ defaultValue: false })
+  @Field(() => Boolean, { nullable: true })
   isCertificateOfIncorporation: boolean;
 
-  @Field({ defaultValue: false })
+  @Field(() => Boolean, { nullable: true })
   isCertificateOfTaxClearance: boolean;
 
-  @Field({ defaultValue: false })
+  @Field(() => Boolean, { nullable: true })
   isApplicationLetter: boolean;
 
-  @Field({ defaultValue: false })
+  @Field(() => Boolean, { nullable: true })
   isEvidenceOfPayment: boolean;
 
-  @Field({ defaultValue: false })
+  @Field(() => Boolean, { nullable: true })
   isLetterOfCredibilityFromBanks: boolean;
 
-  @Field({ defaultValue: false })
+  @Field(() => Boolean, { nullable: true })
   isCollaborationCertificateWithForeignPartners: boolean;
 
-  @Field({ defaultValue: false })
+  @Field(() => Boolean, { nullable: true })
   isCurriculumVitae: boolean;
 
-  @Field({ defaultValue: false })
+  @Field(() => Boolean, { nullable: true })
   isBoardOfDirectorsInput: boolean;
 }

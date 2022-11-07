@@ -226,22 +226,22 @@ input LoginUserInput {
 }
 
 input UpdateUserInput {
-  nameOfCompany: String = null
-  location: String = null
-  address: String = null
-  rcNumber: String = null
-  tin: String = null
-  dateOfIncorporation: String = null
-  phoneNumber: String = null
-  certificateOfIncorporation: Upload = null
-  certificateOfTaxClearance: Upload = null
-  applicationLetter: Upload = null
-  evidenceOfPayment: Upload = null
-  letterOfCredibilityFromBanks: Upload = null
-  collaborationCertificateWithForeignPartners: Upload = null
+  nameOfCompany: String
+  location: String
+  address: String
+  rcNumber: String
+  tin: String
+  dateOfIncorporation: String
+  phoneNumber: String
+  certificateOfIncorporation: Upload
+  certificateOfTaxClearance: Upload
+  applicationLetter: Upload
+  evidenceOfPayment: Upload
+  letterOfCredibilityFromBanks: Upload
+  collaborationCertificateWithForeignPartners: Upload
   curriculumVitaeInput: [DocumentInput!] = []
   boardOfDirectorsInput: [DocumentInput!] = []
-  uploadProfilePic: Upload = null
+  uploadProfilePic: Upload
 }
 
 input DocumentInput {
@@ -250,30 +250,30 @@ input DocumentInput {
 }
 
 input UpdateUserInputByAdmin {
-  nameOfCompany: String = null
-  location: String = null
-  address: String = null
-  rcNumber: String = null
-  tin: String = null
-  dateOfIncorporation: String = null
-  phoneNumber: String = null
-  certificateOfIncorporation: Upload = null
-  certificateOfTaxClearance: Upload = null
-  applicationLetter: Upload = null
-  evidenceOfPayment: Upload = null
-  letterOfCredibilityFromBanks: Upload = null
-  collaborationCertificateWithForeignPartners: Upload = null
+  nameOfCompany: String
+  location: String
+  address: String
+  rcNumber: String
+  tin: String
+  dateOfIncorporation: String
+  phoneNumber: String
+  certificateOfIncorporation: Upload
+  certificateOfTaxClearance: Upload
+  applicationLetter: Upload
+  evidenceOfPayment: Upload
+  letterOfCredibilityFromBanks: Upload
+  collaborationCertificateWithForeignPartners: Upload
   curriculumVitaeInput: [DocumentInput!] = []
   boardOfDirectorsInput: [DocumentInput!] = []
-  uploadProfilePic: Upload = null
-  isCertificateOfIncorporation: Boolean = false
-  isCertificateOfTaxClearance: Boolean = false
-  isApplicationLetter: Boolean = false
-  isEvidenceOfPayment: Boolean = false
-  isLetterOfCredibilityFromBanks: Boolean = false
-  isCollaborationCertificateWithForeignPartners: Boolean = false
-  isCurriculumVitae: Boolean = false
-  isBoardOfDirectorsInput: Boolean = false
+  uploadProfilePic: Upload
+  isCertificateOfIncorporation: Boolean
+  isCertificateOfTaxClearance: Boolean
+  isApplicationLetter: Boolean
+  isEvidenceOfPayment: Boolean
+  isLetterOfCredibilityFromBanks: Boolean
+  isCollaborationCertificateWithForeignPartners: Boolean
+  isCurriculumVitae: Boolean
+  isBoardOfDirectorsInput: Boolean
 }
 
 input CreateAccreditationByAdminInput {

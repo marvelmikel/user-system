@@ -18,67 +18,67 @@ export class UpdateUserInput extends PartialType(
   // firstName is Required
   @IsOptional()
   @MinLength(5)
-  @Field({ defaultValue: null })
+  @Field(() => String, { nullable: true })
   nameOfCompany: string;
 
   // location is Required
   @IsOptional()
   @MinLength(3)
-  @Field({ defaultValue: null })
+  @Field(() => String, { nullable: true })
   location: string;
 
   // address is Required
   @IsOptional()
   @MinLength(5)
-  @Field({ defaultValue: null })
+  @Field(() => String, { nullable: true })
   address: string;
 
   // RC Number is Required
   @IsOptional()
   @MinLength(5)
-  @Field({ defaultValue: null })
+  @Field(() => String, { nullable: true })
   rcNumber: string;
 
   // TIN is Required
   @IsOptional()
   @MinLength(5)
-  @Field({ defaultValue: null })
+  @Field(() => String, { nullable: true })
   tin: string;
 
   // lastName is Required
   @IsOptional()
   @IsDateString()
-  @Field({ defaultValue: null })
+  @Field(() => String, { nullable: true })
   dateOfIncorporation: string;
 
   // phoneNumber
   @IsOptional()
   @IsMobilePhone()
-  @Field({ defaultValue: null })
+  @Field(() => String, { nullable: true })
   phoneNumber: string;
 
   @IsOptional()
-  @Field({ defaultValue: null })
+  @Field(() => Upload, { nullable: true })
   certificateOfIncorporation: Upload;
 
   @IsOptional()
-  @Field({ defaultValue: null })
+  @Field(() => Upload, { nullable: true })
   certificateOfTaxClearance: Upload;
 
   @IsOptional()
-  @Field({ defaultValue: null })
+  @Field(() => Upload, { nullable: true })
   applicationLetter: Upload;
 
   @IsOptional()
-  @Field({ defaultValue: null })
+  @Field(() => Upload, { nullable: true })
   evidenceOfPayment: Upload;
 
   @IsOptional()
-  @Field({ defaultValue: null })
+  @Field(() => Upload, { nullable: true })
   letterOfCredibilityFromBanks: Upload;
 
   @IsOptional()
-  @Field({ defaultValue: null })
+  @Field(() => Upload, { nullable: true })
   collaborationCertificateWithForeignPartners: Upload;
 
   @IsOptional()
@@ -94,6 +94,6 @@ export class UpdateUserInput extends PartialType(
   boardOfDirectorsInput: DocumentInput[];
 
   @IsOptional()
-  @Field({ defaultValue: null })
+  @Field(() => Upload, { nullable: true })
   uploadProfilePic: Upload;
 }
