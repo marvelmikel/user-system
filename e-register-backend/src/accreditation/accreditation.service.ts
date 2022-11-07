@@ -241,7 +241,7 @@ export class AccreditationService {
         .aggregate([
           {
             $match: this.helperService.mongoObjectFilter({
-              _id: new ObjectId(userId),
+              userId: new ObjectId(userId),
             }),
           },
           {
