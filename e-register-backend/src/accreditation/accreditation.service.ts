@@ -282,11 +282,10 @@ export class AccreditationService {
         ])
         .toArray();
 
-      console.log(result);
 
       if (!result.length) throw new Error('Item not found');
 
-      return result[0];
+      return result;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
