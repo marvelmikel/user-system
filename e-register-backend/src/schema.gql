@@ -124,6 +124,7 @@ type Query {
   userVerification: StepDocument!
   getAccreditationsByAdmin(accreditationQuery: AccreditationQuery!): [Accreditation!]!
   getAccreditationByAdmin(id: String!): [Accreditation!]!
+  getAccreditationById(id: String!): [Accreditation!]!
   getAccreditationByUser: [Accreditation!]!
   findAllCategories(search: String): [Category!]!
   findOneCategory(id: String!): Category!

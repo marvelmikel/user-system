@@ -97,6 +97,18 @@ export class AccreditationResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => [Accreditation])
+  getAccreditationById(
+    @Context('data')
+    data: any,
+    @Args('id', { type: () => String })
+    id: string,
+  ) {
+    this.helperService.isAUser(data);
+    return this.accreditationService.getAccreditationById(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Query(() => [Accreditation])
   getAccreditationByUser(
     @Context('data')
     data: any,
