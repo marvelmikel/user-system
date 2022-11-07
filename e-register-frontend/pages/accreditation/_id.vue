@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <Banner title='Accreditation'/>
+    <Banner title='Accreditation' :showButton="isExpired" buttonTxt="Subscribe" @button-event="subscribe"/>
 
     <div v-if="loadingAccreditation" class="tw-flex tw-items-center tw-justify-center tw-mt-8">
       <div class="tw-w-9/12">
@@ -91,6 +91,15 @@ export default {
     this.getAccreditation()
   },
 
+  computed: {
+    isExpired(){
+      if (this.accreditation) {
+        return this.accreditation.status === 'EXPIRED' ? true : false;
+      }
+      return false;
+    }
+  },
+
   methods: {
     async getAccreditation(){
       try {
@@ -109,6 +118,10 @@ export default {
         this.loadingAccreditation = false;
       }
     },
+
+    subscribe(){
+      console.log('Subscribing');
+    }
   }
 }
 </script>
