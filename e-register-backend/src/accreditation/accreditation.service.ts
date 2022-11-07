@@ -4,20 +4,20 @@ import { ObjectId } from 'mongodb';
 import { HelperService } from 'src/helper/helper.service';
 import { LogService } from 'src/log/log.service';
 import { MailService } from 'src/mail/mail.service';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { AccreditationQuery } from './dto/query-accreditation.input';
 import { CreateAccreditationInput } from './dto/create-accreditation.input';
 import { UpdateAccreditationInput } from './dto/update-accreditation.input';
 import { Accreditation } from './entities/accreditation.entity';
 import { AdminUpdateAccreditationInput } from './dto/admin-accreditation.input';
-import moment from 'moment';
+import * as moment from 'moment';
 import { CustomQuery } from 'src/admin/dto/query-admin.input';
 
 @Injectable()
 export class AccreditationService {
   constructor(
     @InjectRepository(Accreditation)
-    private accreditationRepository: Repository<Accreditation>,
+    private accreditationRepository: MongoRepository<Accreditation>,
     private mailService: MailService,
     private helperService: HelperService,
     private logService: LogService,
@@ -29,27 +29,27 @@ export class AccreditationService {
     baseUrl: string,
   ) {
     try {
-      let filter: any = {};
+      // let filter: any = {};
 
-      filter = {
-        $and: [
-          { isDeleted: false },
-          {
-            categoryId: new ObjectId(createAccreditationInput.categoryId),
-          },
-          {
-            userId: new ObjectId(userId),
-          },
-        ],
-      };
+      // filter = {
+      //   $and: [
+      //     { isDeleted: false },
+      //     {
+      //       categoryId: new ObjectId(createAccreditationInput.categoryId),
+      //     },
+      //     {
+      //       userId: new ObjectId(userId),
+      //     },
+      //   ],
+      // };
 
-      const result = await this.accreditationRepository.find({
-        where: filter,
-      });
-      if (result.length > 3)
-        throw new Error(
-          'You have Exceded the number of accreditation a user can have',
-        );
+      // const result = await this.accreditationRepository.find({
+      //   where: filter,
+      // });
+      // if (result.length > 3)
+      //   throw new Error(
+      //     'You have Exceded the number of accreditation a user can have',
+      //   );
 
       // create a new instance;
       let newPayload: any = {
@@ -104,103 +104,193 @@ export class AccreditationService {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
-
-  async findAll(accreditationQuery: AccreditationQuery) {
+  async getAllAccreditations(accreditationQuery: AccreditationQuery) {
     try {
-      // create root filter
-      let categoryFilter: any = {};
-      // check if search exist
-      if (accreditationQuery.categoryId) {
-        categoryFilter = {
-          categoryId: new ObjectId(accreditationQuery.categoryId),
-        };
-      }
-      // create root filter
-      let subcategoryFilter: any = {};
-      // check if search exist
-      if (accreditationQuery.subcategoryId) {
-        subcategoryFilter = {
-          categoryId: new ObjectId(accreditationQuery.subcategoryId),
-        };
-      }
-
-      // create root filter
-      let userFilter: any = {};
-      // check if search exist
-      if (accreditationQuery.userId) {
-        userFilter = {
-          userId: new ObjectId(accreditationQuery.userId),
-        };
-      }
-
-      let primaryFilter: any = {};
-
-      primaryFilter = {
-        $and: [
-          { isDeleted: accreditationQuery.isDeleted },
-          categoryFilter,
-          subcategoryFilter,
-          userFilter,
-        ],
-      };
+      const queryParams = this.helperService.mongoObjectFilter({
+        $and: this.helperService.mongoArrayFilter([
+          this.helperService.mongoObjectFilter({
+            isDeleted: accreditationQuery.isDeleted,
+          }),
+          this.helperService.mongoQuery(
+            'userId',
+            '$eq',
+            accreditationQuery.userId
+              ? new ObjectId(accreditationQuery.userId)
+              : null,
+          ),
+          this.helperService.mongoQuery(
+            'subcategoryId',
+            '$eq',
+            accreditationQuery.subcategoryId
+              ? new ObjectId(accreditationQuery.subcategoryId)
+              : null,
+          ),
+          this.helperService.mongoQuery(
+            'categoryId',
+            '$eq',
+            accreditationQuery.categoryId
+              ? new ObjectId(accreditationQuery.categoryId)
+              : null,
+          ),
+        ]),
+      });
 
       // find all
-      const result = await this.accreditationRepository.find({
-        where: primaryFilter,
-      });
+      const result = await this.accreditationRepository
+        .aggregate([
+          { $match: queryParams },
+          {
+            $addFields: {
+              status: {
+                $switch: {
+                  branches: [
+                    {
+                      case: {
+                        $and: [
+                          {
+                            $lte: [
+                              '$dateAccredited',
+                              new Date().toDateString(),
+                            ],
+                          },
+                          { $gte: ['$expiryDate', new Date().toISOString()] },
+                          { $eq: ['$accredited', true] },
+                        ],
+                      },
+                      then: 'ACTIVE',
+                    },
+                    {
+                      case: {
+                        $and: [
+                          { $lte: ['$expiryDate', new Date().toISOString()] },
+                          { $eq: ['$accredited', true] },
+                        ],
+                      },
+                      then: 'EXPIRED',
+                    },
+                  ],
+                  default: 'PENDING',
+                },
+              },
+            },
+          },
+        ])
+        .toArray();
 
       return result;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
-  async getUserAccreditaion(userId: any) {
+  async getAccreditationById(id: string) {
     try {
-      console.log(userId);
-
-      // create root filter
-      let userFilter: any = {};
-      // check if search exist
-      if (userId) {
-        userFilter = {
-          userId: userId,
-        };
-      }
-
-      let primaryFilter: any = {};
-
-      primaryFilter = {
-        $and: [{ isDeleted: false }, userFilter],
-      };
-
-      // find all
-      const result = await this.accreditationRepository.find({
-        where: primaryFilter,
-      });
-
-      console.log(result);
-
-      return result;
-    } catch (error) {
-      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
-    }
-  }
-
-  async findOne(id: string) {
-    try {
-      const query: any = { _id: new ObjectId(id) };
-      const result = await this.accreditationRepository.findOne({
-        where: query,
-      });
-
-      if (!result) throw new Error('Item not found');
+      const result = await this.accreditationRepository
+        .aggregate([
+          {
+            $match: this.helperService.mongoObjectFilter({
+              _id: new ObjectId(id),
+            }),
+          },
+          {
+            $addFields: {
+              status: {
+                $switch: {
+                  branches: [
+                    {
+                      case: {
+                        $and: [
+                          {
+                            $lte: [
+                              '$dateAccredited',
+                              new Date().toDateString(),
+                            ],
+                          },
+                          { $gte: ['$expiryDate', new Date().toISOString()] },
+                          { $eq: ['$accredited', true] },
+                        ],
+                      },
+                      then: 'ACTIVE',
+                    },
+                    {
+                      case: {
+                        $and: [
+                          { $lte: ['$expiryDate', new Date().toISOString()] },
+                          { $eq: ['$accredited', true] },
+                        ],
+                      },
+                      then: 'EXPIRED',
+                    },
+                  ],
+                  default: 'PENDING',
+                },
+              },
+            },
+          },
+          { $limit: 1 },
+        ])
+        .toArray();
 
       return result;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
+  async getAccreditationByUserId(userId: string) {
+    try {
+      const result = await this.accreditationRepository
+        .aggregate([
+          {
+            $match: this.helperService.mongoObjectFilter({
+              _id: new ObjectId(userId),
+            }),
+          },
+          {
+            $addFields: {
+              status: {
+                $switch: {
+                  branches: [
+                    {
+                      case: {
+                        $and: [
+                          {
+                            $lte: [
+                              '$dateAccredited',
+                              new Date().toDateString(),
+                            ],
+                          },
+                          { $gte: ['$expiryDate', new Date().toISOString()] },
+                          { $eq: ['$accredited', true] },
+                        ],
+                      },
+                      then: 'ACTIVE',
+                    },
+                    {
+                      case: {
+                        $and: [
+                          { $lte: ['$expiryDate', new Date().toISOString()] },
+                          { $eq: ['$accredited', true] },
+                        ],
+                      },
+                      then: 'EXPIRED',
+                    },
+                  ],
+                  default: 'PENDING',
+                },
+              },
+            },
+          },
+        ])
+        .toArray();
 
+      console.log(result);
+
+      if (!result.length) throw new Error('Item not found');
+
+      return result[0];
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
   async update(
     data: any,
     id: string,
@@ -214,8 +304,7 @@ export class AccreditationService {
       });
 
       if (!result) throw new Error('Item not found');
-      if (result.status != 'PENDING')
-        throw new Error('Item can not be updated');
+      if (result.accredited) throw new Error('Item can not be updated');
 
       // create a new instance;
       let newPayload: any = {};
@@ -285,8 +374,7 @@ export class AccreditationService {
       });
 
       if (!result) throw new Error('Item not found');
-      if (result.status != 'PENDING')
-        throw new Error('Item can not be updated');
+      if (result.accredited) throw new Error('Item can not be updated');
 
       // create a new instance;
       let newPayload: any = {};
@@ -319,6 +407,7 @@ export class AccreditationService {
           subcategoryId: adminUpdateAccreditationInput.subcategoryId,
         };
       }
+
       if (adminUpdateAccreditationInput.accredited) {
         newPayload = {
           ...newPayload,
@@ -349,7 +438,6 @@ export class AccreditationService {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
-
   async remove(id: string, data: any) {
     try {
       const query: any = { _id: new ObjectId(id) };
@@ -369,73 +457,112 @@ export class AccreditationService {
         by: data.id,
         isAdmin: true,
       });
-      return deletedData;
+      return 'Successfully';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
-
   // done
   async softDeleteAndRetoreByAccreditionId(
     data: any,
     id: string,
     status: boolean,
   ) {
-    const query: any = {
-      $and: [{ id: new ObjectId(id) }, { isDeleted: false }],
-    };
-    const result = await this.accreditationRepository.findOne({
-      where: query,
-    });
-    if (!result) throw new Error('No Item found');
-    await this.accreditationRepository.update(id, {
-      isDeleted: status,
-    });
+    try {
+      const query: any = {
+        $and: [{ _id: new ObjectId(id) }],
+      };
+      const result = await this.accreditationRepository.findOne({
+        where: query,
+      });
+      if (!result) throw new Error('No Item found');
+      await this.accreditationRepository.update(id, {
+        isDeleted: status,
+      });
 
-    // create log
-    this.logService.create({
-      info: `${status ? 'Deleted' : 'Restored'} Accreditation`,
-      by: data.id,
-      isAdmin: true,
-    });
+      // create log
+      this.logService.create({
+        info: `${status ? 'Deleted' : 'Restored'} Accreditation`,
+        by: data.id,
+        isAdmin: true,
+      });
+      return 'Successfully';
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
   }
 
   async findAllUsers(customQuery: CustomQuery) {
     try {
-      // const { categoryId, subcategoryId } = customQuery;
+      const { categoryId, subcategoryId, search, size, skip, isDeleted } =
+        customQuery;
 
-      // // filter
-      // const accreditationFilter: any = this.helperService.mongoObjectFilter({
-      //   $and: this.helperService.mongoArrayFilter([
-      //     this.helperService.mongoQuery(
-      //       'categoryId',
-      //       '$eq',
-      //       categoryId ? new ObjectId(categoryId) : null,
-      //     ),
-      //     this.helperService.mongoQuery(
-      //       'subcategoryId',
-      //       '$eq',
-      //       subcategoryId ? new ObjectId(subcategoryId) : null,
-      //     ),
-      //   ]),
-      // });
+      // filter
+      const accreditationFilter: any =
+        await this.helperService.mongoObjectFilter({
+          $and: this.helperService.mongoArrayFilter([
+            this.helperService.mongoQuery(
+              'categoryId',
+              '$eq',
+              categoryId ? new ObjectId(categoryId) : null,
+            ),
+            this.helperService.mongoQuery(
+              'subcategoryId',
+              '$eq',
+              subcategoryId ? new ObjectId(subcategoryId) : null,
+            ),
+          ]),
+        });
+      // create a pipeline
+      const result = await this.accreditationRepository
+        .aggregate([
+          this.helperService.mongoObjectFilter({ $match: accreditationFilter }),
+          this.helperService.mongoObjectFilter({
+            $group: { _id: '$userId' },
+          }),
+          this.helperService.mongoObjectFilter({
+            $lookup: {
+              from: 'user',
+              localField: '_id',
+              foreignField: '_id',
+              as: 'user',
+            },
+          }),
+          this.helperService.mongoObjectFilter({
+            $replaceRoot: {
+              newRoot: {
+                $mergeObjects: [{ $arrayElemAt: ['$user', 0] }, '$$ROOT'],
+              },
+            },
+          }),
+          this.helperService.mongoObjectFilter({ $project: { user: 0 } }),
+          this.helperService.mongoObjectFilter({
+            $match: this.helperService.mongoObjectFilter({
+              $and: this.helperService.mongoArrayFilter([
+                this.helperService.mongoObjectFilter({
+                  $or: this.helperService.mongoArrayFilter([
+                    this.helperService.mongoQuery(
+                      'nameOfCompany',
+                      '$regex',
+                      search ? search : null,
+                    ),
+                    this.helperService.mongoQuery(
+                      'email',
+                      '$regex',
+                      search ? search : null,
+                    ),
+                  ]),
+                }),
+                this.helperService.mongoObjectFilter({ isDeleted: isDeleted }),
+              ]),
+            }),
+          }),
+          { $skip: (skip - 1) * size },
+          { $limit: size },
+        ])
+        .toArray();
 
-      // // create a pipeline
-      // const result = this.accreditationRepository.aggregate([
-      //   accreditationFilter,
-      //   this.helperService.mongoObjectFilter({
-      //     $group: { _id: '$userId' },
-      //   }),
-      //   this.helperService.mongoObjectFilter({
-      //     $lookup: {
-      //       from: 'user',
-      //       localField: '_id',
-      //       foreignField: 'userId',
-      //       as: 'user',
-      //     },
-      //   }),
-      // ]);
-      return customQuery;
+      return result;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }

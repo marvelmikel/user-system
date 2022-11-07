@@ -5,6 +5,6 @@ import { InputType, Field, PartialType } from '@nestjs/graphql';
 export class AdminUpdateAccreditationInput extends PartialType(
   CreateAccreditationInput,
 ) {
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true })
   accredited: boolean;
 }

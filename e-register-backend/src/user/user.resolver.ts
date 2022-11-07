@@ -3,13 +3,12 @@ import {
   Query,
   Mutation,
   Args,
-  Int,
   Context,
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { User } from './entities/user.entity';
+import { StepDocument, User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { Request, UseGuards } from '@nestjs/common';
@@ -18,6 +17,8 @@ import { HelperService } from 'src/helper/helper.service';
 import { LoginUserInput } from './dto/login-user.input';
 import { Accreditation } from 'src/accreditation/entities/accreditation.entity';
 import { AccreditationService } from 'src/accreditation/accreditation.service';
+import { CustomQuery } from 'src/admin/dto/query-admin.input';
+import { UpdateUserInputByAdmin } from './dto/update-user-by-admin.input';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -122,9 +123,24 @@ export class UserResolver {
     return this.userService.resetPassword(token, credential);
   }
 
+  @UseGuards(AuthGuard)
   @Query(() => [User])
-  getAllUsers() {
-    // return this.userService.findAll();
+  getAllUsersByAdmin(
+    @Args('customQuery')
+    customQuery: CustomQuery,
+  ) {
+    return this.userService.findAll(customQuery);
+  }
+
+  @UseGuards(AuthGuard)
+  @Query(() => User)
+  getUserByAdmin(
+    @Context('data')
+    data: any,
+    @Args('id')
+    id: string,
+  ) {
+    return this.userService.findOne(id, data);
   }
 
   @UseGuards(AuthGuard)
@@ -134,6 +150,15 @@ export class UserResolver {
     data: any,
   ) {
     return this.userService.findOne(data.id, data);
+  }
+
+  @UseGuards(AuthGuard)
+  @Query(() => StepDocument)
+  userVerification(
+    @Context('data')
+    data: any,
+  ) {
+    return this.userService.getVerifyStatus(data.id);
   }
 
   @UseGuards(AuthGuard)
@@ -150,7 +175,7 @@ export class UserResolver {
       data.id,
       updateUserInput,
       data,
-      req.headers['origin'],
+      req.headers['host'],
     );
   }
   @UseGuards(AuthGuard)
@@ -160,29 +185,44 @@ export class UserResolver {
     data: any,
     @Args('id')
     id: string,
-    @Args('updateUserInput')
-    updateUserInput: UpdateUserInput,
+    @Args('updateUserInputByAdmin')
+    updateUserInputByAdmin: UpdateUserInputByAdmin,
     @Context('req')
     req: Request,
   ) {
     this.helperService.isAnAdmin(data);
     return this.userService.update(
       id,
-      updateUserInput,
+      updateUserInputByAdmin,
       data,
-      req.headers['origin'],
+      req.headers['host'],
     );
   }
-
-  @Mutation(() => User)
-  removeUser(@Args('id', { type: () => Int }) id: number) {
-    console.log(id);
-
-    // return this.userService.remove(id);
+  @UseGuards(AuthGuard)
+  @Mutation(() => String)
+  removeUser(
+    @Context('data')
+    data: any,
+    @Args('id', { type: () => String }) id: string,
+  ) {
+    this.helperService.isAnAdmin(data);
+    return this.userService.remove(id, data);
   }
 
   @ResolveField(() => [Accreditation])
   accreditation(@Parent() user: User) {
-    return this.accreditationService.getUserAccreditaion(user._id);
+    return this.accreditationService.getAccreditationByUserId(user._id);
+  }
+
+  @Mutation(() => String)
+  contactUs(
+    @Args('email')
+    email: string,
+    @Args('subject')
+    subject: string,
+    @Args('message')
+    message: string,
+  ) {
+    return this.userService.contactUs(email, subject, message);
   }
 }

@@ -32,7 +32,7 @@ services:
       - FIRST_NAME=Henry
       - MIDDLE_NAME=Emeka
       - LAST_NAME=Obadoni
-      - ADMIN_EMAIL=codewelldev@gmail.com
+      - ADMIN_EMAIL=jediiry@gmail.com
       - PHONE_NUMBER=08132644455
     volumes:
       - ./e-register-backend:/e-register-backend

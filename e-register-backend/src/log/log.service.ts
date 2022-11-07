@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { CreateLogInput } from './dto/create-log.input';
 import { Log } from './entities/log.entity';
 
@@ -8,7 +8,7 @@ import { Log } from './entities/log.entity';
 export class LogService {
   constructor(
     @InjectRepository(Log)
-    private logRepository: Repository<Log>,
+    private logRepository: MongoRepository<Log>,
   ) {}
 
   create(createLogInput: CreateLogInput) {

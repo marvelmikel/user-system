@@ -61,8 +61,8 @@ export class AdminResolver {
   // the query takes the pagination payload
   // the query returns an array of admins
   @UseGuards(AuthGuard)
-  @Query(() => [Admin], { name: 'admins' })
-  findAll(
+  @Query(() => [Admin])
+  getAllAdmins(
     @Args('args')
     args: CustomQuery,
     @Context('data')
@@ -75,7 +75,7 @@ export class AdminResolver {
   // Profile Query
   // The query get the current admin information
   @UseGuards(AuthGuard)
-  @Query(() => Admin, { name: 'profile' })
+  @Query(() => Admin)
   profile(
     @Context('data')
     data: any,
@@ -88,8 +88,8 @@ export class AdminResolver {
   // The Query takes the admin id as a parameter
   // and returns an admin info
   @UseGuards(AuthGuard)
-  @Query(() => Admin, { name: 'admin' })
-  findOne(
+  @Query(() => Admin)
+  getAdmin(
     @Context('data')
     data: any,
     @Args('id', { type: () => String }) id: string,
@@ -165,5 +165,19 @@ export class AdminResolver {
   ) {
     this.helperService.isARootAdmin(data);
     return this.adminService.remove(id, data);
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => String)
+  resetAdminPassword(
+    @Context('data')
+    data: any,
+    @Args('oldPassword', { type: () => String })
+    oldPassword: string,
+    @Args('newPassword', { type: () => String })
+    newPassword: string,
+  ) {
+    this.helperService.isAnAdmin(data);
+    return this.adminService.resetPassword(oldPassword, newPassword, data);
   }
 }

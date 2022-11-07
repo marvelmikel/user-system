@@ -28,6 +28,28 @@ type Category {
   subcategories: [Subcategory!]
 }
 
+type StepOneDocument {
+  nameOfCompany: String
+  location: String
+  address: String
+  rcNumber: String
+  dateOfIncorporation: String
+  tin: String
+  phoneNumber: String
+}
+
+type StepTwoDocument {
+  certificateOfIncorporation: String
+  certificateOfTaxClearance: String
+  applicationLetter: String
+}
+
+type StepThreeDocument {
+  letterOfCredibilityFromBanks: String
+  certificateOfTaxClearance: String
+  collaborationCertificateWithForeignPartners: String
+}
+
 type User {
   _id: ID!
   nameOfCompany: String
@@ -68,8 +90,14 @@ type Document {
   title: String
 }
 
+type StepDocument {
+  stepOne: StepOneDocument
+  stepTwo: StepTwoDocument
+  stepThree: StepThreeDocument
+}
+
 type Accreditation {
-  id: ID!
+  _id: ID!
   categoryId: ID
   subcategoryId: ID
   userId: ID
@@ -87,13 +115,16 @@ type Accreditation {
 }
 
 type Query {
-  admins(args: CustomQuery!): [Admin!]!
+  getAllAdmins(args: CustomQuery!): [Admin!]!
   profile: Admin!
-  admin(id: String!): Admin!
-  getAllUsers: [User!]!
+  getAdmin(id: String!): Admin!
+  getAllUsersByAdmin(customQuery: CustomQuery!): [User!]!
+  getUserByAdmin(id: String!): User!
   getUser: User!
-  accreditation(accreditationQuery: AccreditationQuery!): [Accreditation!]!
-  findOne(id: String!): Accreditation!
+  userVerification: StepDocument!
+  getAccreditationsByAdmin(accreditationQuery: AccreditationQuery!): [Accreditation!]!
+  getAccreditationByAdmin(id: String!): [Accreditation!]!
+  getAccreditationByUser: [Accreditation!]!
   findAllCategories(search: String): [Category!]!
   findOneCategory(id: String!): Category!
   subcategory(id: String!): Subcategory!
@@ -101,7 +132,7 @@ type Query {
 
 input CustomQuery {
   search: String = null
-  skip: Int = 0
+  skip: Int = 1
   size: Int = 25
   categoryId: String = null
   subcategoryId: String = null
@@ -110,7 +141,7 @@ input CustomQuery {
 
 input AccreditationQuery {
   search: String = null
-  skip: Int = 0
+  skip: Int = 1
   size: Int = 25
   categoryId: String = null
   subcategoryId: String = null
@@ -126,6 +157,7 @@ type Mutation {
   updateAdminByRootAdmin(id: String!, updateAdminInput: UpdateAdminInput!): Admin!
   activateAndDeactivateAdminByRootAdmin(id: String!, adminStatusInput: AdminStatusInput!): Admin!
   removeAdmin(id: String!): String!
+  resetAdminPassword(oldPassword: String!, newPassword: String!): String!
   createUser(createUserInput: CreateUserInput!): User!
   createUserByAdmin(createUserInput: CreateUserInput!): User!
   loginUser(loginUserInput: LoginUserInput!): User!
@@ -134,14 +166,15 @@ type Mutation {
   forgottenPassword(email: String!): String!
   resetPassword(token: String!, credential: String!): String!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  updateUserByAdmin(id: String!, updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
+  updateUserByAdmin(id: String!, updateUserInputByAdmin: UpdateUserInputByAdmin!): User!
+  removeUser(id: String!): String!
+  contactUs(email: String!, subject: String!, message: String!): String!
   createAccreditationByAdmin(createAccreditationByAdminInput: CreateAccreditationByAdminInput!): Accreditation!
   createAccreditation(createAccreditationInput: CreateAccreditationInput!): String!
   updateAccreditation(id: String!, updateAccreditationInput: UpdateAccreditationInput!): Accreditation!
   updateAccreditationByAdmin(id: String!, adminUpdateAccreditationInput: AdminUpdateAccreditationInput!): Accreditation!
-  removeAccreditation(id: String!): Accreditation!
-  softRemoveAccreditation(id: String!, status: Boolean!): Accreditation!
+  removeAccreditation(id: String!): String!
+  softRemoveAndRestoreAccreditation(id: String!, status: Boolean!): String!
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   softDeleteAndRestoreCategory(id: String!, softCategoryInput: SoftCategoryInput!): Category!
   updateCategory(id: String!, updateCategoryInput: UpdateCategoryInput!): Category!
@@ -215,6 +248,33 @@ input DocumentInput {
   title: String!
 }
 
+input UpdateUserInputByAdmin {
+  nameOfCompany: String = null
+  location: String = null
+  address: String = null
+  rcNumber: String = null
+  tin: String = null
+  dateOfIncorporation: String = null
+  phoneNumber: String = null
+  certificateOfIncorporation: Upload = null
+  certificateOfTaxClearance: Upload = null
+  applicationLetter: Upload = null
+  evidenceOfPayment: Upload = null
+  letterOfCredibilityFromBanks: Upload = null
+  collaborationCertificateWithForeignPartners: Upload = null
+  curriculumVitaeInput: [DocumentInput!] = []
+  boardOfDirectorsInput: [DocumentInput!] = []
+  uploadProfilePic: Upload = null
+  isCertificateOfIncorporation: Boolean = false
+  isCertificateOfTaxClearance: Boolean = false
+  isApplicationLetter: Boolean = false
+  isEvidenceOfPayment: Boolean = false
+  isLetterOfCredibilityFromBanks: Boolean = false
+  isCollaborationCertificateWithForeignPartners: Boolean = false
+  isCurriculumVitae: Boolean = false
+  isBoardOfDirectorsInput: Boolean = false
+}
+
 input CreateAccreditationByAdminInput {
   categoryId: String!
   subcategoryId: String!
@@ -242,7 +302,7 @@ input AdminUpdateAccreditationInput {
   subcategoryId: String
   uploadProofOfDocument: Upload = null
   uploadSupportingDocument: Upload = null
-  accredited: Boolean!
+  accredited: Boolean
 }
 
 input CreateCategoryInput {

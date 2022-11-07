@@ -1,5 +1,5 @@
 import { Field, Int, InputType } from '@nestjs/graphql';
-import { IsMongoId, Max, Min } from 'class-validator';
+import { Max, Min } from 'class-validator';
 
 @InputType()
 export class CustomQuery {
@@ -9,8 +9,8 @@ export class CustomQuery {
 
   //  page
   @Field(() => Int)
-  @Min(0)
-  skip = 0;
+  @Min(1)
+  skip = 1;
 
   //  size
   @Field(() => Int)
@@ -19,12 +19,10 @@ export class CustomQuery {
   size = 25;
 
   //  search text
-  @IsMongoId()
   @Field(() => String)
   categoryId = null;
 
   //  search text
-  @IsMongoId()
   @Field(() => String)
   subcategoryId = null;
 
