@@ -406,7 +406,7 @@ export class UserService {
         const certificateOfIncorporation = await this.helperService.uploadFile(
           baseUrl,
           updateUserInput['certificateOfIncorporation'],
-        )['file'];
+        );
         updatedPayload = {
           ...updatedPayload,
           certificateOfIncorporation: certificateOfIncorporation,
@@ -417,7 +417,7 @@ export class UserService {
         const certificateOfTaxClearance = await this.helperService.uploadFile(
           baseUrl,
           updateUserInput['certificateOfTaxClearance'],
-        )['file'];
+        );
 
         updatedPayload = {
           ...updatedPayload,
@@ -430,7 +430,7 @@ export class UserService {
           await this.helperService.uploadFile(
             baseUrl,
             updateUserInput['collaborationCertificateWithForeignPartners'],
-          )['file'];
+          );
         updatedPayload = {
           ...updatedPayload,
           collaborationCertificateWithForeignPartners:
@@ -442,7 +442,7 @@ export class UserService {
         const evidenceOfPayment = await this.helperService.uploadFile(
           baseUrl,
           updateUserInput['evidenceOfPayment'],
-        )['file'];
+        );
         updatedPayload = {
           ...updatedPayload,
           evidenceOfPayment: evidenceOfPayment,
@@ -454,7 +454,7 @@ export class UserService {
           await this.helperService.uploadFile(
             baseUrl,
             updateUserInput['letterOfCredibilityFromBanks'],
-          )['file'];
+          );
         updatedPayload = {
           ...updatedPayload,
           letterOfCredibilityFromBanks: letterOfCredibilityFromBanks,
