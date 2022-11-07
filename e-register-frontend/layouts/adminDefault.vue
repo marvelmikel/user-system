@@ -67,9 +67,12 @@
 </template>
 
 <script>
-import AdminMenu from '../components/AdminMenu.vue';
+import AdminMenu from '../components/AdminMenu.vue'
+
 export default {
-  components: { AdminMenu }
+  components: { AdminMenu },
+  middleware:['unauthenticated_user'],
+
 }
 </script>
 

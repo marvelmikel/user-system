@@ -1,7 +1,5 @@
-query GetAllUsers($size: Int) {
-  getAllUsersByAdmin(customQuery: {
-    size: $size
-    }) {
+query GetUser($id: String!) {
+  getUserByAdmin(id: $id) {
     _id
     nameOfCompany
     token

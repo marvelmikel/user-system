@@ -52,11 +52,13 @@
             Forgetten Password?
           </p>
 
-          <input
-          type="submit"
-          value="Login"
+          <button
+            type="submit"
             :disabled="incompleForm || authenticating"
             class="
+              tw-flex
+              tw-items-center
+              tw-justify-center
               tw-p-3
               tw-mb-14
               tw-rounded-lg
@@ -66,8 +68,9 @@
             "
             :class=" authenticating ? 'tw-opacity-40' : '' "
           >
-            <!-- <i class="bx bx-loader-circle bx-spin" v-if="authenticating"></i> -->
-
+            <span class="tw-mr-2">Login </span>
+            <i class='bx bx-loader bx-spin' v-if="authenticating"></i>
+          </button>
 
           <nuxt-link
             to="/signup"
@@ -119,7 +122,11 @@ export default {
         });
         if (res.data) {
           const user = res.data.loginUser || null;
-          
+          if (!user.isEmailActive) {
+            this.$router.push({ path: '/resend-verification-email' })
+            return;
+          }
+
           if (user.token) {
             await this.$store.dispatch('login', user)
             this.$router.push({ path: '/company' })

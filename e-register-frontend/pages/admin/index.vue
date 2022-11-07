@@ -44,56 +44,63 @@
       </button>
     </div>
 
-    <div class="tw-mt-12" v-if="results.length > 0">
-      <div v-for="i in 6" :key="i"
-        class="
-        tw-mb-5
-        tw-pb-5
-        tw-border-b
-        tw-border-gray-300
-      ">
-        <h1 class="tw-font-bold tw-text-2xl">Company's Name</h1>
-        <div class="
-          tw-flex
-          tw-justify-between
-          tw-items-center
-          tw-mt-2
-        ">
-          <p class="tw-text-sm tw-w-1/2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lectus quis tortor senectus lobortis ullamcorper.
-          </p>
-          <button class="
-            custom__button
-            tw-w-28
-            tw-h-9
-            tw-rounded-2xl
-            tw-bg-green-500
-            tw-text-white
-            tw-p-2
-            tw-flex
-            tw-items-center
-            tw-justify-center
-            tw-cursor-pointer
-          ">
-          <i class='bx bx-right-arrow-alt tw-text-2xl tw-text-white'></i>
-          </button>
-        </div>
-        <div class="tw-flex tw-items-end tw-gap-1 tw-mt-4">
-          <span class="tw-text-gray-400 tw-text-sm">Category</span>
-          <i class='bx bxs-star tw-text-xs tw-text-light-green'></i>
-          <span class="tw-text-gray-400 tw-text-sm">Subcategory</span>
-        </div>
+    <div v-if="loading" class="tw-flex tw-items-center tw-justify-center tw-mt-5">
+      <div class="tw-w-full">
+        <PuSkeleton :count="9"/>
       </div>
     </div>
-    <div v-else class="
-      tw-flex
-      tw-flex-col
-      tw-justify-center
-      tw-items-center
-    ">
-      <p class="tw-text-center tw-mb-3">No Result found for search</p>
-      <img class="tw-w-52" src="~assets/img/no_results_img.png" alt="no_results_img">
+    <div class="tw-mt-12" v-else>
+      <div v-if="companies.length > 0">
+        <div v-for="company in companies" :key="company._id"
+          class="
+          tw-mb-5
+          tw-pb-5
+          tw-border-b
+          tw-border-gray-300
+        ">
+          <!-- <h1 class="tw-font-bold tw-text-2xl">{{ company.nameOfCompany || 'No name provided' }}</h1> -->
+          <div class="
+            tw-flex
+            tw-justify-between
+            tw-items-center
+            tw-mt-2
+          ">
+            <p class="tw-font-bold tw-text-2xl tw-w-1/2">
+              {{ company.nameOfCompany || 'No name provided' }}
+            </p>
+            <!-- <button class="
+              custom__button
+              tw-w-28
+              tw-h-9
+              tw-rounded-2xl
+              tw-bg-green-500
+              tw-text-white
+              tw-p-2
+              tw-flex
+              tw-items-center
+              tw-justify-center
+              tw-cursor-pointer
+            ">
+            <i class='bx bx-right-arrow-alt tw-text-2xl tw-text-white'></i>
+            </button> -->
 
+            <i @click="$router.push(`admin/company/${company._id}`)"
+            class='bx bx-right-arrow-alt
+            tw-text-4xl
+            tw-cursor-pointer
+            hover:tw-text-gray-500
+            '></i>
+
+          </div>
+          <!-- <div class="tw-flex tw-items-end tw-gap-1 tw-mt-4">
+            <span class="tw-text-gray-400 tw-text-sm">Category</span>
+            <i class='bx bxs-star tw-text-xs tw-text-light-green'></i>
+            <span class="tw-text-gray-400 tw-text-sm">Subcategory</span>
+          </div> -->
+        </div>
+      </div>
+
+      <NoItem v-else />
     </div>
 
   </div>
@@ -108,9 +115,6 @@ export default {
   middleware:['unauthenticated_admin'],
   data() {
     return {
-      results: [
-        { name: 'no_results'}
-      ],
       loading: false,
       companies: []
     }
@@ -126,10 +130,14 @@ export default {
         this.loading = true;
         const res = await this.$apollo.query({
           client: 'admin',
-          query: GetAllUsers
+          query: GetAllUsers,
+          variables: {
+            size: 25
+          },
+
         });
         console.log(res);
-        // this.accreditations = res.data.getUser.accreditation || [];
+        this.companies = res.data.getAllUsersByAdmin || [];
       } catch (err) {
       this.$throwError(err)
       }finally {

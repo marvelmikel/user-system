@@ -1,5 +1,6 @@
-query GetAccreditation($id: String!) {
-  getAccreditation(id: $id) {
+query GetAccreditationByUser {
+  getAccreditationByUser {
+    _id
     categoryId
     subcategoryId
     userId
@@ -7,8 +8,8 @@ query GetAccreditation($id: String!) {
     isDeleted
     status
     dateAccredited
-    expiryDate
     dateCreated
+    expiryDate
     proofOfPayment
     supportingDocument
     category {
@@ -23,3 +24,4 @@ query GetAccreditation($id: String!) {
     }
   }
 }
+

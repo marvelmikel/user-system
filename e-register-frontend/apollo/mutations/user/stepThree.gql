@@ -1,0 +1,20 @@
+mutation stepThree(
+  $evidenceOfPayment: Upload,
+  $letterOfCredibilityFromBanks: Upload,
+  $collaborationCertificateWithForeignPartners: Upload
+  ) {
+  updateUser(updateUserInput: {
+    evidenceOfPayment: $evidenceOfPayment,
+    letterOfCredibilityFromBanks: $letterOfCredibilityFromBanks,
+    collaborationCertificateWithForeignPartners: $collaborationCertificateWithForeignPartners,
+  }){
+    _id
+    evidenceOfPayment
+    letterOfCredibilityFromBanks
+    collaborationCertificateWithForeignPartners
+  }
+}
+
+
+
+
