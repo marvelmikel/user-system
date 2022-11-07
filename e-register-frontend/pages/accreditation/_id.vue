@@ -16,7 +16,7 @@
         tw-relative
         ">
 
-        <img v-if="accreditation.status === 'PENDING'" class="tw-w-100 tw-absolute
+        <!-- <img v-if="accreditation.status === 'PENDING'" class="tw-w-100 tw-absolute
         tw-left-0 tw-right-0
         tw-ml-auto tw-mr-auto
         " src="~assets/img/pending_stamp.svg" alt="pending_stamp" />
@@ -27,7 +27,10 @@
         <img v-if="accreditation.status === 'EXPIRED'" class="tw-w-100 tw-absolute
         tw-left-0 tw-right-0
         tw-ml-auto tw-mr-auto
-        " src="~assets/img/expired_stamp.svg" alt="expired_stamp" />
+        " src="~assets/img/expired_stamp.svg" alt="expired_stamp" /> -->
+
+        <img class="tw-w-100 tw-absolute tw-left-0 tw-right-0 tw-ml-auto tw-mr-auto"
+        :src="require(`@/assets/img/${image}`)" alt="image" />
 
         <div class="tw-mt-10 tw-absolute tw-w-full">
           <div
@@ -38,11 +41,11 @@
             tw-border-gray-300
             tw-flex
           ">
-            <div class="tw-flex-1">
-              <h1 class="tw-font-bold tw-text-2xl tw-mb-2 tw-capitalize">
+            <div class="tw-flex-1 tw-capitalize">
+              <h1 class="tw-font-bold tw-text-2xl tw-mb-2">
                 {{ accreditation.category.name || '' }}
               </h1>
-              <p class="tw-text-sm tw-capitalize">
+              <p class="tw-text-sm">
                 {{ accreditation.subcategory.name || '' }}
               </p>
             </div>
@@ -54,7 +57,9 @@
 
           <!-- <p class="tw-mb-7">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus quis tortor senectus lobortis ullamcorper ullamcorper. Quis sit donec amet sit praesent ac. Eu augue libero lobortis convallis. Euismod ultrices non fermentum risus quisque cursus odio sed.</p>
           <p class="tw-mb-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lectus quis tortor senectus lobortis ullamcorper ullamcorper. Quis sit donec amet sit praesent ac. Eu augue libero lobortis convallis. Euismod ultrices non fermentum risus quisque cursus odio sed.</p> -->
-          <button class="
+          <button
+          v-if="accreditation.status === 'APPROVED'"
+          class="
           tw-rounded-lg
           tw-bg-green-500
           tw-text-white
@@ -97,6 +102,21 @@ export default {
         return this.accreditation.status === 'EXPIRED' ? true : false;
       }
       return false;
+    },
+
+    image(){
+      if (this.accreditation) {
+        if (this.accreditation.status === 'EXPIRED') {
+          return 'expired_stamp.svg'
+        }
+        if (this.accreditation.status === 'APPROVED') {
+          return 'approved_stamp.svg'
+        }
+        if (this.accreditation.status === 'PENDING') {
+          return 'pending_stamp.svg'
+        }
+        return ''
+      }
     }
   },
 

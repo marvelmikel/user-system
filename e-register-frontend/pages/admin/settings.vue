@@ -61,56 +61,65 @@
         <div>
           <h2 class="tw-font-bold tw-text-xl tw-my-3">Change Password</h2>
 
-          <div class="
-          tw-grid
-          tw-grid-cols-4
-          tw-gap-3
-          tw-mb-14
-          tw-text-sm
-          ">
-            <input type="text"
-              placeholder="Old Password"
-              class="
-              tw-col-span-1
-              tw-px-7
-              tw-py-2
-              tw-rounded-lg
-              tw-bg-gray-200
-              tw-border-none
-              focus:tw-outline-none"
-              />
+          <form @submit.prevent="resetAdminPassword">
+            <div class="
+            tw-grid
+            tw-grid-cols-4
+            tw-gap-3
+            tw-mb-14
+            tw-text-sm
+            ">
               <input type="text"
-              placeholder="Current Password"
-              class="
-              tw-col-span-1
-              tw-px-7
-              tw-py-2
-              tw-rounded-lg
-              tw-bg-gray-200
-              tw-border-none
-              focus:tw-outline-none"
-              />
-              <input type="text"
-              placeholder="Confirm Password"
-              class="
-              tw-col-span-1
-              tw-px-7
-              tw-py-2
-              tw-rounded-lg
-              tw-bg-gray-200
-              tw-border-none
-              focus:tw-outline-none"
-              />
-              <button class="
+                placeholder="Old Password"
+                class="
                 tw-col-span-1
-                tw-p-3
+                tw-px-7
+                tw-py-2
                 tw-rounded-lg
-                tw-bg-light-green
-                tw-text-white
-              ">
-                Update
-              </button>
-          </div>
+                tw-bg-gray-200
+                tw-border-none
+                focus:tw-outline-none"
+                v-model="oldPassword"
+                />
+                <input type="text"
+                placeholder="Current Password"
+                class="
+                tw-col-span-1
+                tw-px-7
+                tw-py-2
+                tw-rounded-lg
+                tw-bg-gray-200
+                tw-border-none
+                focus:tw-outline-none"
+                v-model="newPassword"
+                />
+                <input type="text"
+                placeholder="Confirm Password"
+                class="
+                tw-col-span-1
+                tw-px-7
+                tw-py-2
+                tw-rounded-lg
+                tw-bg-gray-200
+                tw-border-none
+                focus:tw-outline-none"
+                v-model="confirmPassword"
+                />
+                <button
+                type="submit"
+                :disabled="password_mismatch || incomplete_form"
+                :class="incomplete_form || password_mismatch ? 'tw-opacity-40' : '' "
+                class="
+                  tw-col-span-1
+                  tw-p-3
+                  tw-rounded-lg
+                  tw-bg-light-green
+                  tw-text-white
+                ">
+                  Update
+                </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -121,6 +130,7 @@
 <script>
 
 import GetAdmin from "~/apollo/queries/admin/getAdmin";
+import ResetAdminPassword from "~/apollo/mutations/admin/resetAdminPassword";
 
 export default {
   name: 'change-password',
@@ -128,11 +138,22 @@ export default {
   data() {
     return {
       loading: false,
-      admin: null
+      admin: null,
+      oldPassword: null,
+      newPassword: null,
+      confirmPassword: null
     }
   },
   mounted(){
     this.getAdmin()
+  },
+  computed: {
+    incomplete_form(){
+      return !this.newPassword || !this.oldPassword || !this.confirmPassword ? true : false;
+    },
+    password_mismatch(){
+      return this.newPassword !== this.confirmPassword ? true : false;
+    }
   },
   methods: {
     async getAdmin(){
@@ -147,6 +168,28 @@ export default {
       this.$throwError(err)
       }finally {
         this.loading = false;
+      }
+    },
+
+    async resetAdminPassword(){
+      try {
+        this.resetting = true;
+        const res = await this.$apollo.mutate({
+          client: 'admin',
+          mutation: ResetAdminPassword,
+          variables: {
+            oldPassword: this.oldPassword,
+            newPassword: this.newPassword
+          },
+        });
+        this.oldPassword = null
+        this.newPassword = null
+        this.confirmPassword = null
+        this.$toast.success('Reset successfully')
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+        this.resetting = false;
       }
     },
     navigateToUpdate(){

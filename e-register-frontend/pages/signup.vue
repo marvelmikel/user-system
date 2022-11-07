@@ -105,7 +105,9 @@
         :disabled="loading || !email || !credential"
         :class=" loading ? 'tw-opacity-40' : '' "
         >
-          Create Account
+          <span>Create Account </span>
+          <i class='bx bx-loader bx-spin' v-if="loading"></i>
+
         </button>
 
         <div class="tw-mt-10 tw-text-sm">

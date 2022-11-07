@@ -1,0 +1,27 @@
+ query GetAccreditationByAdmin($id: String!) {
+    getAccreditationByAdmin(id: $id) {
+      _id
+      categoryId
+      subcategoryId
+      userId
+      accredited
+      isDeleted
+      status
+      dateAccredited
+      expiryDate
+      proofOfPayment
+      dateCreated
+      supportingDocument
+      category {
+        _id
+        name
+      }
+      subcategory {
+        name
+      }
+      user {
+        nameOfCompany
+      }
+    }
+  }
+

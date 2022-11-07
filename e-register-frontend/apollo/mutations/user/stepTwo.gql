@@ -1,0 +1,20 @@
+mutation stepTwo(
+  $certificateOfIncorporation: Upload,
+  $certificateOfTaxClearance: Upload,
+  $applicationLetter: Upload
+  ) {
+  updateUser(updateUserInput: {
+    certificateOfIncorporation: $certificateOfIncorporation,
+    certificateOfTaxClearance: $certificateOfTaxClearance,
+    applicationLetter: $applicationLetter
+  }){
+    _id
+    certificateOfIncorporation
+    certificateOfTaxClearance
+    applicationLetter
+  }
+}
+
+
+
+

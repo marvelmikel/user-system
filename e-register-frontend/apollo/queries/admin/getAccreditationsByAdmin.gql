@@ -1,6 +1,8 @@
-query GetAccreditations {
-  getUser {
-    accreditation {
+ query GetAccreditationsByAdmin($size: Int, $userId: String) {
+    getAccreditationsByAdmin(accreditationQuery: {
+      size: $size,
+      userId: $userId,
+    }) {
       _id
       categoryId
       subcategoryId
@@ -9,6 +11,7 @@ query GetAccreditations {
       isDeleted
       status
       dateAccredited
+      dateCreated
       expiryDate
       proofOfPayment
       supportingDocument
@@ -21,8 +24,8 @@ query GetAccreditations {
       }
       user {
         nameOfCompany
+        _id
       }
     }
   }
-}
 

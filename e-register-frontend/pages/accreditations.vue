@@ -54,18 +54,8 @@
 
       </div>
 
-      <div v-else class="
-        tw-flex
-        tw-flex-col
-        tw-justify-center
-        tw-items-center
-        tw-mt-10
-      ">
-        <h1 class="tw-text-center tw-my-3 tw-text-2xl tw-font-bold">
-          No accreditations yet
-        </h1>
-        <img class="tw-w-52" src="~assets/img/no_results_img.png" alt="no_results_img">
-      </div>
+      <NoItem v-else text="No accreditations yet" />
+
     </div>
 
   </div>
@@ -73,7 +63,7 @@
 
 <script>
 
-import GetAccreditations from "~/apollo/queries/user/getAccreditations";
+import GetAccreditationByUser from "~/apollo/queries/user/getAccreditationByUser";
 
 export default {
   name: 'accreditations',
@@ -95,12 +85,12 @@ export default {
       try {
         this.loadingAccreditations = true;
         const res = await this.$apollo.query({
-          query: GetAccreditations
+          query: GetAccreditationByUser
         });
+
         if (res.data) {
-          let { getUser } = res.data
-          if (getUser.accreditation) {
-            this.accreditations = getUser.accreditation || [];
+          if (res.data.getAccreditationByUser) {
+            this.accreditations = res.data.getAccreditationByUser || [];
           }
         }
       } catch (err) {

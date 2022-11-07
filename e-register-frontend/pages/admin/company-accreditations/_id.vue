@@ -8,7 +8,7 @@
     tw-mb-14
     ">
       <input type="text"
-        placeholder="Search Company Name"
+        placeholder="Search Name"
         class="
         tw-px-7
         tw-rounded-lg
@@ -29,7 +29,7 @@
 
       <div class="form-control tw-col-span-2">
         <select required>
-          <option disabled>Status</option>
+          <option disabled>Subcategory</option>
           <option value="1">Status</option>
           <option value="1">Status</option>
         </select>
@@ -71,14 +71,13 @@
           tw-justify-between
         ">
           <div class="">
-            <h1 class="tw-font-bold tw-text-2xl tw-mb-2">{{ accreditation.user.nameOfCompany || 'No name provided' }}</h1>
-            <p class="tw-text-sm">baseline/impact assessment</p>
+            <h1 class="tw-font-bold tw-text-2xl tw-mb-2 tw-capitalize">
+              {{accreditation?.category?.name}} / <span class="tw-font-normal tw-text-xs">{{accreditation?.subcategory?.name}}</span>
+            </h1>
+            <!-- <p class="tw-text-sm">baseline/impact assessment</p> -->
           </div>
 
-          <div class="
-          tw-flex
-          tw-justify-between
-          tw-items-center">
+          <div class="tw-flex tw-justify-between tw-items-center">
             <p v-if="accreditation.status === 'APPROVED'" class="tw-flex tw-items-center tw-gap-3">
               <i class='bx bxs-circle tw-text-xs tw-text-bright-green'></i>
               <span class="tw-text-xs">Approved</span>
@@ -141,12 +140,12 @@
 import GetAccreditationsByAdmin from "~/apollo/queries/admin/getAccreditationsByAdmin";
 
 export default {
-  name: 'admin-accreditation-two',
+  name: 'company-accreditations',
   layout: 'adminDefault',
   data() {
     return {
       accreditations: [],
-      loadingAccreditations: true
+      loadingAccreditations: false
     }
   },
 
@@ -162,7 +161,7 @@ export default {
           client: 'admin',
           query: GetAccreditationsByAdmin,
           variables: {
-            size: 25
+            userId: this.$route.params.id
           },
         });
         if (res.data) {

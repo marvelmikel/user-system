@@ -16,7 +16,7 @@
         ">
         Company
         </h1>
-        <button @click="createCompany"
+        <button @click="updateCompany"
         :disabled="editing"
         class="
         tw-rounded-lg
@@ -148,6 +148,12 @@
                 </span>
                 <i @click="removeCertificateOfIncorporation" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
               </div>
+
+              <!-- <button v-if="company.certificateOfIncorporation" @click="uploadDocuments('certificateOfIncorporation', company.certificateOfIncorporation)"
+              class="tw-mt-2 tw-text-white tw-bg-blue-500 tw-px-4 tw-rounded-xl tw-flex tw-items-center tw-justify-center">
+                <span class="tw-text-xs tw-mr-2">Upload</span>
+                <i class='bx bxs-cloud-upload tw-text-xl'></i>
+              </button> -->
             </div>
             <!-- Certificate Of Incorporation End -->
 
@@ -310,8 +316,12 @@
             ">
               Back
             </button>
-            <button @click="next"
+
+            <button
+            @click="next"
             v-if="step <= 3"
+            :disabled="step_is_incomplete"
+            :class=" step_is_incomplete ? 'tw-opacity-30' : '' "
             class="
             tw-bg-light-green
             tw-text-white
@@ -333,7 +343,11 @@
 
 <script>
 import GetCompany from "~/apollo/queries/user/getCompany";
-import UpdateCompany from "~/apollo/mutations/user/editCompany";
+import UpdateCompany from "~/apollo/mutations/user/updateCompany";
+import UserVerification from "~/apollo/queries/user/userVerification";
+import StepOne from "~/apollo/mutations/user/stepOne";
+import StepTwo from "~/apollo/mutations/user/stepTwo";
+import StepThree from "~/apollo/mutations/user/stepThree";
 
 export default {
   name: 'company',
@@ -362,30 +376,72 @@ export default {
         boardOfDirectorsInput: null,
         profilePic: null,
       },
+
+      // STEP 1
+      nameOfCompany: null,
+      location: null,
+      address: null,
+      rcNumber: null,
+      dateOfIncorporation: null,
+      tin: null,
+      phoneNumber: null,
+
+      // STEP 2
+      certificateOfIncorporation: null,
+      certificateOfTaxClearance: null,
+      applicationLetter: null,
+
+      // STEP 3
+      evidenceOfPayment: null,
+      letterOfCredibilityFromBanks: null,
+      collaborationCertificateWithForeignPartners: null,
+
+      // STEP 4
+      curriculumVitaeInput: null,
+      boardOfDirectorsInput: null,
+      profilePic: null,
+
       loadingCompany: false,
       editing: false,
-      step: 1
+      step: 1,
+      mutation: null
     }
   },
 
 
   mounted(){
     this.getCompany()
+    this.userVerification()
   },
 
   computed: {
     step_one_complete() {
-      return this.company.nameOfCompany && this.company.location && this.company.address && this.company.rcNumber && this.company.dateOfIncorporation && this.company.tin && this.company.phoneNumber ? true : false
+      return this.nameOfCompany && this.location && this.address && this.rcNumber && this.dateOfIncorporation && this.tin && this.phoneNumber ? true : false
     },
     step_two_complete(){
-      return this.company.certificateOfIncorporation && this.company.certificateOfTaxClearance && this.company.applicationLetter ? true : false
+      return this.certificateOfIncorporation && this.certificateOfTaxClearance && this.applicationLetter ? true : false
     },
     step_three_complete(){
-      return this.company.evidenceOfPayment && this.company.letterOfCredibilityFromBanks && this.company.collaborationCertificateWithForeignPartners ? true : false
+      return this.evidenceOfPayment && this.letterOfCredibilityFromBanks && this.collaborationCertificateWithForeignPartners ? true : false
     },
     step_four_complete(){
-      return this.company.curriculumVitaeInput && this.company.boardOfDirectorsInput ? true : false
+      return this.curriculumVitaeInput && this.boardOfDirectorsInput ? true : false
     },
+    step_is_incomplete(){
+      if (this.step === 1 && !this.step_one_complete) {
+        return true
+      }
+      if (this.step === 2 && !this.step_two_complete) {
+        return true
+      }
+      if (this.step === 3 && !this.step_three_complete) {
+        return true
+      }
+      if (this.step === 4 && !this.step_four_complete) {
+        return true
+      }
+      return false
+    }
 
   },
 
@@ -409,16 +465,63 @@ export default {
       }
     },
 
-    async createCompany(){
+    async userVerification(){
+      try {
+        // this.loadingCompany = true;
+        const res = await this.$apollo.query({
+          query: UserVerification
+        });
+        console.log(res);
+        let stepOne = res.data.userVerification.stepOne || null;
+        let stepTwo = res.data.userVerification.stepTwo || null;
+        let stepThree = res.data.userVerification.stepThree || null;
+        if (stepOne) {
+          this.nameOfCompany = stepOne.nameOfCompany
+          this.location = stepOne.location
+          this.address = stepOne.address
+          this.rcNumber = stepOne.rcNumber
+          this.dateOfIncorporation = stepOne.dateOfIncorporation
+          this.tin = stepOne.tin
+          this.phoneNumber = stepOne.phoneNumber
+        }
+        if (stepTwo) {
+          this.certificateOfIncorporation = stepTwo.certificateOfIncorporation
+          this.certificateOfTaxClearance = stepTwo.certificateOfTaxClearance
+          this.applicationLetter = stepTwo.applicationLetter
+        }
+        if (stepThree) {
+          this.evidenceOfPayment = stepThree.evidenceOfPayment
+          this.letterOfCredibilityFromBanks = stepThree.letterOfCredibilityFromBanks
+          this.collaborationCertificateWithForeignPartners = stepThree.collaborationCertificateWithForeignPartners
+        }
+
+      } catch (err) {
+      this.$throwError(err)
+      }finally {
+        // this.loadingCompany = false;
+      }
+    },
+
+    async uploadDocuments(payload) {
+      if (this.step === 2) {
+        this.mutation = StepTwo
+      }
+      if (this.step === 3) {
+        this.mutation = StepThree
+      }
 
       try {
         this.editing = true;
         const res = await this.$apollo.mutate({
-          mutation: UpdateCompany,
-          variables: this.company
+          mutation: this.mutation,
+          variables: payload,
+          refetchQueries: [{
+            query: payload
+          }],
+          awaitRefetchQueries: true
         });
         console.log(res);
-        this.getCompany()
+        this.userVerification()
         this.$toast.success('Company Updated')
 
       } catch (errors) {
@@ -426,6 +529,55 @@ export default {
       }finally{
         this.editing = false;
       }
+    },
+
+    async updateCompany(){
+      let payload = this.getPayload();
+      console.log(payload);
+      if (!payload) {
+        this.$toast.error(`Step ${this.step} is incomplete`);
+        return;
+      }
+      if (this.step > 1) {
+        this.uploadDocuments(payload)
+        return;
+      }
+
+      try {
+        this.editing = true;
+        const res = await this.$apollo.mutate({
+          mutation: StepOne,
+          variables: this.company
+        });
+        console.log(res);
+        this.userVerification()
+        this.$toast.success('Company Updated')
+
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+        this.editing = false;
+      }
+    },
+
+    getPayload(){
+      if (this.step === 1) {
+        let { nameOfCompany, location, address, rcNumber, dateOfIncorporation, tin, phoneNumber } = this.company
+        return { nameOfCompany, location, address, rcNumber, dateOfIncorporation, tin, phoneNumber };
+      }
+      if (this.step === 2) {
+        let { certificateOfIncorporation, certificateOfTaxClearance, applicationLetter } = this.company
+        return { certificateOfIncorporation, certificateOfTaxClearance, applicationLetter };
+      }
+      if (this.step === 3) {
+        let { evidenceOfPayment, letterOfCredibilityFromBanks, collaborationCertificateWithForeignPartners } = this.company
+        return { evidenceOfPayment, letterOfCredibilityFromBanks, collaborationCertificateWithForeignPartners };
+      }
+      if (this.step === 3) {
+        let { curriculumVitaeInput, boardOfDirectorsInput } = this.company
+        return { curriculumVitaeInput, boardOfDirectorsInput };
+      }
+      return null;
     },
 
     next() {
