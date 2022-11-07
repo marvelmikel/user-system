@@ -282,7 +282,6 @@ export class AccreditationService {
         ])
         .toArray();
 
-
       if (!result.length) throw new Error('Item not found');
 
       return result;
