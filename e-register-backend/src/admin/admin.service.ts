@@ -10,7 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AuthPayload } from 'src/auth/entities/auth.entity';
 import { HelperService } from 'src/helper/helper.service';
 import { MailService } from 'src/mail/mail.service';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { CreateAdminInput } from './dto/create-admin.input';
 import { LoginAdminInput } from './dto/login-admin.input';
 import { UpdateAdminInput } from './dto/update-admin.input';
@@ -27,7 +27,7 @@ export class AdminService implements OnModuleInit {
   public config: ConfigService;
   constructor(
     @InjectRepository(Admin)
-    private adminRepository: Repository<Admin>,
+    private adminRepository: MongoRepository<Admin>,
     private mailService: MailService,
     private helperService: HelperService,
     private logService: LogService,
@@ -306,6 +306,35 @@ export class AdminService implements OnModuleInit {
         isAdmin: true,
       });
       return deletedData;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+  async resetPassword(oldPassword: string, newPassword: string, data: any) {
+    try {
+      const query: any = { _id: new ObjectId(data.id) };
+      const result = await this.adminRepository.findOne({
+        where: query,
+      });
+      if (!result) throw new Error('Item not found');
+
+      const checkPasswordValid = await this.helperService.comparePassword(
+        oldPassword,
+        result.credential,
+      );
+      if (!checkPasswordValid) throw new Error('Invalid Credentials');
+
+      await this.adminRepository.update(data.id, {
+        credential: await this.helperService.hashPassword(newPassword),
+      });
+
+      // create log
+      this.logService.create({
+        info: 'Updated an Admin',
+        by: data.id,
+        isAdmin: true,
+      });
+      return 'Password Updated successfully';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateSubcategoryInput } from './dto/create-subcategory.input';
 import { UpdateSubcategoryInput } from './dto/update-subcategory.input';
 import { Subcategory } from './entities/subcategory.entity';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { ObjectId } from 'mongodb';
 import { LogService } from 'src/log/log.service';
 
@@ -11,7 +11,7 @@ import { LogService } from 'src/log/log.service';
 export class SubcategoryService {
   constructor(
     @InjectRepository(Subcategory)
-    private subcategoryRepository: Repository<Subcategory>,
+    private subcategoryRepository: MongoRepository<Subcategory>,
     private logService: LogService,
   ) {}
 

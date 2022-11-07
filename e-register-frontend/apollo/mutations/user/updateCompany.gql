@@ -1,33 +1,35 @@
 mutation UpdateCompany(
-  $nameOfCompany: String,
-  $location: String,
-  $address: String,
-  $rcNumber: String,
-  $dateOfIncorporation: String,
-  $tin: String,
-  $phoneNumber: String,
-  $certificateOfIncorporation: Upload,
-  $certificateOfTaxClearance: Upload,
-  $applicationLetter: Upload,
-  $evidenceOfPayment: Upload,
-  $letterOfCredibilityFromBanks: Upload,
+  $nameOfCompany: String
+  $location: String
+  $address: String
+  $rcNumber: String
+  $dateOfIncorporation: String
+  $tin: String
+  $phoneNumber: String
+  $certificateOfIncorporation: Upload
+  $certificateOfTaxClearance: Upload
+  $applicationLetter: Upload
+  $evidenceOfPayment: Upload
+  $letterOfCredibilityFromBanks: Upload
   $collaborationCertificateWithForeignPartners: Upload
+) {
+  updateUser(
+    updateUserInput: {
+      nameOfCompany: $nameOfCompany
+      tin: $tin
+      location: $location
+      address: $address
+      rcNumber: $rcNumber
+      dateOfIncorporation: $dateOfIncorporation
+      phoneNumber: $phoneNumber
+      certificateOfIncorporation: $certificateOfIncorporation
+      certificateOfTaxClearance: $certificateOfTaxClearance
+      applicationLetter: $applicationLetter
+      evidenceOfPayment: $evidenceOfPayment
+      letterOfCredibilityFromBanks: $letterOfCredibilityFromBanks
+      collaborationCertificateWithForeignPartners: $collaborationCertificateWithForeignPartners
+    }
   ) {
-  updateUser(updateUserInput: {
-    nameOfCompany: $nameOfCompany,
-    tin: $tin,
-    location: $location,
-    address: $address,
-    rcNumber: $rcNumber,
-    dateOfIncorporation: $dateOfIncorporation,
-    phoneNumber: $phoneNumber
-    certificateOfIncorporation: $certificateOfIncorporation,
-    certificateOfTaxClearance: $certificateOfTaxClearance,
-    applicationLetter: $applicationLetter,
-    evidenceOfPayment: $evidenceOfPayment,
-    letterOfCredibilityFromBanks: $letterOfCredibilityFromBanks,
-    collaborationCertificateWithForeignPartners: $collaborationCertificateWithForeignPartners,
-  }){
     _id
     nameOfCompany
     location
@@ -36,6 +38,9 @@ mutation UpdateCompany(
     dateOfIncorporation
     tin
     phoneNumber
+    certificateOfIncorporation
+    certificateOfTaxClearance
+    applicationLetter
   }
 }
 

@@ -3,14 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectId } from 'mongodb';
 import { AccreditationService } from 'src/accreditation/accreditation.service';
 import { CustomQuery } from 'src/admin/dto/query-admin.input';
-import { AdminStatusInput } from 'src/admin/dto/status-admin.input';
 import { AuthPayload } from 'src/auth/entities/auth.entity';
 import { HelperService } from 'src/helper/helper.service';
 import { LogService } from 'src/log/log.service';
 import { MailService } from 'src/mail/mail.service';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { CreateUserInput } from './dto/create-user.input';
 import { LoginUserInput } from './dto/login-user.input';
+import { UpdateUserInputByAdmin } from './dto/update-user-by-admin.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 
@@ -18,7 +18,7 @@ import { User } from './entities/user.entity';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private userRepository: MongoRepository<User>,
     private mailService: MailService,
     private helperService: HelperService,
     private logService: LogService,
@@ -43,6 +43,7 @@ export class UserService {
         credential: await this.helperService.hashPassword(
           createUserInput['credential'],
         ),
+        isDeleted: false,
       });
 
       // save admin
@@ -262,8 +263,40 @@ export class UserService {
 
   async findAll(customQuery: CustomQuery) {
     try {
-      // get query params
-      const result = await this.accreditationService.findAllUsers(customQuery);
+      const { categoryId, subcategoryId, search, skip, size, isDeleted } =
+        customQuery;
+      let result: any = [];
+      if (categoryId || subcategoryId) {
+        // get query params
+        result = await this.accreditationService.findAllUsers(customQuery);
+      } else {
+        const queryParams = this.helperService.mongoObjectFilter({
+          $and: this.helperService.mongoArrayFilter([
+            this.helperService.mongoObjectFilter({
+              $or: this.helperService.mongoArrayFilter([
+                this.helperService.mongoQuery(
+                  'nameOfCompany',
+                  '$regex',
+                  search ? search : null,
+                ),
+                this.helperService.mongoQuery(
+                  'email',
+                  '$regex',
+                  search ? search : null,
+                ),
+              ]),
+            }),
+            this.helperService.mongoObjectFilter({ isDeleted: isDeleted }),
+          ]),
+        });
+        result = this.userRepository
+          .aggregate([
+            { $match: queryParams },
+            { $skip: (skip - 1) * size },
+            { $limit: size },
+          ])
+          .toArray();
+      }
 
       return result;
     } catch (error) {
@@ -292,10 +325,45 @@ export class UserService {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
+  async getVerifyStatus(id: string) {
+    try {
+      const query: any = { _id: new ObjectId(id) };
+      const result = await this.userRepository.findOne({
+        where: query,
+      });
+
+      if (!result) throw new Error('Item not found');
+
+      return {
+        stepOne: {
+          nameOfCompany: result.nameOfCompany,
+          location: result.location,
+          address: result.address,
+          rcNumber: result.rcNumber,
+          dateOfIncorporation: result.dateOfIncorporation,
+          tin: result.tin,
+          phoneNumber: result.phoneNumber,
+        },
+        stepTwo: {
+          certificateOfIncorporation: result.certificateOfIncorporation,
+          certificateOfTaxClearance: result.certificateOfTaxClearance,
+          applicationLetter: result.applicationLetter,
+        },
+        stepThree: {
+          letterOfCredibilityFromBanks: result.letterOfCredibilityFromBanks,
+          certificateOfTaxClearance: result.evidenceOfPayment,
+          collaborationCertificateWithForeignPartners:
+            result.collaborationCertificateWithForeignPartners,
+        },
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
 
   async update(
     id: string,
-    updateUserInput: UpdateUserInput | AdminStatusInput,
+    updateUserInput: UpdateUserInput | UpdateUserInputByAdmin,
     data: any,
     baseUrl: string,
   ) {
@@ -338,7 +406,7 @@ export class UserService {
         const certificateOfIncorporation = await this.helperService.uploadFile(
           baseUrl,
           updateUserInput['certificateOfIncorporation'],
-        )['file'];
+        );
         updatedPayload = {
           ...updatedPayload,
           certificateOfIncorporation: certificateOfIncorporation,
@@ -349,7 +417,7 @@ export class UserService {
         const certificateOfTaxClearance = await this.helperService.uploadFile(
           baseUrl,
           updateUserInput['certificateOfTaxClearance'],
-        )['file'];
+        );
 
         updatedPayload = {
           ...updatedPayload,
@@ -362,7 +430,7 @@ export class UserService {
           await this.helperService.uploadFile(
             baseUrl,
             updateUserInput['collaborationCertificateWithForeignPartners'],
-          )['file'];
+          );
         updatedPayload = {
           ...updatedPayload,
           collaborationCertificateWithForeignPartners:
@@ -374,7 +442,7 @@ export class UserService {
         const evidenceOfPayment = await this.helperService.uploadFile(
           baseUrl,
           updateUserInput['evidenceOfPayment'],
-        )['file'];
+        );
         updatedPayload = {
           ...updatedPayload,
           evidenceOfPayment: evidenceOfPayment,
@@ -386,7 +454,7 @@ export class UserService {
           await this.helperService.uploadFile(
             baseUrl,
             updateUserInput['letterOfCredibilityFromBanks'],
-          )['file'];
+          );
         updatedPayload = {
           ...updatedPayload,
           letterOfCredibilityFromBanks: letterOfCredibilityFromBanks,
@@ -434,6 +502,27 @@ export class UserService {
       return deletedData;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+
+  // done
+  async contactUs(email: string, subject: string, message: string) {
+    try {
+      // send Email
+      this.mailService.sendMail({
+        email: 'jediiry@gmail.com',
+        subject: 'Notification',
+        template: 'contact',
+        context: {
+          email: email,
+          subject: subject,
+          message: message,
+        },
+      });
+
+      return 'Message Sent Successfully';
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.UNAUTHORIZED);
     }
   }
 }

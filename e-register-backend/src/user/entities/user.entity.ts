@@ -3,6 +3,42 @@ import { ValidateNested } from 'class-validator';
 import { Accreditation } from 'src/accreditation/entities/accreditation.entity';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
+@ObjectType()
+export class StepOneDocument {
+  @Field(() => String, { nullable: true })
+  nameOfCompany: string;
+  @Field(() => String, { nullable: true })
+  location: string;
+  @Field(() => String, { nullable: true })
+  address: string;
+  @Field(() => String, { nullable: true })
+  rcNumber: string;
+  @Field(() => String, { nullable: true })
+  dateOfIncorporation: string;
+  @Field(() => String, { nullable: true })
+  tin: string;
+  @Field(() => String, { nullable: true })
+  phoneNumber: string;
+}
+@ObjectType()
+export class StepTwoDocument {
+  @Field(() => String, { nullable: true })
+  certificateOfIncorporation: string;
+  @Field(() => String, { nullable: true })
+  certificateOfTaxClearance: string;
+  @Field(() => String, { nullable: true })
+  applicationLetter: string;
+}
+@ObjectType()
+export class StepThreeDocument {
+  @Field(() => String, { nullable: true })
+  letterOfCredibilityFromBanks: string;
+  @Field(() => String, { nullable: true })
+  certificateOfTaxClearance: string;
+  @Field(() => String, { nullable: true })
+  collaborationCertificateWithForeignPartners: string;
+}
+
 @Entity()
 @ObjectType()
 export class User {
@@ -146,4 +182,14 @@ export class Document {
 
   @Field(() => String, { nullable: true })
   title: string;
+}
+
+@ObjectType()
+export class StepDocument {
+  @Field(() => StepOneDocument, { nullable: true })
+  stepOne: StepOneDocument;
+  @Field(() => StepTwoDocument, { nullable: true })
+  stepTwo: StepTwoDocument;
+  @Field(() => StepThreeDocument, { nullable: true })
+  stepThree: StepThreeDocument;
 }

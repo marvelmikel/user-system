@@ -5,7 +5,7 @@ import { HelperService } from 'src/helper/helper.service';
 import { LogService } from 'src/log/log.service';
 import { MailService } from 'src/mail/mail.service';
 import { SubcategoryService } from 'src/subcategory/subcategory.service';
-import { Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { SoftCategoryInput } from './dto/soft-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
@@ -15,7 +15,7 @@ import { Category } from './entities/category.entity';
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
+    private categoryRepository: MongoRepository<Category>,
     private mailService: MailService,
     private helperService: HelperService,
     private logService: LogService,

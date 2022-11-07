@@ -1,6 +1,5 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { AfterLoad, Column, Entity, ObjectIdColumn } from 'typeorm';
-import moment from 'moment';
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 import { Category } from 'src/category/entities/category.entity';
 import { Subcategory } from 'src/subcategory/entities/subcategory.entity';
 import { User } from 'src/user/entities/user.entity';
@@ -37,7 +36,6 @@ export class Accreditation {
   @Field({ defaultValue: false })
   isDeleted: boolean;
 
-  @Column()
   @Field(() => String, {
     defaultValue: StatusEnum.PENDING,
     nullable: true,
@@ -72,18 +70,4 @@ export class Accreditation {
 
   @Field(() => User, { nullable: true })
   user: User;
-
-  // test
-  @AfterLoad()
-  update() {
-    if (
-      this.status == 'ACTIVE' &&
-      moment(Date.now()).isAfter(this.expiryDate)
-    ) {
-      this.status = 'EXPIRED';
-    }
-    if (this.dateAccredited) {
-      this.expiryDate = moment().add(1, 'month').toISOString();
-    }
-  }
 }

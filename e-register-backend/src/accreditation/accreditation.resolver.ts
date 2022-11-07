@@ -72,27 +72,49 @@ export class AccreditationResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Query(() => [Accreditation], { name: 'accreditation' })
-  getAccreditations(
+  @Query(() => [Accreditation])
+  getAccreditationsByAdmin(
     @Context('data')
     data: any,
     @Args('accreditationQuery')
     accreditationQuery: AccreditationQuery,
   ) {
     this.helperService.isAnAdmin(data);
-    return this.accreditationService.findAll(accreditationQuery);
+    return this.accreditationService.getAllAccreditations(accreditationQuery);
   }
 
   @UseGuards(AuthGuard)
-  @Query(() => Accreditation)
-  getAccreditation(
+  @Query(() => [Accreditation])
+  getAccreditationByAdmin(
     @Context('data')
     data: any,
     @Args('id', { type: () => String })
     id: string,
   ) {
-    this.helperService.isAnAdminOrAUser(data);
-    return this.accreditationService.findOne(id);
+    this.helperService.isAnAdmin(data);
+    return this.accreditationService.getAccreditationById(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Query(() => [Accreditation])
+  getAccreditationById(
+    @Context('data')
+    data: any,
+    @Args('id', { type: () => String })
+    id: string,
+  ) {
+    this.helperService.isAUser(data);
+    return this.accreditationService.getAccreditationById(id);
+  }
+
+  @UseGuards(AuthGuard)
+  @Query(() => [Accreditation])
+  getAccreditationByUser(
+    @Context('data')
+    data: any,
+  ) {
+    this.helperService.isAUser(data);
+    return this.accreditationService.getAccreditationByUserId(data.id);
   }
 
   @UseGuards(AuthGuard)
@@ -138,7 +160,7 @@ export class AccreditationResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => Accreditation)
+  @Mutation(() => String)
   removeAccreditation(
     @Context('data')
     data: any,
@@ -149,8 +171,8 @@ export class AccreditationResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => Accreditation)
-  softRemoveAccreditation(
+  @Mutation(() => String)
+  softRemoveAndRestoreAccreditation(
     @Context('data')
     data: any,
     @Args('id', { type: () => String }) id: string,
