@@ -1,15 +1,19 @@
 import { onError } from 'apollo-link-error'
 
 export default function (ctx) {
-  const errorLink = onError(({ graphQLErrors, networkError }) => {});
-  return {
-    link: errorLink,
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
 
-    // required
-    httpEndpoint: ctx.app.$env.GRAPHQL_URL,
+    // console.log('graphQLErrors', graphQLErrors);
+    // console.log('networkError', networkError);
+  });
+  // return {
+  //   link: errorLink,
 
-    httpLinkOptions: {
-      credentials: "same-origin",
-    },
-  };
+  //   // required
+  //   httpEndpoint: process.env.DEVELOPMENT_BASE_URL,
+
+  //   httpLinkOptions: {
+  //     credentials: "same-origin",
+  //   },
+  // };
 }

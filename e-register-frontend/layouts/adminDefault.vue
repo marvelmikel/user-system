@@ -71,7 +71,7 @@ import AdminMenu from '../components/AdminMenu.vue'
 
 export default {
   components: { AdminMenu },
-  middleware:['unauthenticated_user'],
+  middleware:['unauthenticated_admin'],
 
 }
 </script>

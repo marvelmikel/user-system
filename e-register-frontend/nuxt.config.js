@@ -37,6 +37,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/plugins/error.js',
     "~/plugins/helpers",
     "~/plugins/data",
     "~/plugins/apollo",
@@ -67,7 +68,7 @@ export default {
       default: "~/plugins/apollo.js",
       admin: "~/plugins/admin-apollo.js",
     },
-    // errorHandler: '~/plugins/error.js'
+    errorHandler: '~/plugins/error.js'
   },
   toast: {
     position: "bottom-right",
