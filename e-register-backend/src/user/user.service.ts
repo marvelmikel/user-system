@@ -12,6 +12,7 @@ import { CreateUserInput } from './dto/create-user.input';
 import { LoginUserInput } from './dto/login-user.input';
 import { UpdateUserInputByAdmin } from './dto/update-user-by-admin.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { UploadDocumentInput } from './dto/upload-document.input';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -355,6 +356,8 @@ export class UserService {
           collaborationCertificateWithForeignPartners:
             result.collaborationCertificateWithForeignPartners,
         },
+        stepFour: result.curriculumVitae,
+        stepFive: result.boardOfDirectors,
       };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
@@ -477,6 +480,164 @@ export class UserService {
         isAdmin: true,
       });
       return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+  async updateDocument(
+    id: string,
+    document: UploadDocumentInput,
+    data: any,
+    baseUrl: string,
+  ) {
+    try {
+      const query: any = { _id: new ObjectId(id) };
+      const result = await this.userRepository.findOne({
+        where: query,
+      });
+      if (!result) throw new Error('Item not found');
+
+      let updatedData: any = {
+        title: document.title,
+      };
+
+      // application letter
+      if (document['file']) {
+        const cv = await this.helperService.uploadFile(
+          baseUrl,
+          document['file'],
+        );
+        updatedData = {
+          ...updatedData,
+          uploadedFile: cv,
+        };
+      }
+
+      const updatePayload: any = {
+        $push: { curriculumVitae: updatedData },
+      };
+      const updatedResult = await this.userRepository.update(id, updatePayload);
+
+      if (!updatedResult) throw new Error('Unable to Updated');
+
+      // create log
+      this.logService.create({
+        info: 'Updated an Admin',
+        by: data.id,
+        isAdmin: true,
+      });
+      return 'Uploaded Successfully';
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+  async updateBoardOfDirectors(
+    id: string,
+    document: UploadDocumentInput,
+    data: any,
+    baseUrl: string,
+  ) {
+    try {
+      const query: any = { _id: new ObjectId(id) };
+      const result = await this.userRepository.findOne({
+        where: query,
+      });
+      if (!result) throw new Error('Item not found');
+
+      let updatedData: any = {
+        title: document.title,
+      };
+
+      // application letter
+      if (document['file']) {
+        const cv = await this.helperService.uploadFile(
+          baseUrl,
+          document['file'],
+        );
+        updatedData = {
+          ...updatedData,
+          uploadedFile: cv,
+        };
+      }
+
+      const updatePayload: any = {
+        $push: { boardOfDirectors: updatedData },
+      };
+      const updatedResult = await this.userRepository.update(id, updatePayload);
+
+      if (!updatedResult) throw new Error('Unable to Updated');
+
+      // create log
+      this.logService.create({
+        info: 'Updated an Admin',
+        by: data.id,
+        isAdmin: true,
+      });
+      return 'Uploaded Successfully';
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+  async RemoveDocument(data: any, id: string) {
+    try {
+      const query: any = { _id: new ObjectId(data.id) };
+      const result = await this.userRepository.findOne({
+        where: query,
+      });
+      if (!result) throw new Error('Item not found');
+
+      const getUrl = result.curriculumVitae.find((item) => item._id == id);
+
+      if (getUrl?.uploadedFile) {
+        this.helperService.deleteFile(getUrl.uploadedFile);
+      }
+
+      const updatePayload: any = {
+        $pull: { curriculumVitae: { _id: new ObjectId(id) } },
+      };
+      const updatedResult = await this.userRepository.update(id, updatePayload);
+
+      if (!updatedResult) throw new Error('Unable to Updated');
+
+      // create log
+      this.logService.create({
+        info: 'Updated an Admin',
+        by: data.id,
+        isAdmin: true,
+      });
+      return 'Deleted Successfully';
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+  async RemoveBoardOfDirectorsDocument(data: any, id: string) {
+    try {
+      const query: any = { _id: new ObjectId(data.id) };
+      const result = await this.userRepository.findOne({
+        where: query,
+      });
+      if (!result) throw new Error('Item not found');
+
+      const getUrl = result.curriculumVitae.find((item) => item._id == id);
+
+      if (getUrl?.uploadedFile) {
+        this.helperService.deleteFile(getUrl.uploadedFile);
+      }
+
+      const updatePayload: any = {
+        $pull: { boardOfDirectors: { _id: new ObjectId(id) } },
+      };
+      const updatedResult = await this.userRepository.update(id, updatePayload);
+
+      if (!updatedResult) throw new Error('Unable to Updated');
+
+      // create log
+      this.logService.create({
+        info: 'Updated an Admin',
+        by: data.id,
+        isAdmin: true,
+      });
+      return 'Deleted Successfully';
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
