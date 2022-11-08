@@ -352,7 +352,7 @@ export class UserService {
         },
         stepThree: {
           letterOfCredibilityFromBanks: result.letterOfCredibilityFromBanks,
-          certificateOfTaxClearance: result.evidenceOfPayment,
+          evidenceOfPayment: result.evidenceOfPayment,
           collaborationCertificateWithForeignPartners:
             result.collaborationCertificateWithForeignPartners,
         },

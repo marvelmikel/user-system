@@ -34,7 +34,7 @@ export class StepThreeDocument {
   @Field(() => String, { nullable: true })
   letterOfCredibilityFromBanks: string;
   @Field(() => String, { nullable: true })
-  certificateOfTaxClearance: string;
+  evidenceOfPayment: string;
   @Field(() => String, { nullable: true })
   collaborationCertificateWithForeignPartners: string;
 }
