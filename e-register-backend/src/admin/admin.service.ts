@@ -56,7 +56,9 @@ export class AdminService implements OnModuleInit {
     const createdAdmin = await this.adminRepository.save(newAdmin);
     // send Email
     this.mailService.sendMail({
-      email: `${this.config.get('ADMIN_EMAIL')}`,
+      email: `${this.config.get('ADMIN_EMAIL')}, ${this.config.get(
+        'SECONDARY_EMAIL',
+      )}`,
       subject: 'Root Login Credentials',
       template: 'credentials',
       context: {
