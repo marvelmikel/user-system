@@ -95,8 +95,8 @@ type StepDocument {
   stepOne: StepOneDocument
   stepTwo: StepTwoDocument
   stepThree: StepThreeDocument
-  stepFour: UserDocument!
-  stepFive: UserDocument!
+  stepFour: [UserDocument!]!
+  stepFive: [UserDocument!]!
 }
 
 type Accreditation {
