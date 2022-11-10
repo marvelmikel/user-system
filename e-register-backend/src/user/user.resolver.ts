@@ -159,8 +159,6 @@ export class UserResolver {
     @Context('data')
     data: any,
   ) {
-    console.log(data);
-
     return this.userService.getVerifyStatus(data.id);
   }
 

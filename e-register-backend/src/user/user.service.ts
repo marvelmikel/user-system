@@ -335,8 +335,6 @@ export class UserService {
 
       if (!result) throw new Error('Item not found');
 
-      console.log(result.curriculumVitae);
-
       return {
         stepOne: {
           nameOfCompany: result.nameOfCompany,
