@@ -514,7 +514,7 @@ export class UserService {
       }
 
       const updatePayload: any = {
-        $push: { curriculumVitae: updatedData },
+        curriculumVitae: { $push: updatedData },
       };
       const updatedResult = await this.userRepository.update(id, updatePayload);
 
@@ -561,7 +561,7 @@ export class UserService {
       }
 
       const updatePayload: any = {
-        $push: { boardOfDirectors: updatedData },
+        boardOfDirectors: { $push: updatedData },
       };
       const updatedResult = await this.userRepository.update(id, updatePayload);
 
