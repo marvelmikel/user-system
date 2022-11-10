@@ -512,6 +512,7 @@ export class UserService {
         updatedData = {
           ...updatedData,
           uploadedFile: cv,
+          _id: new ObjectId(),
         };
       }
 
@@ -562,6 +563,7 @@ export class UserService {
         updatedData = {
           ...updatedData,
           uploadedFile: cv,
+          _id: new ObjectId(),
         };
       }
 
