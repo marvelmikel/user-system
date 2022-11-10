@@ -507,6 +507,8 @@ export class UserService {
           baseUrl,
           document['file'],
         );
+        console.log(cv);
+
         updatedData = {
           ...updatedData,
           uploadedFile: cv,
@@ -514,9 +516,12 @@ export class UserService {
       }
 
       const updatePayload: any = {
-        curriculumVitae: { $push: updatedData },
+        $push: { curriculumVitae: updatedData },
       };
-      const updatedResult = await this.userRepository.update(id, updatePayload);
+      const updatedResult = await this.userRepository.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        updatePayload,
+      );
 
       if (!updatedResult) throw new Error('Unable to Updated');
 
@@ -561,9 +566,12 @@ export class UserService {
       }
 
       const updatePayload: any = {
-        boardOfDirectors: { $push: updatedData },
+        $push: { boardOfDirectors: updatedData },
       };
-      const updatedResult = await this.userRepository.update(id, updatePayload);
+      const updatedResult = await this.userRepository.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        updatePayload,
+      );
 
       if (!updatedResult) throw new Error('Unable to Updated');
 
@@ -595,7 +603,10 @@ export class UserService {
       const updatePayload: any = {
         $pull: { curriculumVitae: { _id: new ObjectId(id) } },
       };
-      const updatedResult = await this.userRepository.update(id, updatePayload);
+      const updatedResult = await this.userRepository.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        updatePayload,
+      );
 
       if (!updatedResult) throw new Error('Unable to Updated');
 
@@ -627,7 +638,10 @@ export class UserService {
       const updatePayload: any = {
         $pull: { boardOfDirectors: { _id: new ObjectId(id) } },
       };
-      const updatedResult = await this.userRepository.update(id, updatePayload);
+      const updatedResult = await this.userRepository.findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        updatePayload,
+      );
 
       if (!updatedResult) throw new Error('Unable to Updated');
 

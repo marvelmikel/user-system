@@ -46,8 +46,14 @@ type StepTwoDocument {
 
 type StepThreeDocument {
   letterOfCredibilityFromBanks: String
-  certificateOfTaxClearance: String
+  evidenceOfPayment: String
   collaborationCertificateWithForeignPartners: String
+}
+
+type UserDocument {
+  _id: ID!
+  uploadedFile: String
+  title: String
 }
 
 type User {
@@ -76,24 +82,21 @@ type User {
   isLetterOfCredibilityFromBanks: Boolean!
   collaborationCertificateWithForeignPartners: String
   isCollaborationCertificateWithForeignPartners: Boolean!
-  curriculumVitae: [Document!]
+  curriculumVitae: [UserDocument!]
   isCurriculumVitae: Boolean
-  boardOfDirectors: [Document!]
+  boardOfDirectors: [UserDocument!]
   isBoardOfDirectorsInput: Boolean!
   isDeleted: Boolean!
   profilePic: String
   accreditation: [Accreditation!]
 }
 
-type Document {
-  file: String
-  title: String
-}
-
 type StepDocument {
   stepOne: StepOneDocument
   stepTwo: StepTwoDocument
   stepThree: StepThreeDocument
+  stepFour: UserDocument
+  stepFive: UserDocument
 }
 
 type Accreditation {
@@ -167,6 +170,10 @@ type Mutation {
   forgottenPassword(email: String!): String!
   resetPassword(token: String!, credential: String!): String!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  UpdatedUserCV(document: UploadDocumentInput!): String!
+  RemoveUserCV(id: String!): String!
+  UpdatedUserBoardOfDirectors(document: UploadDocumentInput!): String!
+  RemoveUserBoardOfDirectors(id: String!): String!
   updateUserByAdmin(id: String!, updateUserInputByAdmin: UpdateUserInputByAdmin!): User!
   removeUser(id: String!): String!
   contactUs(email: String!, subject: String!, message: String!): String!
@@ -247,6 +254,11 @@ input UpdateUserInput {
 input DocumentInput {
   file: Upload!
   title: String!
+}
+
+input UploadDocumentInput {
+  file: Upload
+  title: String
 }
 
 input UpdateUserInputByAdmin {
