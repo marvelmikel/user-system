@@ -198,8 +198,8 @@ export class StepDocument {
   stepTwo: StepTwoDocument;
   @Field(() => StepThreeDocument, { nullable: true })
   stepThree: StepThreeDocument;
-  @Field(() => [UserDocument], { defaultValue: [] })
+  @Field(() => [UserDocument])
   stepFour: UserDocument[];
-  @Field(() => [UserDocument], { defaultValue: [] })
+  @Field(() => [UserDocument])
   stepFive: UserDocument[];
 }
