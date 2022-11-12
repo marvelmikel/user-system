@@ -80,7 +80,7 @@ export class HelperService {
     const stream = createReadStream();
     let { name } = parse(filename);
     const { ext } = parse(filename);
-    name = `file${Math.floor(Math.random() * 1000) + 1}`;
+    name = `file-${Math.floor(Math.random() * 1000) + 1}`;
     let url = join(process.cwd(), `./public/fme/${name}-${Date.now()}${ext}`);
     const imageStream = fs.createWriteStream(url);
     await stream.pipe(imageStream);

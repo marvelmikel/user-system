@@ -34,11 +34,26 @@ export class StepThreeDocument {
   @Field(() => String, { nullable: true })
   letterOfCredibilityFromBanks: string;
   @Field(() => String, { nullable: true })
-  certificateOfTaxClearance: string;
+  evidenceOfPayment: string;
   @Field(() => String, { nullable: true })
   collaborationCertificateWithForeignPartners: string;
 }
 
+@Entity()
+@ObjectType()
+export class UserDocument {
+  @ObjectIdColumn()
+  @Field(() => ID)
+  _id: string;
+
+  @Column()
+  @Field(() => String, { nullable: true })
+  uploadedFile: string;
+
+  @Column()
+  @Field(() => String, { nullable: true })
+  title: string;
+}
 @Entity()
 @ObjectType()
 export class User {
@@ -146,18 +161,18 @@ export class User {
   isCollaborationCertificateWithForeignPartners: boolean;
 
   @Column()
-  @Field(() => [Document], { defaultValue: [], nullable: true })
+  @Field(() => [UserDocument], { defaultValue: [], nullable: true })
   @ValidateNested({ each: true })
-  curriculumVitae: Document[];
+  curriculumVitae: UserDocument[];
 
   @Column()
   @Field({ defaultValue: false, nullable: true })
   isCurriculumVitae: boolean;
 
   @Column()
-  @Field(() => [Document], { defaultValue: [], nullable: true })
+  @Field(() => [UserDocument], { defaultValue: [], nullable: true })
   @ValidateNested({ each: true })
-  boardOfDirectors: Document[];
+  boardOfDirectors: UserDocument[];
 
   @Column()
   @Field({ defaultValue: false })
@@ -176,15 +191,6 @@ export class User {
 }
 
 @ObjectType()
-export class Document {
-  @Field(() => String, { nullable: true })
-  file: string;
-
-  @Field(() => String, { nullable: true })
-  title: string;
-}
-
-@ObjectType()
 export class StepDocument {
   @Field(() => StepOneDocument, { nullable: true })
   stepOne: StepOneDocument;
@@ -192,4 +198,8 @@ export class StepDocument {
   stepTwo: StepTwoDocument;
   @Field(() => StepThreeDocument, { nullable: true })
   stepThree: StepThreeDocument;
+  @Field(() => [UserDocument])
+  stepFour: UserDocument[];
+  @Field(() => [UserDocument])
+  stepFive: UserDocument[];
 }

@@ -19,6 +19,7 @@ import { Accreditation } from 'src/accreditation/entities/accreditation.entity';
 import { AccreditationService } from 'src/accreditation/accreditation.service';
 import { CustomQuery } from 'src/admin/dto/query-admin.input';
 import { UpdateUserInputByAdmin } from './dto/update-user-by-admin.input';
+import { UploadDocumentInput } from './dto/upload-document.input';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -178,6 +179,64 @@ export class UserResolver {
       req.headers['host'],
     );
   }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => String)
+  UpdatedUserCV(
+    @Context('data')
+    data: any,
+    @Args('document')
+    document: UploadDocumentInput,
+    @Context('req')
+    req: Request,
+  ) {
+    return this.userService.updateDocument(
+      data.id,
+      document,
+      data,
+      req.headers['host'],
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => String)
+  RemoveUserCV(
+    @Context('data')
+    data: any,
+    @Args('id')
+    id: string,
+  ) {
+    return this.userService.RemoveDocument(data, id);
+  }
+  @UseGuards(AuthGuard)
+  @Mutation(() => String)
+  UpdatedUserBoardOfDirectors(
+    @Context('data')
+    data: any,
+    @Args('document')
+    document: UploadDocumentInput,
+    @Context('req')
+    req: Request,
+  ) {
+    return this.userService.updateBoardOfDirectors(
+      data.id,
+      document,
+      data,
+      req.headers['host'],
+    );
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => String)
+  RemoveUserBoardOfDirectors(
+    @Context('data')
+    data: any,
+    @Args('id')
+    id: string,
+  ) {
+    return this.userService.RemoveBoardOfDirectorsDocument(data, id);
+  }
+
   @UseGuards(AuthGuard)
   @Mutation(() => User)
   updateUserByAdmin(
