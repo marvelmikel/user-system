@@ -12,8 +12,8 @@ export default (context, inject) => {
             if (message == 'Invalid token' || message == 'jwt expired') {
 
               let path = context.route.path
-              let regex = new RegExp('/admin', "i");
-              console.log(regex.test(path) ? `admin: ${path} route` : `user: ${path} route`);
+              // let regex = new RegExp('/admin', "i");
+              // console.log(regex.test(path) ? `admin: ${path} route` : `user: ${path} route`);
 
               if (path.indexOf("admin") === 1) {
                 context.app.store.commit("ADMIN_LOGOUT");

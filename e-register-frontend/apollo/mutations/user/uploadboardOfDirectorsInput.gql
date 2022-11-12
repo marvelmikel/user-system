@@ -1,0 +1,11 @@
+mutation UploadBoardOfDirectorsInput(
+  $file: Upload
+  $title: String
+){
+  UpdatedUserBoardOfDirectors(
+    document: {
+      file: $file
+      title: $title
+    }
+  )
+}

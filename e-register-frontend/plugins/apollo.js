@@ -1,7 +1,6 @@
 import { onError } from 'apollo-link-error'
 
 export default (context) => {
-  console.log(context.route);
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     let errors = graphQLErrors ? [...graphQLErrors] : [];
 
@@ -13,10 +12,8 @@ export default (context) => {
         if (message == 'Invalid token') {
 
           let path = context.route.path
-          let regex = new RegExp('/admin', "i");
-          console.log(regex.test(path) ? `admin: ${path} route` : `user: ${path} route`);
-
-          ;
+          // let regex = new RegExp('/admin', "i");
+          // console.log(regex.test(path) ? `admin: ${path} route` : `user: ${path} route`);
 
           if (path.indexOf("admin") === 1) {
             context.app.store.commit("ADMIN_LOGOUT");
@@ -34,8 +31,6 @@ export default (context) => {
       console.log(`[Network error]: ${networkError}`)
     }
 
-    console.log('graphQLErrors', errors);
-    console.log('networkError', networkError);
   })
 
   return {

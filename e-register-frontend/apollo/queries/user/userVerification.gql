@@ -17,8 +17,18 @@ query UserVerification {
     }
     stepThree{
       letterOfCredibilityFromBanks
-      certificateOfTaxClearance
+      evidenceOfPayment
       collaborationCertificateWithForeignPartners
+    }
+    stepFour{
+      _id
+      uploadedFile
+      title
+    }
+    stepFive{
+      _id
+      uploadedFile
+      title
     }
   }
 }

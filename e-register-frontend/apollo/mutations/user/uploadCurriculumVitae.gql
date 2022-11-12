@@ -1,0 +1,11 @@
+mutation UploadCurriculumVitae(
+  $file: Upload
+  $title: String
+){
+  UpdatedUserCV(
+    document: {
+      file: $file
+      title: $title
+    }
+  )
+}

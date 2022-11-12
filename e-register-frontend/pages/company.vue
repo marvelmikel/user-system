@@ -16,7 +16,7 @@
         ">
         Company
         </h1>
-        <button @click="updateCompany"
+        <!-- <button @click="updateCompany"
         :disabled="editing"
         class="
         tw-rounded-lg
@@ -27,7 +27,7 @@
         :class=" editing ? 'tw-opacity-40' : '' "
         >
           Save
-        </button>
+        </button> -->
       </div>
     </div>
 
@@ -47,8 +47,9 @@
         <ul id="progressbar">
             <li ref="step_1" :class="step_one_complete ? 'completed' : '' " class="tw-cursor-pointer" id="step_one"></li>
             <li ref="step_2" :class="step_two_complete ? 'completed' : '' " class="tw-cursor-pointer" id="step_two"></li>
-            <li ref="step_3" class="tw-cursor-pointer" id="step_three"></li>
-            <li ref="step_4" class="tw-cursor-pointer" id="step_four"></li>
+            <li ref="step_3" :class="step_three_complete ? 'completed' : '' " class="tw-cursor-pointer" id="step_three"></li>
+            <li ref="step_4" :class="step_four_complete ? 'completed' : '' " class="tw-cursor-pointer" id="step_four"></li>
+            <li ref="step_5" :class="step_five_complete ? 'completed' : '' " class="tw-cursor-pointer" id="step_five"></li>
         </ul>
       </div>
 
@@ -140,20 +141,17 @@
                 class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
                 @change.prevent="setCertificateOfIncorporation"
               />
-              <UploadBox @upload-event="$refs.certificateOfIncorporation.click()"/>
+              <UploadBox :hasFile="certificateOfIncorporation" :file="company.certificateOfIncorporation || null" @upload-event="$refs.certificateOfIncorporation.click()"/>
 
-              <div v-if="company.certificateOfIncorporation" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">
+              <div v-if="hasCertificateOfIncorporation" @click="removeCertificateOfIncorporation"
+              class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
+                <!-- <span class="tw-text-xs tw-text-gray-500">
                   {{ company.certificateOfIncorporation.name || 'certificateOfIncorporation' }}
-                </span>
-                <i @click="removeCertificateOfIncorporation" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+                </span> -->
+                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <i class='bx bx-trash tw-text-red-600 '></i>
               </div>
 
-              <!-- <button v-if="company.certificateOfIncorporation" @click="uploadDocuments('certificateOfIncorporation', company.certificateOfIncorporation)"
-              class="tw-mt-2 tw-text-white tw-bg-blue-500 tw-px-4 tw-rounded-xl tw-flex tw-items-center tw-justify-center">
-                <span class="tw-text-xs tw-mr-2">Upload</span>
-                <i class='bx bxs-cloud-upload tw-text-xl'></i>
-              </button> -->
             </div>
             <!-- Certificate Of Incorporation End -->
 
@@ -166,13 +164,16 @@
                 class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
                 @change.prevent="setCertificateOfTaxClearance"
               />
-              <UploadBox @upload-event="$refs.certificateOfTaxClearance.click()"/>
+              <UploadBox :hasFile="certificateOfTaxClearance"
+              :file="company.certificateOfTaxClearance || null"
+              @upload-event="$refs.certificateOfTaxClearance.click()"/>
 
-              <div v-if="company.certificateOfTaxClearance" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">
+              <div @click="removeCertificateOfTaxClearance" v-if="company.certificateOfTaxClearance" class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
+                <!-- <span class="tw-text-xs tw-text-gray-500">
                   {{ company.certificateOfTaxClearance.name || 'certificateOfTaxClearance' }}
-                </span>
-                <i @click="removeCertificateOfTaxClearance" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+                </span> -->
+                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <i class='bx bx-trash tw-text-red-600'></i>
               </div>
             </div>
             <!-- Certificate Of Tax Clearance End -->
@@ -186,13 +187,17 @@
                 class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
                 @change.prevent="setApplicationLetter"
               />
-              <UploadBox @upload-event="$refs.applicationLetter.click()"/>
+              <UploadBox :hasFile="applicationLetter"
+              :file="company.applicationLetter || null"
+              @upload-event="$refs.applicationLetter.click()"/>
 
-              <div v-if="company.applicationLetter" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">
+              <div @click="removeApplicationLetter" v-if="hasApplicationLetter"
+              class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
+                <!-- <span class="tw-text-xs tw-text-gray-500">
                   {{ company.applicationLetter.name || 'applicationLetter' }}
-                </span>
-                <i @click="removeApplicationLetter" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
+                </span> -->
+                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <i class='bx bx-trash tw-text-red-600'></i>
               </div>
             </div>
             <!-- Application Letter End -->
@@ -209,14 +214,13 @@
                 class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
                 @change.prevent="setEvidenceOfPayment"
               />
-              <UploadBox @upload-event="$refs.evidenceOfPayment.click()"/>
+              <UploadBox :hasFile="evidenceOfPayment" @upload-event="$refs.evidenceOfPayment.click()"/>
 
-              <div v-if="company.evidenceOfPayment" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.evidenceOfPayment.name || 'evidenceOfPayment' }}
-                </span>
-                <i @click="removeEvidenceOfPayment" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
-              </div>
+              <!-- <div v-if="evidenceOfPayment" @click="removeEvidenceOfPayment"
+              class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
+                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <i class='bx bx-trash tw-text-red-600 '></i>
+              </div> -->
             </div>
             <!-- Evidence Of Payment End -->
 
@@ -229,12 +233,13 @@
                 class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
                 @change.prevent="setLetterOfCredibilityFromBanks"
               />
-              <UploadBox @upload-event="$refs.letterOfCredibilityFromBanks.click()"/>
+              <UploadBox :hasFile="letterOfCredibilityFromBanks" @upload-event="$refs.letterOfCredibilityFromBanks.click()"/>
 
-              <div v-if="company.letterOfCredibilityFromBanks" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">{{ company.letterOfCredibilityFromBanks.name || 'letterOfCredibilityFromBanks' }}</span>
-                <i @click="removeLetterOfCredibilityFromBanks" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
-              </div>
+              <!-- <div v-if="letterOfCredibilityFromBanks" @click="removeLetterOfCredibilityFromBanks"
+               class="tw-flex tw-items-center tw-mt-1 tw-cursor-pointer tw-gap-1">
+                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <i  class='bx bx-trash tw-text-red-600 '></i>
+              </div> -->
             </div>
             <!-- Letter Of Credibility From Banks End -->
 
@@ -248,61 +253,38 @@
                 @change.prevent="setCollaborationCertificateWithForeignPartners"
               />
 
-              <UploadBox @upload-event="$refs.collaborationCertificateWithForeignPartners.click()"/>
+              <UploadBox :hasFile="collaborationCertificateWithForeignPartners" @upload-event="$refs.collaborationCertificateWithForeignPartners.click()"/>
 
-              <div v-if="company.collaborationCertificateWithForeignPartners" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">{{ company.collaborationCertificateWithForeignPartners.name || 'collaboration-certificate-with-foreign-partners' }}</span>
-                <i @click="removeCollaborationCertificateWithForeignPartners" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
-              </div>
+              <!-- <div v-if="collaborationCertificateWithForeignPartners" @click="removeCollaborationCertificateWithForeignPartners"
+              class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
+                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <i  class='bx bx-trash tw-text-red-600'></i>
+              </div> -->
             </div>
             <!-- Collaboration Certificate With Foreign Partners End -->
           </div>
 
           <div v-show="step === 4">
             <!-- Curriculum Vitae Input -->
-            <div class="tw-mb-4">
-              <p class="tw-mb-2">Curriculum Vitae</p>
-              <input
-                ref="curriculumVitaeInput"
-                type="file"
-                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
-                @change.prevent="setCurriculumVitaeInput"
-              />
-
-              <UploadBox @upload-event="$refs.curriculumVitaeInput.click()"/>
-
-              <div v-if="company.curriculumVitaeInput" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.curriculumVitaeInput.name || 'curriculumVitae' }}
-                </span>
-                <i @click="removeCurriculumVitaeInput" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
-              </div>
-            </div>
+            <CurriculumVitae
+             :curriculumVitae="curriculumVitaeInput"
+             :company="company"
+             @set-curriculum-vitae="setCurriculumVitaeInput"
+             />
             <!-- Curriculum Vitae Input End -->
+          </div>
+
+          <div v-show="step === 5">
 
             <!-- Board Of Directors -->
-            <div class="tw-mb-4">
-              <p class="tw-mb-2">Board Of Directors</p>
-              <input
-                ref="boardOfDirectorsInput"
-                type="file"
-                class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
-                @change.prevent="setBoardOfDirectorsInput"
-              />
 
-              <UploadBox @upload-event="$refs.boardOfDirectorsInput.click()"/>
+            <BoardOfDirectors
+             :boardOfDirectors="boardOfDirectorsInput"
+             :company="company"
+             @set-board-of-directors="setBoardOfDirectorsInput"
+             />
 
-              <div v-if="company.boardOfDirectorsInput" class="tw-flex tw-items-center tw-mt-1 tw-gap-1">
-                <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.boardOfDirectorsInput.name || 'boardOfDirectors' }}
-                </span>
-                <i @click="removeBoardOfDirectorsInput" class='bx bx-trash tw-text-red-600 tw-cursor-pointer'></i>
-              </div>
-            </div>
             <!-- Board Of Directors End -->
-
-
-
           </div>
 
           <div class="tw-flex tw-justify-start tw-my-10 tw-gap-4">
@@ -317,11 +299,25 @@
               Back
             </button>
 
+            <button v-if="step_is_complete"
+            :disabled="editing"
+            @click="updateCompany"
+            :class=" editing ? 'tw-opacity-40' : '' "
+            class="
+            tw-bg-blue-600
+            tw-text-white
+            tw-w-1/6
+            tw-p-3
+            tw-text-sm
+            ">
+              Save
+            </button>
+
             <button
+            :disabled="!step_is_complete"
+            v-if="step <= 4"
+            :class="!step_is_complete ? 'tw-opacity-30' : '' "
             @click="next"
-            v-if="step <= 3"
-            :disabled="step_is_incomplete"
-            :class=" step_is_incomplete ? 'tw-opacity-30' : '' "
             class="
             tw-bg-light-green
             tw-text-white
@@ -334,6 +330,9 @@
 
           </div>
 
+
+
+
         </div>
       </div>
 
@@ -343,7 +342,7 @@
 
 <script>
 import GetCompany from "~/apollo/queries/user/getCompany";
-import UpdateCompany from "~/apollo/mutations/user/updateCompany";
+// import UpdateCompany from "~/apollo/mutations/user/updateCompany";
 import UserVerification from "~/apollo/queries/user/userVerification";
 import StepOne from "~/apollo/mutations/user/stepOne";
 import StepTwo from "~/apollo/mutations/user/stepTwo";
@@ -397,14 +396,16 @@ export default {
       collaborationCertificateWithForeignPartners: null,
 
       // STEP 4
-      curriculumVitaeInput: null,
-      boardOfDirectorsInput: null,
+      curriculumVitaeInput: [],
+
+      // STEP 5
+      boardOfDirectorsInput: [],
       profilePic: null,
 
       loadingCompany: false,
       editing: false,
       step: 1,
-      mutation: null
+      mutation: null,
     }
   },
 
@@ -425,23 +426,40 @@ export default {
       return this.evidenceOfPayment && this.letterOfCredibilityFromBanks && this.collaborationCertificateWithForeignPartners ? true : false
     },
     step_four_complete(){
-      return this.curriculumVitaeInput && this.boardOfDirectorsInput ? true : false
+      return this.curriculumVitaeInput.length > 1 ? true : false
     },
-    step_is_incomplete(){
-      if (this.step === 1 && !this.step_one_complete) {
+    step_five_complete(){
+      return this.boardOfDirectorsInput.length > 1 ? true : false
+    },
+    step_is_complete(){
+      if (this.step === 1 && this.step_one_complete) {
         return true
       }
-      if (this.step === 2 && !this.step_two_complete) {
+      if (this.step === 2 && this.step_two_complete) {
         return true
       }
-      if (this.step === 3 && !this.step_three_complete) {
+      if (this.step === 3 && this.step_three_complete) {
         return true
       }
-      if (this.step === 4 && !this.step_four_complete) {
+      if (this.step === 4 && this.step_four_complete) {
+        return true
+      }
+      if (this.step === 5 && this.step_five_complete) {
         return true
       }
       return false
-    }
+    },
+
+    hasCertificateOfIncorporation(){
+      return this.company.certificateOfIncorporation ? true : false
+    },
+
+    hasCertificateOfTaxClearance(){
+      return this.company.certificateOfTaxClearance ? true : false
+    },
+    hasApplicationLetter(){
+      return this.company.applicationLetter ? true : false
+    },
 
   },
 
@@ -467,14 +485,17 @@ export default {
 
     async userVerification(){
       try {
-        // this.loadingCompany = true;
+        this.loadingCompany = true;
         const res = await this.$apollo.query({
           query: UserVerification
         });
-        console.log(res);
-        let stepOne = res.data.userVerification.stepOne || null;
-        let stepTwo = res.data.userVerification.stepTwo || null;
-        let stepThree = res.data.userVerification.stepThree || null;
+        let { userVerification } = res.data
+        let stepOne = userVerification.stepOne || null;
+        let stepTwo = userVerification.stepTwo || null;
+        let stepThree = userVerification.stepThree || null;
+        let stepFour = userVerification.stepFour || null;
+        let stepFive = userVerification.stepFive || null;
+
         if (stepOne) {
           this.nameOfCompany = stepOne.nameOfCompany
           this.location = stepOne.location
@@ -494,11 +515,16 @@ export default {
           this.letterOfCredibilityFromBanks = stepThree.letterOfCredibilityFromBanks
           this.collaborationCertificateWithForeignPartners = stepThree.collaborationCertificateWithForeignPartners
         }
-
+        if (stepFour) {
+          this.curriculumVitaeInput = stepFour || []
+        }
+        if (stepFive) {
+          this.boardOfDirectorsInput = stepFive || []
+        }
       } catch (err) {
       this.$throwError(err)
       }finally {
-        // this.loadingCompany = false;
+        this.loadingCompany = false;
       }
     },
 
@@ -521,8 +547,10 @@ export default {
           awaitRefetchQueries: true
         });
         console.log(res);
-        this.userVerification()
-        this.$toast.success('Company Updated')
+        window.location.reload();
+        // this.userVerification()
+        // this.$toast.success('Company Updated')
+        this.$nuxt.refresh()
 
       } catch (errors) {
         this.$throwError(errors)
@@ -534,6 +562,7 @@ export default {
     async updateCompany(){
       let payload = this.getPayload();
       console.log(payload);
+      // return;
       if (!payload) {
         this.$toast.error(`Step ${this.step} is incomplete`);
         return;
@@ -561,53 +590,50 @@ export default {
     },
 
     getPayload(){
+      let files = {}
       if (this.step === 1) {
         let { nameOfCompany, location, address, rcNumber, dateOfIncorporation, tin, phoneNumber } = this.company
         return { nameOfCompany, location, address, rcNumber, dateOfIncorporation, tin, phoneNumber };
       }
       if (this.step === 2) {
         let { certificateOfIncorporation, certificateOfTaxClearance, applicationLetter } = this.company
-        return { certificateOfIncorporation, certificateOfTaxClearance, applicationLetter };
+        if (typeof certificateOfIncorporation === 'object') {
+          files.certificateOfIncorporation = certificateOfIncorporation
+        }
+        if (typeof certificateOfTaxClearance === 'object') {
+          files.certificateOfTaxClearance = certificateOfTaxClearance
+        }
+        if (typeof applicationLetter === 'object') {
+          files.applicationLetter = applicationLetter
+        }
+        return files
       }
       if (this.step === 3) {
         let { evidenceOfPayment, letterOfCredibilityFromBanks, collaborationCertificateWithForeignPartners } = this.company
-        return { evidenceOfPayment, letterOfCredibilityFromBanks, collaborationCertificateWithForeignPartners };
+        if (typeof evidenceOfPayment === 'object') {
+          files.evidenceOfPayment = evidenceOfPayment
+        }
+        if (typeof letterOfCredibilityFromBanks === 'object') {
+          files.letterOfCredibilityFromBanks = letterOfCredibilityFromBanks
+        }
+        if (typeof collaborationCertificateWithForeignPartners === 'object') {
+          files.collaborationCertificateWithForeignPartners = collaborationCertificateWithForeignPartners
+        }
+        return files
       }
-      if (this.step === 3) {
-        let { curriculumVitaeInput, boardOfDirectorsInput } = this.company
-        return { curriculumVitaeInput, boardOfDirectorsInput };
+      if (this.step === 4) {
+        // let { curriculumVitaeInput, boardOfDirectorsInput } = this.company
+        // return { curriculumVitaeInput, boardOfDirectorsInput };
       }
       return null;
     },
 
     next() {
-      if (this.step === 1) {
-        if (this.step_one_complete) {
-          this.step += 1;
-          return;
-        }
+      if (this.step_is_complete) {
+        this.step += 1;
+        return;
       }
-      if (this.step === 2) {
-        if (this.step_two_complete) {
-          this.step += 1;
-          return;
-        }
-      }
-      if (this.step === 3) {
-        if (this.step_three_complete) {
-          this.step += 1;
-          return;
-        }
-      }
-      if (this.step === 4) {
-        if (this.step_four_complete) {
-          this.step += 1;
-          return;
-        }
-      }
-
       return this.$toast.error(`Step ${this.step} is incomplete`)
-
     },
     previous() {
       this.step -= 1;
@@ -619,6 +645,8 @@ export default {
 
     setCertificateOfIncorporation(e){
       this.company.certificateOfIncorporation = e.target.files[0];
+      // this.certificateOfIncorporation = null;
+      console.log(this.company.certificateOfIncorporation);
     },
     setCertificateOfTaxClearance(e){
       this.company.certificateOfTaxClearance = e.target.files[0];
@@ -636,6 +664,7 @@ export default {
       this.company.collaborationCertificateWithForeignPartners = e.target.files[0];
     },
     setCurriculumVitaeInput(e){
+      console.log(e);
       this.company.curriculumVitaeInput = e.target.files[0];
     },
     setBoardOfDirectorsInput(e){
@@ -644,27 +673,38 @@ export default {
 
     removeCertificateOfIncorporation(){
       this.company.certificateOfIncorporation = null;
+      delete this.company.certificateOfIncorporation
+      // this.certificateOfIncorporation = null;
     },
     removeCertificateOfTaxClearance(){
       this.company.certificateOfTaxClearance = null;
+      delete this.company.certificateOfTaxClearance
+      // this.certificateOfTaxClearance = null;
     },
     removeApplicationLetter(){
       this.company.applicationLetter = null;
+      delete this.company.applicationLetter
+      // this.applicationLetter = null;
     },
     removeEvidenceOfPayment(){
       this.company.evidenceOfPayment = null;
+      // this.evidenceOfPayment = null;
     },
     removeLetterOfCredibilityFromBanks(){
       this.company.letterOfCredibilityFromBanks = null;
+      // this.letterOfCredibilityFromBanks = null;
     },
     removeCollaborationCertificateWithForeignPartners(){
       this.company.collaborationCertificateWithForeignPartners = null;
+      // this.collaborationCertificateWithForeignPartners = null;
     },
     removeCurriculumVitaeInput(){
       this.company.curriculumVitaeInput = null;
+      // this.curriculumVitaeInput = null;
     },
     removeBoardOfDirectorsInput(){
       this.company.boardOfDirectorsInput = null;
+      // this.boardOfDirectorsInput = null;
     },
 
   },
@@ -677,7 +717,7 @@ export default {
     //   });
 
       for (let i = 1; i < value; i++) {
-        if (i < 5) {
+        if (i < 6) {
           this.$refs[`step_${i}`].classList.add('completed')
         }
       }
@@ -756,7 +796,7 @@ export default {
 #progressbar li {
   /* list-style-type: none; */
   /* font-size: 15px; */
-  width: 25%;
+  width: 20%;
   float: left;
   position: relative;
   font-weight: 400;
@@ -776,6 +816,10 @@ export default {
 
 #progressbar #step_four:before {
     content: "4"
+}
+
+#progressbar #step_five:before {
+    content: "5"
 }
 
 #progressbar li:before {

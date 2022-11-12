@@ -9,20 +9,20 @@ query GetCompany {
     tin
     phoneNumber
 
-    certificateOfIncorporation
-    certificateOfTaxClearance
-    applicationLetter
-    evidenceOfPayment
-    letterOfCredibilityFromBanks
-    collaborationCertificateWithForeignPartners
-    curriculumVitae{
-      file
-      title
-    }
-    boardOfDirectors{
-      file
-      title
-    }
+    # certificateOfIncorporation
+    # certificateOfTaxClearance
+    # applicationLetter
+    # evidenceOfPayment
+    # letterOfCredibilityFromBanks
+    # collaborationCertificateWithForeignPartners
+    # curriculumVitae{
+    #   file
+    #   title
+    # }
+    # boardOfDirectors{
+    #   file
+    #   title
+    # }
     profilePic
   }
 }

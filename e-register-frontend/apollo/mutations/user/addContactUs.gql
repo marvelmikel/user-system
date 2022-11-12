@@ -1,0 +1,8 @@
+mutation AddContactUs(
+  $email: String!
+  $subject: String!
+  $message: String!
+) {
+  contactUs(email: $email, subject: $subject, message: $message)
+}
+
