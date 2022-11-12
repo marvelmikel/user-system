@@ -88,8 +88,7 @@
             Cancel
           </button>
           <button
-          v-if="!title"
-          :class=" !title ? 'tw-opacity-40' : '' "
+          :class="!title ? 'tw-opacity-40' : '' "
           @click="uploadCurriculumVitae"
           class="tw-bg-blue-500 tw-text-white tw-gap-2 tw-px-5 tw-py-2 tw-rounded-lg tw-mt-5">
             Upload
@@ -131,9 +130,9 @@ export default {
       }
 
       let payload = {
-            file: this.company.curriculumVitaeInput,
-            title: this.title
-          }
+        file: this.company.curriculumVitaeInput,
+        title: this.title
+      }
 
       try {
         this.uploading = true;

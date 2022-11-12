@@ -89,7 +89,6 @@
             Cancel
           </button>
           <button
-          v-if="!title"
           :class=" !title ? 'tw-opacity-40' : '' "
           @click="uploadBoardOfDirectorsInput"
           class="tw-bg-blue-500 tw-text-white tw-gap-2 tw-px-5 tw-py-2 tw-rounded-lg tw-mt-5">
