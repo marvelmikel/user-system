@@ -104,30 +104,7 @@
     </section>
 
 
-    <section class="custom__gradie tw-py-5 tw-text-whit">
-      <div class="
-      tw-w-9/12
-      tw-mx-auto
-      tw-flex
-      tw-gap-32
-      tw-justify-between
-      tw-items-center
-      ">
-        <div class="tw-flex tw-items-center tw-gap-2">
-          <img class="tw-w-16" src="~/assets/images/black.svg" alt="coat_of_arms_of_nigeria"/>
-          <p>Federal Ministry of Environment</p>
-        </div>
-        <div class="
-        tw-flex
-        tw-text-2xl
-        tw-gap-4
-        ">
-          <i class='bx bxl-facebook-circle'></i>
-          <i class='bx bxl-instagram-alt'></i>
-          <i class='bx bxl-twitter' ></i>
-        </div>
-      </div>
-    </section>
+ 
 
   </div>
 </template>
@@ -137,7 +114,6 @@ import AddContactUs from "~/apollo/mutations/user/addContactUs";
 
 export default {
   name: "contact-us",
-  layout: "home",
   data() {
     return {
       email: null,

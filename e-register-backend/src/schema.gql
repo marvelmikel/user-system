@@ -121,7 +121,7 @@ type Query {
   getAllAdmins(args: CustomQuery!): [Admin!]!
   profile: Admin!
   getAdmin(id: String!): Admin!
-  getAllUsersByAdmin(customQuery: CustomQuery!): [User!]!
+  getAllUsers(customQuery: CustomQuery!): [User!]!
   getUserByAdmin(id: String!): User!
   getUser: User!
   userVerification: StepDocument!

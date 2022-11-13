@@ -124,9 +124,8 @@ export class UserResolver {
     return this.userService.resetPassword(token, credential);
   }
 
-  @UseGuards(AuthGuard)
   @Query(() => [User])
-  getAllUsersByAdmin(
+  getAllUsers(
     @Args('customQuery')
     customQuery: CustomQuery,
   ) {

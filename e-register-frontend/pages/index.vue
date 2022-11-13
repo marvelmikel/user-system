@@ -2,8 +2,18 @@
   <!-- <Tutorial/> -->
   <div>
     <section class="custom__gradient">
-      <div class="tw-w-9/12 tw-mx-auto tw-mb-24 tw-grid tw-grid-cols-2 tw-gap-5 tw-items-end">
-        <div class="tw-text-white  tw-mt-8 tw-space-y-3">
+      <div
+        class="
+          tw-w-9/12
+          tw-mx-auto
+          tw-mb-24
+          tw-grid
+          tw-grid-cols-2
+          tw-gap-5
+          tw-items-end
+        "
+      >
+        <div class="tw-text-white tw-mt-8 tw-space-y-3">
           <h1 class="tw-text-6xl">Environmental Consultants Accreditation</h1>
           <!-- <p>
             The accreditation of Environmental Consultants was initiated in 1992
@@ -80,6 +90,7 @@
         />
       </div>
     </section>
+    <Footer />
   </div>
 </template>
 
