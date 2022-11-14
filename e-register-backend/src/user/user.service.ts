@@ -588,6 +588,28 @@ export class UserService {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
+  async RemoveSingleDocument(data: any, type: string) {
+    try {
+      const query: any = { _id: new ObjectId(data.id) };
+      const result = await this.userRepository.findOne({
+        where: query,
+      });
+      if (!result) throw new Error('Item not found');
+
+      if (result[type]) {
+        this.helperService.deleteFile(result[type]);
+      }
+      const updatedResult = await this.userRepository.findOneAndUpdate(
+        { _id: new ObjectId(data.id) },
+        { [type]: null },
+      );
+
+      if (!updatedResult) throw new Error('Unable to Updated');
+      return 'Deleted Successfully';
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
   async RemoveDocument(data: any, id: string) {
     try {
       const query: any = { _id: new ObjectId(data.id) };

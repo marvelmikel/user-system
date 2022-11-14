@@ -8,7 +8,7 @@ import {
   Parent,
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { StepDocument, User } from './entities/user.entity';
+import { DocumentMainType, StepDocument, User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { Request, UseGuards } from '@nestjs/common';
@@ -256,6 +256,7 @@ export class UserResolver {
       req.headers['host'],
     );
   }
+
   @UseGuards(AuthGuard)
   @Mutation(() => String)
   removeUser(
@@ -265,6 +266,17 @@ export class UserResolver {
   ) {
     this.helperService.isAnAdmin(data);
     return this.userService.remove(id, data);
+  }
+  @UseGuards(AuthGuard)
+  @Mutation(() => String)
+  removeUploadedDocument(
+    @Context('data')
+    data: any,
+    @Args('DocumentMainType')
+    documentType: DocumentMainType,
+  ) {
+    this.helperService.isAUser(data);
+    return this.userService.RemoveSingleDocument(data, documentType.type);
   }
 
   @ResolveField(() => [Accreditation])
