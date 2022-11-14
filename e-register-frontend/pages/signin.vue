@@ -74,7 +74,7 @@
 
           <nuxt-link
             to="/signup"
-            class="tw-text-sm tw-text-white tw-text-center tw-block"
+            class="tw-text-white tw-text-center tw-block"
           >
             Have an account? <span class="tw-text-dark-yellow"> Sign Up</span>
           </nuxt-link>

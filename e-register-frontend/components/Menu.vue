@@ -19,15 +19,15 @@
       class="tw-flex tw-items-center tw-space-x-8"
       :class="[!isTransparent ? 'tw-text-white' : 'tw-text-black']"
     >
-      <nuxt-link exact class="tw-pb-1" to="/">Home</nuxt-link>
+      <nuxt-link exact class="tw-flex tw-items-center tw-gap-3" to="/"> Home</nuxt-link>
 
-      <nuxt-link
+      <!-- <nuxt-link
         exact
         class="tw-pb-1"
         to="/environmental-consultants-accreditation"
         >About Us</nuxt-link
-      >
-      <nuxt-link exact class="tw-pb-1" to="/contact-us">Contact Us</nuxt-link>
+      > -->
+      <!-- <nuxt-link exact class="tw-pb-1" to="/contact-us">Contact Us</nuxt-link> -->
 
       <div v-if="!isLoggedIn">
         <div
