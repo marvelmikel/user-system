@@ -363,6 +363,7 @@ export default {
         tin: null,
         phoneNumber: null,
 
+        isCertificateOfIncorporation: null,
         certificateOfIncorporation: null,
         certificateOfTaxClearance: null,
         applicationLetter: null,
@@ -476,6 +477,7 @@ export default {
         });
         console.log(res);
         this.company = res.data.getUser ?? null;
+
       } catch (err) {
       this.$throwError(err)
       }finally {
@@ -645,8 +647,6 @@ export default {
 
     setCertificateOfIncorporation(e){
       this.company.certificateOfIncorporation = e.target.files[0];
-      // this.certificateOfIncorporation = null;
-      console.log(this.company.certificateOfIncorporation);
     },
     setCertificateOfTaxClearance(e){
       this.company.certificateOfTaxClearance = e.target.files[0];
