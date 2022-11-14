@@ -598,10 +598,15 @@ export class UserService {
 
       if (result[type]) {
         this.helperService.deleteFile(result[type]);
+      } else {
+        throw new Error('Document has been deleted˝');
       }
+
+      const updatePayload: any = { $set: { [type]: null } };
+
       const updatedResult = await this.userRepository.findOneAndUpdate(
         { _id: new ObjectId(data.id) },
-        { [type]: null },
+        updatePayload,
       );
 
       if (!updatedResult) throw new Error('Unable to Updated');
