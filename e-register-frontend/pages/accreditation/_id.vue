@@ -16,7 +16,7 @@
         tw-relative
         ">
 
-        <!-- <img v-if="accreditation.status === 'PENDING'" class="tw-w-100 tw-absolute
+        <img v-if="accreditation.status === 'PENDING'" class="tw-w-100 tw-absolute
         tw-left-0 tw-right-0
         tw-ml-auto tw-mr-auto
         " src="~assets/img/pending_stamp.svg" alt="pending_stamp" />
@@ -27,10 +27,10 @@
         <img v-if="accreditation.status === 'EXPIRED'" class="tw-w-100 tw-absolute
         tw-left-0 tw-right-0
         tw-ml-auto tw-mr-auto
-        " src="~assets/img/expired_stamp.svg" alt="expired_stamp" /> -->
+        " src="~assets/img/expired_stamp.svg" alt="expired_stamp" />
 
-        <img class="tw-w-100 tw-absolute tw-left-0 tw-right-0 tw-ml-auto tw-mr-auto"
-        :src="require(`@/assets/img/${image}`)" alt="image" />
+        <!-- <img class="tw-w-100 tw-absolute tw-left-0 tw-right-0 tw-ml-auto tw-mr-auto"
+        :src="require(`@/assets/img/${image}`)" alt="image" /> -->
 
         <div class="tw-mt-10 tw-absolute tw-w-full">
           <div
@@ -131,7 +131,7 @@ export default {
           },
         });
         console.log(res);
-        this.accreditation = res.data.getAccreditation || null;
+        this.accreditation = res.data.getAccreditationById[0] || null;
       } catch (err) {
         this.$throwError(err)
       }finally {

@@ -8,7 +8,14 @@ query GetCompany {
     dateOfIncorporation
     tin
     phoneNumber
-
+    isCertificateOfIncorporation
+    isCertificateOfTaxClearance
+    isApplicationLetter
+    isEvidenceOfPayment
+    isLetterOfCredibilityFromBanks
+    isCollaborationCertificateWithForeignPartners
+    isCurriculumVitae
+    isBoardOfDirectorsInput
     # certificateOfIncorporation
     # certificateOfTaxClearance
     # applicationLetter
