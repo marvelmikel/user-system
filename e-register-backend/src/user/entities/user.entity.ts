@@ -1,4 +1,4 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
 import { ValidateNested } from 'class-validator';
 import { Accreditation } from 'src/accreditation/entities/accreditation.entity';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
@@ -212,10 +212,8 @@ export class StepDocument {
   stepFive: UserDocument[];
 }
 
-@ObjectType()
+@InputType()
 export class DocumentMainType {
-  @Field(() => DocumentEnum, {
-    nullable: true,
-  })
-  type: string;
+  @Field(() => String)
+  type: DocumentEnum;
 }

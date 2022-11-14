@@ -75,7 +75,7 @@ type User {
   isCertificateOfTaxClearance: Boolean!
   applicationLetter: String
   description: String
-  isApplicationLetter: String!
+  isApplicationLetter: Boolean!
   evidenceOfPayment: String
   isEvidenceOfPayment: Boolean!
   letterOfCredibilityFromBanks: String
@@ -176,6 +176,7 @@ type Mutation {
   RemoveUserBoardOfDirectors(id: String!): String!
   updateUserByAdmin(id: String!, updateUserInputByAdmin: UpdateUserInputByAdmin!): User!
   removeUser(id: String!): String!
+  removeUploadedDocument(DocumentMainType: DocumentMainType!): String!
   contactUs(email: String!, subject: String!, message: String!): String!
   createAccreditationByAdmin(createAccreditationByAdminInput: CreateAccreditationByAdminInput!): Accreditation!
   createAccreditation(createAccreditationInput: CreateAccreditationInput!): String!
@@ -286,6 +287,10 @@ input UpdateUserInputByAdmin {
   isCollaborationCertificateWithForeignPartners: Boolean
   isCurriculumVitae: Boolean
   isBoardOfDirectorsInput: Boolean
+}
+
+input DocumentMainType {
+  type: String!
 }
 
 input CreateAccreditationByAdminInput {
