@@ -1,5 +1,5 @@
 query GetAccreditation($id: String!) {
-  getAccreditation(id: $id) {
+  getAccreditationById(id: $id) {
     categoryId
     subcategoryId
     userId
