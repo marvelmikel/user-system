@@ -591,7 +591,7 @@ export class UserService {
   async RemoveSingleDocument(data: any, type: string) {
     try {
       const query: any = { _id: new ObjectId(data.id) };
-      const result = await this.userRepository.findOne({
+      let result = await this.userRepository.findOne({
         where: query,
       });
       if (!result) throw new Error('Item not found');
@@ -610,7 +610,12 @@ export class UserService {
       );
 
       if (!updatedResult) throw new Error('Unable to Updated');
-      return 'Deleted Successfully';
+
+      // get updated data
+      result = await this.userRepository.findOne({
+        where: query,
+      });
+      return result;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }

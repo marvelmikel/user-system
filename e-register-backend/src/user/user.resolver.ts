@@ -268,7 +268,7 @@ export class UserResolver {
     return this.userService.remove(id, data);
   }
   @UseGuards(AuthGuard)
-  @Mutation(() => String)
+  @Mutation(() => User)
   removeUploadedDocument(
     @Context('data')
     data: any,
