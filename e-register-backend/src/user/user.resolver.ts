@@ -180,7 +180,7 @@ export class UserResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => String)
+  @Mutation(() => StepDocument)
   UpdatedUserCV(
     @Context('data')
     data: any,
@@ -198,7 +198,7 @@ export class UserResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => String)
+  @Mutation(() => StepDocument)
   RemoveUserCV(
     @Context('data')
     data: any,
@@ -208,7 +208,7 @@ export class UserResolver {
     return this.userService.RemoveDocument(data, id);
   }
   @UseGuards(AuthGuard)
-  @Mutation(() => String)
+  @Mutation(() => StepDocument)
   UpdatedUserBoardOfDirectors(
     @Context('data')
     data: any,
@@ -226,7 +226,7 @@ export class UserResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => String)
+  @Mutation(() => StepDocument)
   RemoveUserBoardOfDirectors(
     @Context('data')
     data: any,
