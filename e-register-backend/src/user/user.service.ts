@@ -632,13 +632,15 @@ export class UserService {
 
       if (getUrl?.uploadedFile) {
         this.helperService.deleteFile(getUrl.uploadedFile);
+      } else {
+        throw new Error('File does not exist');
       }
 
       const updatePayload: any = {
         $pull: { curriculumVitae: { _id: new ObjectId(id) } },
       };
       const updatedResult = await this.userRepository.findOneAndUpdate(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId(data.id) },
         updatePayload,
       );
 
@@ -667,13 +669,15 @@ export class UserService {
 
       if (getUrl?.uploadedFile) {
         this.helperService.deleteFile(getUrl.uploadedFile);
+      } else {
+        throw new Error('File does not exist');
       }
 
       const updatePayload: any = {
         $pull: { boardOfDirectors: { _id: new ObjectId(id) } },
       };
       const updatedResult = await this.userRepository.findOneAndUpdate(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId(data.id) },
         updatePayload,
       );
 

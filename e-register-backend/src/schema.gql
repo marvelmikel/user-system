@@ -176,7 +176,7 @@ type Mutation {
   RemoveUserBoardOfDirectors(id: String!): String!
   updateUserByAdmin(id: String!, updateUserInputByAdmin: UpdateUserInputByAdmin!): User!
   removeUser(id: String!): String!
-  removeUploadedDocument(DocumentMainType: DocumentMainType!): String!
+  removeUploadedDocument(DocumentMainType: DocumentMainType!): User!
   contactUs(email: String!, subject: String!, message: String!): String!
   createAccreditationByAdmin(createAccreditationByAdminInput: CreateAccreditationByAdminInput!): Accreditation!
   createAccreditation(createAccreditationInput: CreateAccreditationInput!): String!
