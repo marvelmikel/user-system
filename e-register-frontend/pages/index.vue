@@ -37,7 +37,7 @@
           </div>
 
           <div class="tw-mt-14 tw-space-y-5">
-            <input
+            <input v-model="search"
               type="text"
               placeholder="Search Company Name"
               class="
@@ -52,20 +52,42 @@
                 tw-placeholder-white
               "
             />
-            <div
-              class="tw-px-7 tw-py-3 tw-rounded-lg tw-w-full tw-bg-dark-green"
-            >
-              <select
+
+            <!-- <div class="form-control tw-mb-3 tw-w-full">
+              <label for="Company">Field</label>
+              <select required v-model="categoryId">
+                <option :value="null" disabled>Choose</option>
+                <option
+                  :value="category._id"
+                  v-for="category in categories"
+                  :key="category._id"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
+            </div> -->
+
+            <div class="tw-px-7 tw-py-3 tw-rounded-lg tw-w-full tw-bg-dark-green">
+              <select required v-model="categoryId"
                 class="
                   tw-w-full tw-bg-dark-green tw-text-white tw-border-none
                   focus:tw-outline-none
                   tw-placeholder-white
                 "
               >
-                <option value="">Category</option>
+                <option :value="null" >All</option>
+                <option
+                  :value="category._id"
+                  v-for="category in categories"
+                  :key="category._id"
+                >
+                  {{ category.name }}
+                </option>
               </select>
             </div>
-            <button
+
+
+            <button @click.prevent="searchCompany"
               class="
                 tw-p-3 tw-rounded-lg tw-bg-green-500 tw-text-white tw-w-full
               "
@@ -95,12 +117,48 @@
 </template>
 
 <script>
+import GetCategories from "~/apollo/queries/admin/getCategories";
+
 export default {
   name: "index",
   layout: "home",
   data() {
-    return {};
+    return {
+      categories: [],
+      categoryId: null,
+      search: '',
+      loadingCategories: false,
+    }
   },
+
+  mounted() {
+    this.getCategories();
+  },
+
+  methods: {
+    async getCategories() {
+      try {
+        this.loadingCategories = true;
+        const res = await this.$apollo.query({
+          query: GetCategories,
+        });
+
+        this.categories = res.data.findAllCategories ?? null;
+      } catch (err) {
+        this.$throwError(err);
+      } finally {
+        this.loadingCategories = false;
+      }
+    },
+    searchCompany(){
+      let params = {
+        categoryId : this.categoryId ? this.categoryId : null,
+        search : this.search ? this.search : null
+      }
+      this.$router.push({ path: '/search-result', query: params })
+    }
+  },
+
 };
 </script>
 

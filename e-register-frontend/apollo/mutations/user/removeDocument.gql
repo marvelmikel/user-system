@@ -1,0 +1,13 @@
+mutation RemoveDocument($type: String!) {
+  removeUploadedDocument(DocumentMainType: {
+    type: $type
+  }){
+    _id
+    certificateOfIncorporation
+    certificateOfTaxClearance
+    applicationLetter
+    evidenceOfPayment
+    letterOfCredibilityFromBanks
+    collaborationCertificateWithForeignPartners
+  }
+}

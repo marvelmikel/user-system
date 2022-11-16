@@ -141,14 +141,15 @@
                 class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
                 @change.prevent="setCertificateOfIncorporation"
               />
-              <UploadBox :hasFile="certificateOfIncorporation" :file="company.certificateOfIncorporation || null" @upload-event="$refs.certificateOfIncorporation.click()"/>
+              <UploadBox
+              :hasFile="certificateOfIncorporation"
+              :approved="company.isCertificateOfIncorporation"
+               @upload-event="$refs.certificateOfIncorporation.click()"/>
 
-              <div v-if="hasCertificateOfIncorporation" @click="removeCertificateOfIncorporation"
+              <div v-if="certificateOfIncorporation" @click="openDeleteDocumentModal('certificateOfIncorporation')"
               class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
-                <!-- <span class="tw-text-xs tw-text-gray-500">
-                  {{ company.certificateOfIncorporation.name || 'certificateOfIncorporation' }}
-                </span> -->
-                <span class="tw-text-xs tw-text-red-600">Reset</span>
+
+                <span class="tw-text-xs tw-text-red-600">Remove</span>
                 <i class='bx bx-trash tw-text-red-600 '></i>
               </div>
 
@@ -166,13 +167,14 @@
               />
               <UploadBox :hasFile="certificateOfTaxClearance"
               :file="company.certificateOfTaxClearance || null"
+              :approved="company.isCertificateOfTaxClearance"
               @upload-event="$refs.certificateOfTaxClearance.click()"/>
 
-              <div @click="removeCertificateOfTaxClearance" v-if="company.certificateOfTaxClearance" class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
+              <div @click="openDeleteDocumentModal('certificateOfTaxClearance')" v-if="certificateOfTaxClearance" class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
                 <!-- <span class="tw-text-xs tw-text-gray-500">
                   {{ company.certificateOfTaxClearance.name || 'certificateOfTaxClearance' }}
                 </span> -->
-                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <span class="tw-text-xs tw-text-red-600">Remove</span>
                 <i class='bx bx-trash tw-text-red-600'></i>
               </div>
             </div>
@@ -189,14 +191,15 @@
               />
               <UploadBox :hasFile="applicationLetter"
               :file="company.applicationLetter || null"
+              :approved="company.isApplicationLetter"
               @upload-event="$refs.applicationLetter.click()"/>
 
-              <div @click="removeApplicationLetter" v-if="hasApplicationLetter"
+              <div @click="openDeleteDocumentModal('applicationLetter')" v-if="applicationLetter"
               class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
                 <!-- <span class="tw-text-xs tw-text-gray-500">
                   {{ company.applicationLetter.name || 'applicationLetter' }}
                 </span> -->
-                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <span class="tw-text-xs tw-text-red-600">Remove</span>
                 <i class='bx bx-trash tw-text-red-600'></i>
               </div>
             </div>
@@ -214,13 +217,14 @@
                 class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
                 @change.prevent="setEvidenceOfPayment"
               />
-              <UploadBox :hasFile="evidenceOfPayment" @upload-event="$refs.evidenceOfPayment.click()"/>
+              <UploadBox :hasFile="evidenceOfPayment" :approved="company.isEvidenceOfPayment"
+               @upload-event="$refs.evidenceOfPayment.click()"/>
 
-              <!-- <div v-if="evidenceOfPayment" @click="removeEvidenceOfPayment"
+              <div v-if="evidenceOfPayment" @click="openDeleteDocumentModal('evidenceOfPayment')"
               class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
-                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <span class="tw-text-xs tw-text-red-600">Remove</span>
                 <i class='bx bx-trash tw-text-red-600 '></i>
-              </div> -->
+              </div>
             </div>
             <!-- Evidence Of Payment End -->
 
@@ -233,13 +237,15 @@
                 class="tw-p-3 tw-rounded-sm tw-w-full tw-border tw-hidden"
                 @change.prevent="setLetterOfCredibilityFromBanks"
               />
-              <UploadBox :hasFile="letterOfCredibilityFromBanks" @upload-event="$refs.letterOfCredibilityFromBanks.click()"/>
+              <UploadBox :hasFile="letterOfCredibilityFromBanks"
+              :approved="company.isLetterOfCredibilityFromBanks"
+              @upload-event="$refs.letterOfCredibilityFromBanks.click()"/>
 
-              <!-- <div v-if="letterOfCredibilityFromBanks" @click="removeLetterOfCredibilityFromBanks"
+              <div v-if="letterOfCredibilityFromBanks" @click="openDeleteDocumentModal('letterOfCredibilityFromBanks')"
                class="tw-flex tw-items-center tw-mt-1 tw-cursor-pointer tw-gap-1">
-                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <span class="tw-text-xs tw-text-red-600">Remove</span>
                 <i  class='bx bx-trash tw-text-red-600 '></i>
-              </div> -->
+              </div>
             </div>
             <!-- Letter Of Credibility From Banks End -->
 
@@ -253,13 +259,15 @@
                 @change.prevent="setCollaborationCertificateWithForeignPartners"
               />
 
-              <UploadBox :hasFile="collaborationCertificateWithForeignPartners" @upload-event="$refs.collaborationCertificateWithForeignPartners.click()"/>
+              <UploadBox :hasFile="collaborationCertificateWithForeignPartners"
+              :approved="company.isCollaborationCertificateWithForeignPartners"
+              @upload-event="$refs.collaborationCertificateWithForeignPartners.click()"/>
 
-              <!-- <div v-if="collaborationCertificateWithForeignPartners" @click="removeCollaborationCertificateWithForeignPartners"
+              <div v-if="collaborationCertificateWithForeignPartners" @click="openDeleteDocumentModal('collaborationCertificateWithForeignPartners')"
               class="tw-flex tw-items-center tw-mt-1 tw-gap-1 tw-cursor-pointer">
-                <span class="tw-text-xs tw-text-red-600">Reset</span>
+                <span class="tw-text-xs tw-text-red-600">Remove</span>
                 <i  class='bx bx-trash tw-text-red-600'></i>
-              </div> -->
+              </div>
             </div>
             <!-- Collaboration Certificate With Foreign Partners End -->
           </div>
@@ -270,6 +278,7 @@
              :curriculumVitae="curriculumVitaeInput"
              :company="company"
              @set-curriculum-vitae="setCurriculumVitaeInput"
+             @refresh="refresh"
              />
             <!-- Curriculum Vitae Input End -->
           </div>
@@ -282,6 +291,7 @@
              :boardOfDirectors="boardOfDirectorsInput"
              :company="company"
              @set-board-of-directors="setBoardOfDirectorsInput"
+             @refresh="refresh"
              />
 
             <!-- Board Of Directors End -->
@@ -299,7 +309,7 @@
               Back
             </button>
 
-            <button v-if="step_is_complete"
+            <button
             :disabled="editing"
             @click="updateCompany"
             :class=" editing ? 'tw-opacity-40' : '' "
@@ -330,19 +340,52 @@
 
           </div>
 
-
-
-
         </div>
       </div>
 
     </div>
+
+    <Modal
+      :button="false"
+      :customClass="['tw-w-2/5']"
+      :isOpen="delete_modal_open"
+      @close-modal="delete_modal_open = false"
+    >
+      <div class="tw-my-5 tw-space-y-5 tw-px-2 tw-pb-1">
+        <h1 class="tw-text-lg tw-text-black">
+          Are you sure?
+        </h1>
+
+
+        <div class="tw-flex tw-gap-3">
+          <button
+            @click="deleteDocument"
+            :disabled="deleting"
+            :class=" deleting ? 'tw-opacity-20' : '' "
+            class="tw-bg-green-500 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
+          >
+            Proceed
+          </button>
+          <button
+            :disabled="deleting"
+            :class=" deleting ? 'tw-opacity-20' : '' "
+            @click="closeDeleteModal"
+            class="tw-bg-red-600 tw-w-1/4 tw-text-white tw-py-2 tw-px-4 tw-rounded"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
 import GetCompany from "~/apollo/queries/user/getCompany";
 // import UpdateCompany from "~/apollo/mutations/user/updateCompany";
+import RemoveDocument from "~/apollo/mutations/user/removeDocument";
+import UpdatePhoto from "~/apollo/mutations/user/updatePhoto";
+
 import UserVerification from "~/apollo/queries/user/userVerification";
 import StepOne from "~/apollo/mutations/user/stepOne";
 import StepTwo from "~/apollo/mutations/user/stepTwo";
@@ -364,6 +407,14 @@ export default {
         phoneNumber: null,
 
         isCertificateOfIncorporation: null,
+        isCertificateOfTaxClearance: null,
+        isApplicationLetter: null,
+        isEvidenceOfPayment: null,
+        isLetterOfCredibilityFromBanks: null,
+        isCollaborationCertificateWithForeignPartners: null,
+        isCurriculumVitae: null,
+        isBoardOfDirectorsInput: null,
+
         certificateOfIncorporation: null,
         certificateOfTaxClearance: null,
         applicationLetter: null,
@@ -407,6 +458,8 @@ export default {
       editing: false,
       step: 1,
       mutation: null,
+      delete_modal_open: false,
+      deleting: false,
     }
   },
 
@@ -452,14 +505,14 @@ export default {
     },
 
     hasCertificateOfIncorporation(){
-      return this.company.certificateOfIncorporation ? true : false
+      return this.certificateOfIncorporation ? true : false
     },
 
     hasCertificateOfTaxClearance(){
-      return this.company.certificateOfTaxClearance ? true : false
+      return this.certificateOfTaxClearance ? true : false
     },
     hasApplicationLetter(){
-      return this.company.applicationLetter ? true : false
+      return this.applicationLetter ? true : false
     },
 
   },
@@ -543,21 +596,68 @@ export default {
         const res = await this.$apollo.mutate({
           mutation: this.mutation,
           variables: payload,
-          refetchQueries: [{
-            query: payload
-          }],
+          refetchQueries: [
+            { query: UserVerification },
+            { query: GetCompany },
+          ],
           awaitRefetchQueries: true
         });
+
+        if (res.data) {
+          this.updateDocument(res.data.updateUser)
+        }
+
         console.log(res);
-        window.location.reload();
+
         // this.userVerification()
-        // this.$toast.success('Company Updated')
-        this.$nuxt.refresh()
+        this.$toast.success('Company document updated')
+        // this.$nuxt.refresh()
 
       } catch (errors) {
         this.$throwError(errors)
       }finally{
         this.editing = false;
+      }
+    },
+
+    async uploadPhoto() {
+
+
+      try {
+        this.editing = true;
+        const res = await this.$apollo.mutate({
+          mutation: this.mutation,
+          variables: UpdatePhoto,
+          // awaitRefetchQueries: true
+        });
+
+        // if (res.data) {
+        //   this.updateDocument(res.data.updateUser)
+        // }
+
+        console.log(res);
+
+        this.refresh()
+        this.$toast.success('Company photo updated')
+        // this.$nuxt.refresh()
+
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+        this.editing = false;
+      }
+    },
+
+    updateDocument(data){
+      if (this.step === 2) {
+        this.certificateOfIncorporation = data.certificateOfIncorporation;
+        this.certificateOfTaxClearance = data.certificateOfTaxClearance;
+        this.applicationLetter = data.applicationLetter;
+      }
+      if (this.step === 3) {
+        this.evidenceOfPayment = data.evidenceOfPayment;
+        this.letterOfCredibilityFromBanks = data.letterOfCredibilityFromBanks;
+        this.collaborationCertificateWithForeignPartners = data.collaborationCertificateWithForeignPartners;
       }
     },
 
@@ -578,7 +678,10 @@ export default {
         this.editing = true;
         const res = await this.$apollo.mutate({
           mutation: StepOne,
-          variables: this.company
+          variables: this.company,
+          refetchQueries: [
+            { query: GetCompany },
+          ],
         });
         console.log(res);
         this.userVerification()
@@ -588,6 +691,43 @@ export default {
         this.$throwError(errors)
       }finally{
         this.editing = false;
+      }
+    },
+
+    openDeleteDocumentModal(type){
+      this.deleteType = type;
+      this.delete_modal_open = true
+    },
+
+    closeDeleteModal(){
+      this.deleteType = null;
+      this.delete_modal_open = false
+    },
+
+    async deleteDocument(){
+      try {
+        this.deleting = true;
+        const res = await this.$apollo.mutate({
+          mutation: RemoveDocument,
+          variables: {
+            type: this.deleteType
+          },
+          // refetchQueries: [
+          //   { query: UserVerification },
+          //   { query: GetCompany },
+          // ],
+        });
+        if (res.data) {
+          this.updateDocument(res.data.removeUploadedDocument)
+          this.delete_modal_open = false;
+        }
+
+        console.log(res);
+
+      } catch (errors) {
+        this.$throwError(errors)
+      }finally{
+        this.deleting = false;
       }
     },
 
@@ -628,6 +768,11 @@ export default {
         // return { curriculumVitaeInput, boardOfDirectorsInput };
       }
       return null;
+    },
+
+    refresh(){
+      this.getCompany()
+      this.userVerification()
     },
 
     next() {

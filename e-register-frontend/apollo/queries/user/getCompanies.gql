@@ -1,0 +1,18 @@
+ query GetCompanies($size: Int, $categoryId: String, $search: String) {
+    getAllUsers(customQuery: {
+      size: $size,
+      categoryId: $categoryId,
+      search: $search
+    }) {
+      _id
+      nameOfCompany
+      location
+      address
+      rcNumber
+      dateOfIncorporation
+      tin
+      phoneNumber
+
+    }
+  }
+

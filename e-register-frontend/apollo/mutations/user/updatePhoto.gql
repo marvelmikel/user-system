@@ -1,0 +1,16 @@
+mutation UpdatePhoto(
+  $uploadProfilePic: Upload
+) {
+  updateUser(
+    updateUserInput: {
+      uploadProfilePic: $uploadProfilePic
+    }
+  ) {
+    _id
+    uploadProfilePic
+  }
+}
+
+
+
+

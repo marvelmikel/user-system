@@ -1,0 +1,9 @@
+mutation RemoveUserBoardOfDirectors($id: String!) {
+  RemoveUserBoardOfDirectors(id: $id){
+    stepFive{
+      _id
+      title
+      uploadedFile
+    }
+  }
+}

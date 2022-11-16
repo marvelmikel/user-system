@@ -1,0 +1,9 @@
+mutation RemoveUserCV($id: String!) {
+  RemoveUserCV(id: $id){
+    stepFour{
+      _id
+      title
+      uploadedFile
+    }
+  }
+}
