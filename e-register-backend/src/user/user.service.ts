@@ -492,7 +492,7 @@ export class UserService {
   ) {
     try {
       const query: any = { _id: new ObjectId(id) };
-      const result = await this.userRepository.findOne({
+      let result = await this.userRepository.findOne({
         where: query,
       });
       if (!result) throw new Error('Item not found');
@@ -532,7 +532,37 @@ export class UserService {
         by: data.id,
         isAdmin: true,
       });
-      return 'Uploaded Successfully';
+
+      result = await this.userRepository.findOne({
+        where: query,
+      });
+
+      if (!result) throw new Error('Item not found');
+
+      return {
+        stepOne: {
+          nameOfCompany: result.nameOfCompany,
+          location: result.location,
+          address: result.address,
+          rcNumber: result.rcNumber,
+          dateOfIncorporation: result.dateOfIncorporation,
+          tin: result.tin,
+          phoneNumber: result.phoneNumber,
+        },
+        stepTwo: {
+          certificateOfIncorporation: result.certificateOfIncorporation,
+          certificateOfTaxClearance: result.certificateOfTaxClearance,
+          applicationLetter: result.applicationLetter,
+        },
+        stepThree: {
+          letterOfCredibilityFromBanks: result.letterOfCredibilityFromBanks,
+          evidenceOfPayment: result.evidenceOfPayment,
+          collaborationCertificateWithForeignPartners:
+            result.collaborationCertificateWithForeignPartners,
+        },
+        stepFour: result.curriculumVitae,
+        stepFive: result.boardOfDirectors,
+      };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
@@ -545,7 +575,7 @@ export class UserService {
   ) {
     try {
       const query: any = { _id: new ObjectId(id) };
-      const result = await this.userRepository.findOne({
+      let result = await this.userRepository.findOne({
         where: query,
       });
       if (!result) throw new Error('Item not found');
@@ -583,7 +613,68 @@ export class UserService {
         by: data.id,
         isAdmin: true,
       });
-      return 'Uploaded Successfully';
+      result = await this.userRepository.findOne({
+        where: query,
+      });
+
+      if (!result) throw new Error('Item not found');
+
+      return {
+        stepOne: {
+          nameOfCompany: result.nameOfCompany,
+          location: result.location,
+          address: result.address,
+          rcNumber: result.rcNumber,
+          dateOfIncorporation: result.dateOfIncorporation,
+          tin: result.tin,
+          phoneNumber: result.phoneNumber,
+        },
+        stepTwo: {
+          certificateOfIncorporation: result.certificateOfIncorporation,
+          certificateOfTaxClearance: result.certificateOfTaxClearance,
+          applicationLetter: result.applicationLetter,
+        },
+        stepThree: {
+          letterOfCredibilityFromBanks: result.letterOfCredibilityFromBanks,
+          evidenceOfPayment: result.evidenceOfPayment,
+          collaborationCertificateWithForeignPartners:
+            result.collaborationCertificateWithForeignPartners,
+        },
+        stepFour: result.curriculumVitae,
+        stepFive: result.boardOfDirectors,
+      };
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
+  async RemoveSingleDocument(data: any, type: string) {
+    try {
+      const query: any = { _id: new ObjectId(data.id) };
+      let result = await this.userRepository.findOne({
+        where: query,
+      });
+      if (!result) throw new Error('Item not found');
+
+      if (result[type]) {
+        this.helperService.deleteFile(result[type]);
+      } else {
+        throw new Error('Document has been deleted˝');
+      }
+
+      const updatePayload: any = { $set: { [type]: null } };
+
+      const updatedResult = await this.userRepository.findOneAndUpdate(
+        { _id: new ObjectId(data.id) },
+        updatePayload,
+      );
+
+      if (!updatedResult) throw new Error('Unable to Updated');
+
+      // get updated data
+      result = await this.userRepository.findOne({
+        where: query,
+      });
+      return result;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
@@ -591,7 +682,7 @@ export class UserService {
   async RemoveDocument(data: any, id: string) {
     try {
       const query: any = { _id: new ObjectId(data.id) };
-      const result = await this.userRepository.findOne({
+      let result = await this.userRepository.findOne({
         where: query,
       });
       if (!result) throw new Error('Item not found');
@@ -600,13 +691,15 @@ export class UserService {
 
       if (getUrl?.uploadedFile) {
         this.helperService.deleteFile(getUrl.uploadedFile);
+      } else {
+        throw new Error('File does not exist');
       }
 
       const updatePayload: any = {
         $pull: { curriculumVitae: { _id: new ObjectId(id) } },
       };
       const updatedResult = await this.userRepository.findOneAndUpdate(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId(data.id) },
         updatePayload,
       );
 
@@ -618,7 +711,36 @@ export class UserService {
         by: data.id,
         isAdmin: true,
       });
-      return 'Deleted Successfully';
+      result = await this.userRepository.findOne({
+        where: query,
+      });
+
+      if (!result) throw new Error('Item not found');
+
+      return {
+        stepOne: {
+          nameOfCompany: result.nameOfCompany,
+          location: result.location,
+          address: result.address,
+          rcNumber: result.rcNumber,
+          dateOfIncorporation: result.dateOfIncorporation,
+          tin: result.tin,
+          phoneNumber: result.phoneNumber,
+        },
+        stepTwo: {
+          certificateOfIncorporation: result.certificateOfIncorporation,
+          certificateOfTaxClearance: result.certificateOfTaxClearance,
+          applicationLetter: result.applicationLetter,
+        },
+        stepThree: {
+          letterOfCredibilityFromBanks: result.letterOfCredibilityFromBanks,
+          evidenceOfPayment: result.evidenceOfPayment,
+          collaborationCertificateWithForeignPartners:
+            result.collaborationCertificateWithForeignPartners,
+        },
+        stepFour: result.curriculumVitae,
+        stepFive: result.boardOfDirectors,
+      };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
@@ -626,7 +748,7 @@ export class UserService {
   async RemoveBoardOfDirectorsDocument(data: any, id: string) {
     try {
       const query: any = { _id: new ObjectId(data.id) };
-      const result = await this.userRepository.findOne({
+      let result = await this.userRepository.findOne({
         where: query,
       });
       if (!result) throw new Error('Item not found');
@@ -635,13 +757,15 @@ export class UserService {
 
       if (getUrl?.uploadedFile) {
         this.helperService.deleteFile(getUrl.uploadedFile);
+      } else {
+        throw new Error('File does not exist');
       }
 
       const updatePayload: any = {
         $pull: { boardOfDirectors: { _id: new ObjectId(id) } },
       };
       const updatedResult = await this.userRepository.findOneAndUpdate(
-        { _id: new ObjectId(id) },
+        { _id: new ObjectId(data.id) },
         updatePayload,
       );
 
@@ -653,7 +777,36 @@ export class UserService {
         by: data.id,
         isAdmin: true,
       });
-      return 'Deleted Successfully';
+      result = await this.userRepository.findOne({
+        where: query,
+      });
+
+      if (!result) throw new Error('Item not found');
+
+      return {
+        stepOne: {
+          nameOfCompany: result.nameOfCompany,
+          location: result.location,
+          address: result.address,
+          rcNumber: result.rcNumber,
+          dateOfIncorporation: result.dateOfIncorporation,
+          tin: result.tin,
+          phoneNumber: result.phoneNumber,
+        },
+        stepTwo: {
+          certificateOfIncorporation: result.certificateOfIncorporation,
+          certificateOfTaxClearance: result.certificateOfTaxClearance,
+          applicationLetter: result.applicationLetter,
+        },
+        stepThree: {
+          letterOfCredibilityFromBanks: result.letterOfCredibilityFromBanks,
+          evidenceOfPayment: result.evidenceOfPayment,
+          collaborationCertificateWithForeignPartners:
+            result.collaborationCertificateWithForeignPartners,
+        },
+        stepFour: result.curriculumVitae,
+        stepFive: result.boardOfDirectors,
+      };
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }

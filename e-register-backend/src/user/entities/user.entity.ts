@@ -1,8 +1,16 @@
-import { ObjectType, Field, ID } from '@nestjs/graphql';
+import { ObjectType, Field, ID, InputType } from '@nestjs/graphql';
 import { ValidateNested } from 'class-validator';
 import { Accreditation } from 'src/accreditation/entities/accreditation.entity';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
 
+enum DocumentEnum {
+  certificateOfIncorporation = 'certificateOfIncorporation',
+  certificateOfTaxClearance = 'certificateOfTaxClearance',
+  applicationLetter = 'applicationLetter',
+  evidenceOfPayment = 'evidenceOfPayment',
+  letterOfCredibilityFromBanks = 'letterOfCredibilityFromBanks',
+  collaborationCertificateWithForeignPartners = 'collaborationCertificateWithForeignPartners',
+}
 @ObjectType()
 export class StepOneDocument {
   @Field(() => String, { nullable: true })
@@ -133,7 +141,7 @@ export class User {
   description: string;
 
   @Column()
-  @Field(() => String, { defaultValue: false })
+  @Field({ defaultValue: false })
   isApplicationLetter: boolean;
 
   @Column()
@@ -202,4 +210,10 @@ export class StepDocument {
   stepFour: UserDocument[];
   @Field(() => [UserDocument], { defaultValue: [] })
   stepFive: UserDocument[];
+}
+
+@InputType()
+export class DocumentMainType {
+  @Field(() => String)
+  type: DocumentEnum;
 }
