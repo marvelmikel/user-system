@@ -326,6 +326,20 @@ export class UserService {
       throw new HttpException(error.message, HttpStatus.NOT_FOUND);
     }
   }
+  async findOneById(id: string) {
+    try {
+      const query: any = { _id: new ObjectId(id) };
+      const result = await this.userRepository.findOne({
+        where: query,
+      });
+
+      if (!result) throw new Error('Item not found');
+
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.NOT_FOUND);
+    }
+  }
   async getVerifyStatus(id: string) {
     try {
       const query: any = { _id: new ObjectId(id) };
