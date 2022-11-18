@@ -143,6 +143,14 @@ export class UserResolver {
     return this.userService.findOne(id, data);
   }
 
+  @Query(() => User)
+  getUserById(
+    @Args('id')
+    id: string,
+  ) {
+    return this.userService.findOneById(id);
+  }
+
   @UseGuards(AuthGuard)
   @Query(() => User)
   getUser(
