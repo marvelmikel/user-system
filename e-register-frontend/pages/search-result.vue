@@ -1,7 +1,7 @@
 <template>
   <div class="tw-w-9/12 tw-mx-auto tw-pt-10 tw-space-y-10">
     <div class="tw-flex tw-gap-5">
-      <input type="text"
+      <input v-model="search" type="text"
         placeholder="Search Company Name"
         class="
         tw-px-7
@@ -12,24 +12,38 @@
         tw-border-none
         focus:tw-outline-none"/>
 
+        <!-- tw-py-3 -->
+        <!-- tw-px-7 -->
       <div class="
-        tw-px-7
-        tw-py-3
         tw-rounded-lg
         tw-w-1/4
         tw-bg-gray-200
       ">
-        <select class="
+
+        <div class="form-control">
+          <!-- <label for="Company">Field</label> -->
+          <select required v-model="categoryId">
+            <option :value="null" disabled>Choose</option>
+            <option
+              :value="category._id"
+              v-for="category in categories"
+              :key="category._id"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+        <!-- <select class="
         tw-w-full
         tw-bg-gray-200
         tw-border-none
         focus:tw-outline-none
         ">
           <option value="">Category</option>
-        </select>
+        </select> -->
       </div>
 
-      <button class="
+      <button @click.prevent="getCompanies" class="
         tw-p-3
         tw-rounded-lg
         tw-bg-light-green
@@ -65,7 +79,8 @@
             <p class="tw-text-sm tw-w-1/2">
               {{ company.rcNumber }}
             </p>
-            <button class="
+            <button @click="$router.push(`/company-details/${company._id}`)"
+            class="
               custom__button
               tw-w-28
               tw-h-9
@@ -100,12 +115,12 @@
       </div>
     </div>
 
-
   </div>
 </template>
 
 <script>
 import GetCompanies from "~/apollo/queries/user/getCompanies";
+import GetCategories from "~/apollo/queries/admin/getCategories";
 
 export default {
   name: 'search-result',
@@ -114,20 +129,37 @@ export default {
     return {
       companies: [],
       categoryId: null,
+      categories: [],
       search: null,
-      loading: false
+      loading: false,
+      loadingCategories: false,
     }
   },
   mounted() {
+    let { categoryId, search } = this.$route.query
+    this.categoryId = categoryId
+    this.search = search
+
     this.getCompanies()
+    this.getCategories();
   },
 
   methods: {
+    async getCategories() {
+      try {
+        this.loadingCategories = true;
+        const res = await this.$apollo.query({
+          query: GetCategories,
+        });
 
+        this.categories = res.data.findAllCategories ?? null;
+      } catch (err) {
+        this.$throwError(err);
+      } finally {
+        this.loadingCategories = false;
+      }
+    },
     async getCompanies(){
-      let { categoryId, search } = this.$route.query
-      this.categoryId = categoryId
-      this.search = search
 
       try {
         this.loading = true;
