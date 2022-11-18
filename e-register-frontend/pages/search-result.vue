@@ -43,7 +43,8 @@
         </select> -->
       </div>
 
-      <button @click.prevent="getCompanies" class="
+      <button @click.prevent="getCompanies"
+      class="
         tw-p-3
         tw-rounded-lg
         tw-bg-light-green

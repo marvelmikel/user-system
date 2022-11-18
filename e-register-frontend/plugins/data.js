@@ -89,10 +89,10 @@ export default (context, inject) => {
       answer : {
         header: 'The approved fees payable by applicants through the Treasury Single Account (TSA) are as below:',
         list: [
-          'Five thousand (₦5,000:00) for purchase of the application form',
-          'Fifty thousand (₦50,000:00) naira only for one area of accreditation',
-          'One hundred thousand (₦100,000:00) naira for two or more areas',
-          'One hundred and twenty thousand (₦120, 000:00) naira for environmental laboratory services.'
+          'Five thousand (₦5,000.00) for purchase of the application form',
+          'Fifty thousand (₦50,000.00) naira only for one area of accreditation',
+          'One hundred thousand (₦100,000.00) naira for two or more areas',
+          'One hundred and twenty thousand (₦120, 000.00) naira for environmental laboratory services.'
         ],
         footer: `The Remita Retrieval Reference (RRR) can be generated from the address: https://login.remita.net/remita/onepage/OAGFCRF/biller.spa using 1000070835 as GIFMIS code and ACCERDITATION FEE FROM ENVIRONMENTAL CONSULTANT as purpose of payment `
       },

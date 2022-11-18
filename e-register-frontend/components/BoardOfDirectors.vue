@@ -189,7 +189,9 @@ export default {
           // awaitRefetchQueries: true
         });
         console.log(res);
+        this.title = null
         this.$emit('refresh')
+        this.$emit('refresh-data')
 
       } catch (errors) {
         this.$throwError(errors)

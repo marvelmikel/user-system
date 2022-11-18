@@ -278,6 +278,7 @@
              :curriculumVitae="curriculumVitaeInput"
              :company="company"
              @set-curriculum-vitae="setCurriculumVitaeInput"
+             @refresh-cv="refreshCv"
              @refresh="refresh"
              />
             <!-- Curriculum Vitae Input End -->
@@ -292,6 +293,7 @@
              :company="company"
              @set-board-of-directors="setBoardOfDirectorsInput"
              @refresh="refresh"
+             @refresh-data="refreshBoardOfDirectors"
              />
 
             <!-- Board Of Directors End -->
@@ -310,6 +312,7 @@
             </button>
 
             <button
+            v-if="step < 4"
             :disabled="editing"
             @click="updateCompany"
             :class=" editing ? 'tw-opacity-40' : '' "
@@ -621,8 +624,6 @@ export default {
     },
 
     async uploadPhoto() {
-
-
       try {
         this.editing = true;
         const res = await this.$apollo.mutate({
@@ -663,8 +664,7 @@ export default {
 
     async updateCompany(){
       let payload = this.getPayload();
-      console.log(payload);
-      // return;
+
       if (!payload) {
         this.$toast.error(`Step ${this.step} is incomplete`);
         return;
@@ -763,16 +763,24 @@ export default {
         }
         return files
       }
-      if (this.step === 4) {
-        // let { curriculumVitaeInput, boardOfDirectorsInput } = this.company
-        // return { curriculumVitaeInput, boardOfDirectorsInput };
+
+      if (this.step > 3) {
+        return true;
       }
-      return null;
+      return false;
     },
 
     refresh(){
       this.getCompany()
       this.userVerification()
+    },
+
+    refreshCv(){
+      this.company.curriculumVitaeInput = null
+    },
+
+    refreshBoardOfDirectors(){
+      this.company.boardOfDirectorsInput = null
     },
 
     next() {
