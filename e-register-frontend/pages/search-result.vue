@@ -65,7 +65,8 @@
             <p class="tw-text-sm tw-w-1/2">
               {{ company.rcNumber }}
             </p>
-            <button class="
+            <button @click="$router.push(`/company-details/${company._id}`)"
+            class="
               custom__button
               tw-w-28
               tw-h-9
@@ -99,7 +100,6 @@
 
       </div>
     </div>
-
 
   </div>
 </template>
