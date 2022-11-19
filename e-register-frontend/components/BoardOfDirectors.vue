@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import UploadBoardOfDirectorsInput from "~/apollo/mutations/user/uploadBoardOfDirectorsInput";
+import UploadBoardOfDirectorsInput from "~/apollo/mutations/user/uploadboardOfDirectorsInput";
 import RemoveUserBoardOfDirectors from "~/apollo/mutations/user/removeUserBoardOfDirectors";
 
 export default {
