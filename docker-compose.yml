@@ -7,8 +7,8 @@ services:
     ports:
       - 8080:3000
     environment:
-      - DEVELOPMENT_BASE_URL=http://46.101.10.218:8082/graphql
-      - PRODUCTION_BASE_URL=http://46.101.10.218:8082/graphql
+      - DEVELOPMENT_BASE_URL=http://68.183.41.76:8082/graphql
+      - PRODUCTION_BASE_URL=http://68.183.41.76:8082/graphql
     volumes:
       - ./e-register-frontend:/e-register-frontend
       - /e-register-frontend/node_modules
