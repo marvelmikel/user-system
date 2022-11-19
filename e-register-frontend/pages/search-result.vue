@@ -65,43 +65,26 @@
       <div v-if="companies.length > 0">
         <div v-for="company in companies" :key="company._id"
           class="
-          tw-mb-5
-          tw-pb-5
+          tw-py-3
           tw-border-b
           tw-border-gray-300
+          tw-flex
+          tw-justify-between
+          tw-items-end
         ">
-          <h1 class="tw-font-bold tw-text-2xl">{{ company.nameOfCompany }}</h1>
-          <div class="
-            tw-flex
-            tw-justify-between
-            tw-items-center
-            tw-mt-2
-          ">
-            <p class="tw-text-sm tw-w-1/2">
+         <div class="tw-space-y-2">
+           <p class="tw-font-bold tw-text-2xl">{{ company.nameOfCompany }} / <span class="tw-text-sm tw-w-1/2">
               {{ company.rcNumber }}
-            </p>
-            <button @click="$router.push(`/company-details/${company._id}`)"
-            class="
-              custom__button
-              tw-w-28
-              tw-h-9
-              tw-rounded-2xl
-              tw-bg-green-500
-              tw-text-white
-              tw-p-2
-              tw-flex
-              tw-items-center
-              tw-justify-center
-              tw-cursor-pointer
-            ">
-            <i class='bx bx-right-arrow-alt tw-text-2xl tw-text-white'></i>
-            </button>
-          </div>
-          <div class="tw-flex tw-items-end tw-gap-1 tw-mt-4">
+            </span></p>
+          
+          <div class="tw-flex tw-items-end tw-gap-1">
             <span class="tw-text-dark-yellow tw-text-sm">{{ company.phoneNumber }}</span>
             <i class='bx bxs-star tw-text-xs tw-text-light-green'></i>
             <span class="tw-text-dark-yellow tw-text-sm">{{ company.tin }}</span>
           </div>
+         </div>
+         <p class="hover:tw-underline tw-text-green-500 tw-cursor-pointer"  @click="$router.push(`/company-details/${company._id}`)">View</p>
+         
         </div>
       </div>
       <div v-else class="

@@ -6,8 +6,7 @@
         class="
           tw-w-9/12
           tw-mx-auto
-          tw-pt-16
-          tw-pb-12
+          tw-py-32
           tw-text-white
           tw-grid
           tw-grid-cols-2
@@ -15,7 +14,30 @@
           tw-gap-16
         "
       >
-        <form @submit.prevent="addContactUs">
+      
+        <div>
+          <h1 class="tw-font-bold tw-text-6xl tw-mb-10 tw-text-left">
+            About Us
+          </h1>
+          <div class="tw-flex tw-gap-4">
+            <!-- <i class="bx bxl-facebook-circle"></i>
+            <i class="bx bxl-instagram-alt"></i>
+            <i class="bx bxl-whatsapp"></i>
+            <i class="bx bxl-twitter"></i> -->
+            <p>
+              The accreditation of Environmental Consultants was initiated in
+              1992 by the Federal Environmental Protection Agency (FEPA) which
+              was later subsumed into the Federal Ministry of Environment in
+              1999. The primary objective of the exercise is to identify
+              technically sound private and public organizations capable of
+              rendering consultancy services to address the various
+              environmental challenges/issues in Nigeria in accordance with
+              existing environmental laws, regulations, standards and global
+              best practices.
+            </p>
+          </div>
+        </div>
+          <form @submit.prevent="addContactUs">
           <div class="tw-grid tw-grid-cols-2 tw-gap-6 tw-mb-5">
             <div class="tw-col-span-2">
               <input
@@ -95,23 +117,11 @@
             type="submit"
             :disabled="loading"
             :class="loading ? 'tw-opacity-40' : ''"
-            class="tw-rounded tw-bg-light-green tw-text-white tw-w-full tw-p-2"
+            class="tw-rounded tw-bg-light-green tw-text-white tw-w-full tw-p-3"
           >
             Apply
           </button>
         </form>
-        <div>
-          <h1 class="tw-font-bold tw-text-6xl tw-mb-10 tw-text-left">
-            Contact <br />
-            Us
-          </h1>
-          <div class="tw-flex tw-text-2xl tw-gap-4">
-            <i class="bx bxl-facebook-circle"></i>
-            <i class='bx bxl-instagram-alt'></i>
-            <i class='bx bxl-whatsapp'></i>
-            <i class='bx bxl-twitter'></i>
-          </div>
-        </div>
       </div>
     </section>
   </div>

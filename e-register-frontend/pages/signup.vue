@@ -14,7 +14,7 @@
       tw-w-full
       tw-space-y-8
       ">
-        <img class="tw-mt-4" src="~assets/img/coat_of_arms_of_nigeria_white.svg" alt="coat_of_arms_of_nigeria"/>
+        <img @click="$router.push({path:'/'})" class="tw-mt-4 tw-cursor-pointer" src="~assets/img/coat_of_arms_of_nigeria_white.svg" alt="coat_of_arms_of_nigeria"/>
         <div class="
 
           tw-text-6xl

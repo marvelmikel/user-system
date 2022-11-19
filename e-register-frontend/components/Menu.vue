@@ -19,7 +19,7 @@
       class="tw-flex tw-items-center tw-space-x-8"
       :class="[!isTransparent ? 'tw-text-white' : 'tw-text-black']"
     >
-      <nuxt-link exact class="tw-flex tw-items-center tw-gap-3" to="/"> Home</nuxt-link>
+      <!-- <nuxt-link exact class="tw-flex tw-items-center tw-gap-3" to="/"> Home</nuxt-link> -->
 
       <!-- <nuxt-link
         exact
@@ -32,12 +32,12 @@
       <div v-if="!isLoggedIn">
         <div
           class="
-            tw-pb-1
-            tw-bg-light-green
-            tw-text-white
+           hover:tw-bg-light-green
+            hover:tw-text-white
+             tw-bg-gray-200
             tw-rounded
-            tw-py-2
-            tw-px-4
+            tw-py-3
+            tw-px-6
             tw-cursor-pointer
           "
           v-if="$route.path == '/signin'"
@@ -47,13 +47,14 @@
         </div>
         <div
           class="
-            tw-pb-1
-            tw-bg-light-green
-            tw-text-white
+            hover:tw-bg-light-green
+            hover:tw-text-white
+             tw-bg-gray-200
             tw-rounded
-            tw-py-2
-            tw-px-4
+            tw-py-3
+            tw-px-6
             tw-cursor-pointer
+           
           "
           v-else
           @click.prevent="$router.push({ path: '/signin' })"
