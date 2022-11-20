@@ -32,13 +32,8 @@
       <div v-if="!isLoggedIn">
         <div
           class="
-           hover:tw-bg-light-green
-            hover:tw-text-white
-             tw-bg-gray-200
-            tw-rounded
-            tw-py-3
-            tw-px-6
-            tw-cursor-pointer
+            hover:tw-bg-light-green hover:tw-text-white
+            tw-bg-gray-200 tw-rounded tw-py-3 tw-px-6 tw-cursor-pointer
           "
           v-if="$route.path == '/signin'"
           @click.prevent="$router.push({ path: '/signup' })"
@@ -47,14 +42,8 @@
         </div>
         <div
           class="
-            hover:tw-bg-light-green
-            hover:tw-text-white
-             tw-bg-gray-200
-            tw-rounded
-            tw-py-3
-            tw-px-6
-            tw-cursor-pointer
-           
+            hover:tw-bg-light-green hover:tw-text-white
+            tw-bg-gray-200 tw-rounded tw-py-3 tw-px-6 tw-cursor-pointer
           "
           v-else
           @click.prevent="$router.push({ path: '/signin' })"
@@ -64,42 +53,27 @@
       </div>
       <div class="tw-flex tw-items-center tw-gap-8" v-else>
         <div class="tw-relative">
-         <div class="tw-cursor-pointer" @click="showMenu = true">
-           <div
-            v-if="!userDetails?.profilePic"
-            class="
-              tw-overflow-hidden
-              tw-relative
-              tw-w-10
-              tw-h-10
-              tw-p-1
-              tw-ring-2
-              tw-ring-gray-300
-              tw-bg-gray-100
-              tw-rounded-full
-              dark:tw-bg-gray-600
-            "
-          >
-            <svg
-              class="tw-absolute tw--left-1 tw-w-12 tw-h-12 tw-text-gray-400"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
+          <div class="tw-cursor-pointer" @click="showMenu = true">
+            <i
+              v-if="!userDetails?.profilePic"
+              class="
+                tw-relative
+                tw-p-1
+                tw-ring-gray-300
+                tw-rounded-full
+                bx bx-user-circle
+                tw-text-4xl
+                tw-text-gray-600
+              "
             >
-              <path
-                fill-rule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
+            </i>
+            <img
+              v-else
+              class="tw-rounded-full tw-w-10 tw-p-1 tw-ring-2 tw-ring-gray-300"
+              src="~assets/img/user_img.png"
+              alt="user_img"
+            />
           </div>
-          <img
-            v-else
-            class="tw-rounded-full tw-w-10 tw-p-1 tw-ring-2 tw-ring-gray-300"
-            src="~assets/img/user_img.png"
-            alt="user_img"
-          />
-         </div>
           <i
             class="
               bx
@@ -111,18 +85,41 @@
               tw-text-xl
             "
           ></i>
-          <div v-if="showMenu" @mouseleave="showMenu = false"
+          <div
+            v-if="showMenu"
+            @mouseleave="showMenu = false"
             class="
-              tw-w-44 tw-bg-gray-100 tw-divide-y-2 tw-flex tw-px-3 tw-flex-col tw-absolute tw-mt-2 tw-rounded tw-py-3
+              tw-w-44
+              tw-bg-gray-100
+              tw-divide-y-2
+              tw-flex
+              tw-px-3
+              tw-flex-col
+              tw-absolute
+              tw-mt-2
+              tw-rounded
+              tw-py-3
             "
           >
-            <div @click.prevent="$router.push({path:'/company'})" class="tw-flex tw-gap-3 tw-items-center tw-cursor-pointer"> <i class="bx bx-user tw-text-xl"></i>Profile</div>
-            <div @click.prevent="logout" class="tw-flex tw-gap-3 tw-items-center tw-cursor-pointer"> <i class="bx bx-log-in tw-text-xl"></i>Logout</div>
-
+            <div
+              @click.prevent="$router.push({ path: '/company' })"
+              class="tw-flex tw-gap-3 tw-items-center tw-cursor-pointer"
+            >
+              <i class="bx bx-user tw-text-xl"></i>Profile
+            </div>
+            <div
+              @click.prevent="logout"
+              class="tw-flex tw-gap-3 tw-items-center tw-cursor-pointer"
+            >
+              <i class="bx bx-log-in tw-text-xl"></i>Logout
+            </div>
           </div>
         </div>
 
-        <i @click.prevent="$router.push({path:'/accreditations'})" class="bx bx-layer-plus tw-text-3xl tw-cursor-pointer"></i>
+        <i
+          @click.prevent="$router.push({ path: '/accreditations' })"
+          class="bx bx-layer-plus tw-text-4xl tw-cursor-pointer tw-text-gray-600"
+        ></i>
         <!-- <a @click.prevent="logout"  href="#" class="hover:tw-text-green-500">Logout</a> -->
       </div>
     </div>
@@ -142,10 +139,10 @@ export default {
       default: "/admin/signin",
     },
   },
-  data(){
-return {
-  showMenu: false
-}
+  data() {
+    return {
+      showMenu: false,
+    };
   },
   computed: {
     userDetails() {
@@ -166,8 +163,8 @@ return {
 
 <style>
 /* .nuxt-link-active { */
-  /* color: #076476; */
-  /* border-bottom: 3px solid yellowgreen; */
-  /* font-weight: bold; */
+/* color: #076476; */
+/* border-bottom: 3px solid yellowgreen; */
+/* font-weight: bold; */
 /* } */
 </style>

@@ -20,7 +20,7 @@
       <div v-if="!hasFile" @click.prevent="$emit('upload-event')"
         class="
         tw-cursor-pointer
-        tw-py-5
+        tw-py-10
         tw-rounded-lg
         tw-bg-gray-200
         tw-flex
@@ -56,7 +56,7 @@ export default {
     // },
     width: {
       type: String,
-      default: 'half'
+      default: 'full'
     }
   }
 }

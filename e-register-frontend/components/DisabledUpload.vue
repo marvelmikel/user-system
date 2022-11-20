@@ -1,7 +1,7 @@
 <template>
   <div
     class="
-    tw-py-5
+    tw-py-10
     tw-rounded-lg
     tw-bg-gray-200
     tw-flex
@@ -20,7 +20,7 @@ export default {
   props: {
     width: {
       type: String,
-      default: 'half'
+      default: 'full'
     },
     icon: {
       type: String,

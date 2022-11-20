@@ -43,12 +43,8 @@
               <span class="tw-text-xs">Expired</span>
             </p>
 
-            <i @click="$router.push(`/accreditation/${item._id}`)"
-            class='bx bx-right-arrow-alt
-            tw-text-4xl
-            tw-cursor-pointer
-            hover:tw-text-gray-500
-            '></i>
+            <span @click="$router.push(`/accreditation/${item._id}`)" class="tw-text-blue-500 hover:tw-underline tw-cursor-pointer">View</span>
+           
           </div>
         </div>
 

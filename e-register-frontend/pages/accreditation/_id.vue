@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <Banner title='Accreditation' :showButton="isExpired" buttonTxt="Subscribe" @button-event="subscribe"/>
+    <Banner title='Accreditation' :showButton="isExpired" buttonTxt="Subscribe" @button-event="subscribe" :back="true"/>
 
     <div v-if="loadingAccreditation" class="tw-flex tw-items-center tw-justify-center tw-mt-8">
       <div class="tw-w-9/12">

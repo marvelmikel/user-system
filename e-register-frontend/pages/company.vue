@@ -37,16 +37,16 @@
     </div>
 
     <div v-else>
-      <div class="tw-grid tw-grid-cols-3">
-        <div>
-          <div class="tw-relative">
+      <div class="tw-grid tw-grid-cols-7 tw-gap-10 tw-p-10">
+        <div class="tw-col-span-2 tw-py-10 tw-flex tw-justify-end">
+          <div class="tw-relative tw-w-40">
             <img
               v-if="company.profilePic"
-              class="tw-rounded-full tw-w-40"
+              class="tw-rounded-full tw-w-full"
               src="~assets/img/user_img.png"
               alt="user_img"
             />
-            <i v-else class="bx bx-user-circle profile__img"></i>
+            <i v-else class="bx bx-user-circle profile__img tw-text-gray-600"></i>
             <i
               class="
                 bx
@@ -60,8 +60,8 @@
             ></i>
           </div>
         </div>
-        <div>
-          <p class="tw-text-center tw-pt-5 tw-text-gray-400">
+        <div class="tw-col-span-3">
+          <p class="tw-text-center tw-py-10 tw-text-gray-400">
             Fill all form field to go to next step
           </p>
           <ul id="progressbar">
@@ -96,10 +96,10 @@
               id="step_five"
             ></li>
           </ul>
-          <div class="tw-flex-1">
+          <div class="tw-w-full">
             <div v-show="step === 1">
               <div class="tw-flex tw-items-center tw-mb-3">
-                <span class="tw-w-1/5">Name</span>
+                <span class="tw-w-2/6">Name</span>
                 <input
                   type="text"
                   v-model="company.nameOfCompany"
@@ -109,7 +109,7 @@
                     tw-py-3
                     tw-text-sm
                     tw-rounded-lg
-                    tw-w-1/2
+                    tw-w-full
                     tw-bg-gray-200
                     tw-border-none
                     focus:tw-outline-none
@@ -118,7 +118,7 @@
               </div>
 
               <div class="tw-flex tw-items-center tw-mb-3">
-                <span class="tw-w-1/5">Location</span>
+                <span class="tw-w-2/6">Location</span>
                 <input
                   type="text"
                   v-model="company.location"
@@ -128,7 +128,7 @@
                     tw-py-3
                     tw-text-sm
                     tw-rounded-lg
-                    tw-w-1/2
+                    tw-w-full
                     tw-bg-gray-200
                     tw-border-none
                     focus:tw-outline-none
@@ -137,7 +137,7 @@
               </div>
 
               <div class="tw-flex tw-items-center tw-mb-3">
-                <span class="tw-w-1/5">Address</span>
+                <span class="tw-w-2/6">Address</span>
                 <input
                   type="text"
                   v-model="company.address"
@@ -147,7 +147,7 @@
                     tw-py-3
                     tw-text-sm
                     tw-rounded-lg
-                    tw-w-1/2
+                    tw-w-full
                     tw-bg-gray-200
                     tw-border-none
                     focus:tw-outline-none
@@ -156,7 +156,7 @@
               </div>
 
               <div class="tw-flex tw-items-center tw-mb-3">
-                <span class="tw-w-1/5">RC Number</span>
+                <span class="tw-w-2/6">RC Number</span>
                 <input
                   type="text"
                   v-model="company.rcNumber"
@@ -166,7 +166,7 @@
                     tw-py-3
                     tw-text-sm
                     tw-rounded-lg
-                    tw-w-1/2
+                    tw-w-full
                     tw-bg-gray-200
                     tw-border-none
                     focus:tw-outline-none
@@ -175,7 +175,7 @@
               </div>
 
               <div class="tw-flex tw-items-center tw-mb-3">
-                <span class="tw-w-1/5">Date Of Inc</span>
+                <span class="tw-w-2/6">Date Of Inc</span>
                 <input
                   type="date"
                   v-model="company.dateOfIncorporation"
@@ -184,7 +184,7 @@
                     tw-py-3
                     tw-text-sm
                     tw-rounded-lg
-                    tw-w-1/2
+                    tw-w-full
                     tw-bg-gray-200
                     tw-border-none
                     focus:tw-outline-none
@@ -193,7 +193,7 @@
               </div>
 
               <div class="tw-flex tw-items-center tw-mb-3">
-                <span class="tw-w-1/5">TIN</span>
+                <span class="tw-w-2/6">TIN</span>
                 <input
                   type="text"
                   v-model="company.tin"
@@ -203,7 +203,7 @@
                     tw-py-3
                     tw-text-sm
                     tw-rounded-lg
-                    tw-w-1/2
+                    tw-w-full
                     tw-bg-gray-200
                     tw-border-none
                     focus:tw-outline-none
@@ -212,7 +212,7 @@
               </div>
 
               <div class="tw-flex tw-items-center tw-mb-3">
-                <span class="tw-w-1/5">Phone</span>
+                <span class="tw-w-2/6">Phone</span>
                 <input
                   type="text"
                   v-model="company.phoneNumber"
@@ -222,7 +222,7 @@
                     tw-py-3
                     tw-text-sm
                     tw-rounded-lg
-                    tw-w-1/2
+                    tw-w-full
                     tw-bg-gray-200
                     tw-border-none
                     focus:tw-outline-none
@@ -456,7 +456,7 @@
               <button
                 v-if="step > 1"
                 @click="previous"
-                class="tw-bg-gray-600 tw-text-white tw-w-1/6 tw-p-3 tw-text-sm"
+                class="tw-bg-gray-600 tw-text-white tw-w-1/6 tw-p-3 tw-text-sm tw-rounded"
               >
                 Back
               </button>
@@ -466,7 +466,7 @@
                 :disabled="editing"
                 @click="updateCompany"
                 :class="editing ? 'tw-opacity-40' : ''"
-                class="tw-bg-blue-600 tw-text-white tw-w-1/6 tw-p-3 tw-text-sm"
+                class="tw-bg-dark-green tw-text-white tw-w-1/6 tw-p-3 tw-text-sm tw-rounded"
               >
                 Save
               </button>
@@ -477,7 +477,7 @@
                 :class="!step_is_complete ? 'tw-opacity-30' : ''"
                 @click="next"
                 class="
-                  tw-bg-light-green tw-text-white tw-w-1/6 tw-p-3 tw-text-sm
+                  tw-bg-light-green tw-text-white tw-w-1/6 tw-p-3 tw-text-sm tw-rounded
                 "
               >
                 Next
@@ -485,7 +485,7 @@
             </div>
           </div>
         </div>
-        <div></div>
+        <div class="tw-col-span-2"></div>
       </div>
     </div>
 
